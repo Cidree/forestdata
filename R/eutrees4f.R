@@ -4,6 +4,8 @@
 #'  Get tree species for EU-Trees4F database
 #'
 #' @return a character vector
+#' @keywords internal
+#'
 #' @examples
 #' \dontrun{
 #' get_eutrees4f_tbl()

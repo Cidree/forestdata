@@ -1,1 +1,1 @@
-utils::globalVariables(c("Species", "DOI", "code"))
+utils::globalVariables(c("Species", "DOI", "code", "province", "."))

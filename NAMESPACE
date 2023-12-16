@@ -2,8 +2,11 @@
 
 export(fd_forest_chorological)
 export(fd_forest_eutrees4f)
+export(fd_forest_spain_mfe50)
 export(fd_pathogens_defid2)
 importFrom(dplyr,"%>%")
+importFrom(rlang,.data)
 importFrom(stats,na.omit)
+importFrom(stringi,stri_trans_general)
 importFrom(utils,download.file)
 importFrom(utils,unzip)

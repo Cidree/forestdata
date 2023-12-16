@@ -1,6 +1,20 @@
+# fdi_fix_names ----
 
-
-
+#' (Internal) Fix non Latin-ASCII names
+#'
+#' A function that fixes names with strange characters, spaces, and
+#' also convert to title
+#'
+#' @param name String to fix
+#'
+#' @return A character vector of same length as name
+#' @keywords internal
+#'
+#' @importFrom stringi stri_trans_general
+#' @examples
+#' \dontrun{
+#' fdi_fix_names("CórDoBa   ")
+#' }
 fdi_fix_names <- function(name) {
   name %>%
     stringi::stri_trans_general("Latin-ASCII") %>%
@@ -8,7 +22,7 @@ fdi_fix_names <- function(name) {
     stringr::str_trim()
 }
 
-# fdi_download_unzip
+# fdi_download_unzip ----
 
 #'  (Internal) Downloads data to tempdir
 #'  Download data to tempdir
@@ -21,6 +35,7 @@ fdi_fix_names <- function(name) {
 #'              the progress bar
 #'
 #' @return Unzipped file
+#' @keywords internal
 #' @examples
 #' \dontrun{
 #' fdi_download_unzip()

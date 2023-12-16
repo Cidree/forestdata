@@ -3,7 +3,9 @@
 #'  Chorological Maps table
 #'  Get a table with the names and references of each species
 #'
-#' @return \code{tibble}
+#' @return A \code{tibble}
+#' @keywords internal
+#'
 #' @importFrom dplyr %>%
 #' @examples
 #' \dontrun{
