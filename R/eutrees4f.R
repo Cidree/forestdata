@@ -1,39 +1,3 @@
-# download_eutrees4f
-
-#'  (Internal) Downloads EU-Trees4F
-#'  Download EU-Tree4F to tempdir
-#'
-#' @return EU-Tree4F dir
-#' @examples
-#' \dontrun{
-#' download_eutrees4f()
-#' }
-download_eutrees4f <- function(download_url, dir_unzip, dir_zip) {
-
-  # 1. Download file
-  ## 1.1. Url and file destination
-  download_url <- download_url
-  dir_unzip    <- dir_unzip
-  dir_zip      <- dir_zip
-  ## 1.2. Download to tempdir
-  if (!file.exists(dir_unzip)) {
-    options(timeout = max(600, getOption("timeout")))
-    download.file(
-      url      = download_url,
-      destfile = dir_zip,
-      quiet    = quiet,
-      mode     = "wb"
-    )
-    ## 1.3. Unzip the file
-    unzip(
-      zipfile = dir_zip,
-      exdir   = dir_unzip
-    )
-    ## 1.4. Remove zip to release space
-    file.remove(dir_zip)
-  }
-}
-
 # get_eutrees4f_tbl
 
 #'  (Internal) Gets the tree species
@@ -51,7 +15,7 @@ get_eutrees4f_tbl <- function() {
   dir_unzip    <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_zip      <- stringr::str_glue("{dir_unzip}.zip")
   ## 1.2. Download
-  download_eutrees4f(download_url, dir_unzip, dir_zip)
+  fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet = TRUE)
 
   # 2. Get tree species names
   ## 2.1. List files in a folder
@@ -93,7 +57,7 @@ get_eutrees4f_tbl <- function() {
 #' @param quiet If \code{TRUE} (the default), suppress status messages, and
 #'              the progress bar
 #'
-#' @return
+#' @return A single-band or multi-band \code{SpatRaster}
 #' @export
 #'
 #' @details
@@ -188,7 +152,7 @@ fd_forest_eutrees4f <- function(species,
   dir_unzip    <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_zip      <- stringr::str_glue("{dir_unzip}.zip")
   ## 1.2. Download
-  download_eutrees4f(download_url, dir_unzip, dir_zip)
+  fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet)
   ## 1.3. Get the tree species
   tree_species <- get_eutrees4f_tbl()
   if (!species %in% tree_species) stop("The chosen species is not supported. Please, check `forestdata::eutrees4f_trees` for a list of available species")

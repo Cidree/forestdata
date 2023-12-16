@@ -8,7 +8,8 @@ fd_pathogens_defid2(
   agent = "all",
   host = "all",
   symptoms = "all",
-  country = "all"
+  country = "all",
+  geometry = "polygon"
 )
 }
 \arguments{
@@ -23,19 +24,30 @@ default '\code{all}' retrieves every tree}
 
 \item{country}{A character vector with the desired country(ies). The default
 '\code{all}' retrieves every country}
+
+\item{geometry}{A string with '\code{polygon}' to retrieve polygon data, or
+'\code{point}' to retrieve point data}
 }
 \value{
-\code{sf} object with \code{MULTIPOLYGON} geometry
+\code{sf} object with \code{MULTIPOLYGON} or \code{POINT} geometry
 }
 \description{
-Download the Database of European Forest Insect and Disease Disturbances
+Download the Database of European Forest Insect and Disease Disturbances.
 }
 \details{
+Data may be freely used for research, study, or teaching, but be cited
+appropiately (see references below).
+
+
 This function will download the DEFID2 database to the temporary directory
 once per session. After it's downloaded, the queries to the database are
 faster than the first time.
 
-Cite the data with the reference below.
+The data comprises over 650,000 georeferenced records, which can be retrieved
+as points or polygons, representing insects and diseases that occurred between
+1963 and 2021 in European Forests.
+
+Please, cite the data with the reference below.
 }
 \examples{
 \dontrun{

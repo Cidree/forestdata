@@ -18,7 +18,9 @@ Imports:
     tibble,
     tidyr,
     dplyr,
-    purrr
+    purrr,
+    terra,
+    stringi
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)

@@ -1,65 +1,53 @@
-# get_chorological_tbl
 
-#'  Chorological Maps table
-#'  Get a table with the names and references of each species
-#'
-#' @return \code{tibble}
-#' @importFrom dplyr %>%
-#' @examples
-#' \dontrun{
-#' get_chorological_tbl()
-#' }
-get_chorological_tbl <- function() {
 
-  ## Get website html
-  cm_html <- rvest::read_html("https://forest.jrc.ec.europa.eu/en/european-atlas/atlas-data-and-metadata/")
 
-  ## Get the species list
-  species_vec <- cm_html %>%
-    rvest::html_elements("div") %>%
-    rvest::html_elements(".row") %>%
-    rvest::html_elements(".chp-latin") %>%
-    rvest::html_text2() %>%
-    stringr::str_trim() %>%
-    stringr::str_remove_all("\\u2514\\u2500 ")
-
-  ## Get the species links
-  urls_vec <- cm_html %>%
-    rvest::html_elements("div") %>%
-    rvest::html_elements(".row") %>%
-    rvest::html_elements(".chp-cho") %>%
-    rvest::html_element("a") %>%
-    rvest::html_attr("href")
-
-  ## Create a dataset
-  choro_tbl <- tibble::tibble(
-    Species = species_vec,
-    DOI     = urls_vec
-  ) %>%
-    tidyr::drop_na()
-
-  ## Add codes
-  choro_tbl <- choro_tbl %>%
-    dplyr::mutate(code = DOI %>%
-                    stringr::str_split("\\.")%>%
-                    purrr::map(purrr::pluck, 5)) %>%
-    dplyr::mutate(code = as.character(code))
-
-  ## Return table
-  return(choro_tbl)
+fdi_fix_names <- function(name) {
+  name %>%
+    stringi::stri_trans_general("Latin-ASCII") %>%
+    stringr::str_to_title() %>%
+    stringr::str_trim()
 }
 
+# fdi_download_unzip
 
-# get_eutrees4f_tbl
-
-#'  EU-Trees4F species table
-#'  Get a table with the names and references of each species
+#'  (Internal) Downloads data to tempdir
+#'  Download data to tempdir
 #'
-#' @return \code{tibble}
-#' @importFrom dplyr %>%
+#' @param download_url Url of data to download
+#' @param dir_zip Path of the zipped downloaded data
+#' @param dir_unzip Path of the unzipped downloaded data
+#' @param timeout Time to stop downloading
+#' @param quiet If \code{TRUE} (the default), suppress status messages, and
+#'              the progress bar
+#'
+#' @return Unzipped file
 #' @examples
 #' \dontrun{
-#' get_chorological_tbl()
+#' fdi_download_unzip()
 #' }
-get_eutrees4f_tbl
+fdi_download_unzip <- function(download_url, dir_unzip, dir_zip,
+                               timeout = 1000, quiet = TRUE) {
 
+  # 1. Download file
+  ## 1.1. Url and file destination
+  download_url <- download_url
+  dir_unzip    <- dir_unzip
+  dir_zip      <- dir_zip
+  ## 1.2. Download to tempdir
+  if (!file.exists(dir_unzip)) {
+    options(timeout = max(timeout, getOption("timeout")))
+    download.file(
+      url      = download_url,
+      destfile = dir_zip,
+      quiet    = quiet,
+      mode     = "wb"
+    )
+    ## 1.3. Unzip the file
+    unzip(
+      zipfile = dir_zip,
+      exdir   = dir_unzip
+    )
+    ## 1.4. Remove zip to release space
+    file.remove(dir_zip)
+  }
+}

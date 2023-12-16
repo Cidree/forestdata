@@ -4,22 +4,38 @@
 \alias{fd_forest_chorological}
 \title{Download the Chorological Maps}
 \usage{
-fd_forest_chorological(species, range = "nat")
+fd_forest_chorological(species, range = "nat", quiet = TRUE)
 }
 \arguments{
 \item{species}{The latin name of a tree species contained in the
-Chorological Maps database (check \code{fd_forest_chorological_tbl()})}
+Chorological Maps database (check [forestdata::chorological_species])}
 
 \item{range}{The default "\code{nat}" downloads the probable native range
 of the species, while "\code{syn}" downloads the synanthropic
 range (i.e. the introduced and naturalized area and isolated
 population since Neolithic)}
+
+\item{quiet}{If \code{TRUE} (the default), suppress status messages, and
+the progress bar}
 }
 \value{
 \code{sf} object
 }
 \description{
-Download the Chorological Maps for the main European Woody Species
+Download the Chorological Maps for the main European Woody Species.
+}
+\details{
+Data may be freely used for research, study, or teaching, but be cited
+appropiately (see references below).
+
+
+The chorological maps provide a general overview of the distribution of
+the main European woody species. The geodatabase was formed by the
+combination of numerous and heterogeneous data for a continental-scale
+overview of the species' distribution range. There are a total of 4 versions
+available, and the function will get the most recent version for each
+of the species. This means for instance that some species may be on
+version 2, and therefore, the data from that version will be retrieved.
 }
 \examples{
 \dontrun{
@@ -29,4 +45,9 @@ Download the Chorological Maps for the main European Woody Species
  # Plot the data
  plot(chestnut_nat_sf$geometry)
 }
+}
+\references{
+Caudullo, G., Welk, E., San-Miguel-Ayanz, J., 2017.
+Chorological maps for the main European woody species. Data in Brief 12,
+666. DOI: doi.org/10.1016/j.dib.2017.05.007
 }

@@ -19,7 +19,7 @@ A tibble with 104 rows and 3 columns:
 chorological_species
 }
 \description{
-A \code{tibble} with the names of the tree spcies that have a
+A \code{tibble} with the names of the tree species that have a
 chorological map available
 }
 \keyword{datasets}
