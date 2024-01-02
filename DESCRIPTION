@@ -21,15 +21,19 @@ Imports:
     purrr,
     terra,
     stringi,
-    rlang
+    rlang,
+    archive
 RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)
 Collate: 
     'chorological_maps.R'
-    'utils_notExported.R'
-    'countries_forest.R'
     'data.R'
     'eutrees4f.R'
+    'utils_notExported.R'
+    'forest_country.R'
     'globals.R'
     'pathogens.R'
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
