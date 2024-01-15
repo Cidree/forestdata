@@ -96,9 +96,9 @@ get_glc_tbl <- function() {
 #' @examples
 #' \dontrun{
 #'  # Get tile for Galicia (Spain)
-#'  galicia_forest_extent <- fd_forest_extent_glad(lat = 42.7, lon = -7.8, year = 2020)
+#'  galicia_forest_extent <- fd_landcover_copernicus(lat = 42.7, lon = -7.8, year = 2020)
 #'  # Get masked tile for Galicia (Spain)
-#'  galicia_forest_extent <- fd_forest_extent_glad(
+#'  galicia_forest_extent <- fd_landcover_copernicus(
 #'  lat  = 42.7,
 #'  lon  = -7.8,
 #'  year = 2020,
@@ -113,7 +113,7 @@ fd_landcover_copernicus <- function(x,
                                     layer = NULL) {
 
   # 0. Handle errors
-
+  print(x)
 
 
 
