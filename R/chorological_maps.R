@@ -59,7 +59,7 @@ get_chorological_tbl <- function() {
 #' Download the Chorological Maps for the main European Woody Species.
 #'
 #' Data may be freely used for research, study, or teaching, but be cited
-#' appropiately (see references below).
+#' appropriately (see references below).
 #'
 #' @param species The latin name of a tree species contained in the
 #'                Chorological Maps database (check [forestdata::chorological_species])

@@ -15,7 +15,7 @@
 #' }
 get_landcoverexplorer_tbl <- function() {
 
-  # 1. Posible options
+  # 1. Possible options
   years   <- 2017:2022
   letters <- LETTERS[-c(1, 2, 9, 15, 25:26)]
   nmbrs   <- 1:60
@@ -54,9 +54,9 @@ get_landcoverexplorer_tbl <- function() {
 #' @examples
 #' \dontrun{
 #' # Download Land Cover for UTM tile 29N year 2022
-#' lc <- fd_esri_landcover("29N", 2017:2020)
+#' lc <- fd_landcover_esri("29N", 2017:2020)
 #' }
-fd_esri_landcover <- function(utm_code,
+fd_landcover_esri <- function(utm_code,
                               year,
                               quiet = TRUE) {
 
