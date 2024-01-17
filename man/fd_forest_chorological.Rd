@@ -26,7 +26,7 @@ Download the Chorological Maps for the main European Woody Species.
 }
 \details{
 Data may be freely used for research, study, or teaching, but be cited
-appropiately (see references below).
+appropriately (see references below).
 
 
 The chorological maps provide a general overview of the distribution of

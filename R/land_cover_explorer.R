@@ -29,7 +29,7 @@ get_landcoverexplorer_tbl <- function() {
 }
 
 
-## fd_esri_landcover ----
+## fd_landcover_esri ----
 
 #' Download a Land Cover SpatRaster for a UTM tile
 #'

@@ -45,33 +45,6 @@ get_forest_extent_tbl <- function() {
   return(forext_tbl)
 }
 
-# get_combined_raster
-
-#'  Combines different raster tiles
-#'  (Internal) Helper to combine rasters from forest extent GLAD.
-#'
-#' @return A \code{SpatRaster}
-#' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_combined_raster(2000, url_table = urls)
-#' }
-
-get_combined_raster <- function(year_i, url_table) {
-
-  ## Filter urls within the year
-  filtered_url <- dplyr::filter(url_table, year == year_i) %>%
-    dplyr::pull(url) %>%
-    as.character()
-
-  ## Download all the rasters
-  rast_lst <- lapply(filtered_url, terra::rast)
-
-  ## Combine all the raster
-  r_combined <- do.call(terra::merge, rast_lst)
-  return(r_combined)
-}
 
 # fd_forest_extent_glad ----
 
@@ -92,6 +65,7 @@ get_combined_raster <- function(year_i, url_table) {
 #'             object
 #' @param ... additional arguments passed to the \code{terra::crop} function
 #'
+#' @include utils_notExported.R
 #' @return \code{SpatRaster} object
 #' @export
 #'
@@ -136,7 +110,7 @@ fd_forest_extent_glad <- function(x,
   if (is.na(sf::st_crs(x))) stop("The object x is not georreferenced.")
   if (!class(x) %in% c("sf", "SpatVector") & is.null(lat) & is.null(lon)) stop("Invalid x format, or lat&lon not specified.")
   ## 0.1. Handle formats
-  if (class(x) == "SpatVector") x <- sf::st_as_sf(x)
+  if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
 
   # 1. If user specify lat and lon
   if (!is.null(lat) & !is.null(lon)) {
@@ -174,7 +148,7 @@ fd_forest_extent_glad <- function(x,
   ## 3.1. Get one element per year
   ids <- unique(urls$year)
   ## 3.2. Get the combined rasters per year
-  message(stringr::str_glue("{nrow(urls)} tiles where found. A total of {nrow(urls)*1.5} GB of data will be read into R. This may take a while."))
+  message(stringr::str_glue("{nrow(urls)} tile(s) were found. A total of {nrow(urls)*1.5} GB of data will be read into R. This may take a while."))
   forext_combined_sr <- purrr::map(ids, get_combined_raster, url_table = urls)
   ## 3.3. Convert to SpatRaster if it's a list
   forext_sr <- terra::rast(forext_combined_sr)

@@ -27,11 +27,13 @@ RoxygenNote: 7.2.3
 Depends: 
     R (>= 2.10)
 Collate: 
+    'utils_notExported.R'
+    'GLAD.R'
     'chorological_maps.R'
     'data.R'
     'eutrees4f.R'
-    'utils_notExported.R'
     'forest_country.R'
+    'global_land_cover.R'
     'globals.R'
     'land_cover_explorer.R'
     'pathogens.R'

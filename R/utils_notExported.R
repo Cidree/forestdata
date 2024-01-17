@@ -111,4 +111,36 @@ fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
   }
 }
 
+# get_combined_raster
 
+#'  Combines different raster tiles
+#'  (Internal) Helper to combine rasters from forest extent GLAD and
+#'  Copernicus Global Land Cover.
+#'
+#' @return A \code{SpatRaster}
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' get_combined_raster(2000, url_table = urls)
+#' }
+
+get_combined_raster <- function(year_i, url_table) {
+
+  ## Filter urls within the year
+  filtered_url <- dplyr::filter(url_table, year == year_i) %>%
+    dplyr::pull(url) %>%
+    as.character()
+
+  ## Download all the rasters
+  rast_lst <- lapply(filtered_url, terra::rast)
+
+  ## Combine all the raster
+  if (length(rast_lst) == 1) {
+    r_combined <- rast_lst[[1]]
+  } else {
+    r_combined <- do.call(terra::merge, rast_lst)
+  }
+
+  return(r_combined)
+}

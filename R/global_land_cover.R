@@ -9,6 +9,7 @@
 #'
 #' @return A \code{tibble}
 #' @keywords internal
+#' @references <https://lcviewer.vito.be/download>
 #'
 #' @examples
 #' \dontrun{
@@ -18,12 +19,12 @@
 get_glc_tbl <- function() {
 
   # 1. Vector with possible longitudes
-  lon <- c(
+  lon_code <- c(
     paste0("W", sprintf("%03d", seq(180, 20, by = -20))),
     paste0("E", sprintf("%03d", seq(0, 160, by = 20)))
   )
   # 2. Vector with possible latitudes
-  lat <- c(
+  lat_code <- c(
     paste0("N", sprintf("%02d", seq(0, 80, by = 20))),
     paste0("S", sprintf("%02d", seq(20, 40, by = 20)))
   )
@@ -34,24 +35,30 @@ get_glc_tbl <- function() {
               "Bare-CoverFraction-layer", "BuiltUp-CoverFraction-layer", "Crops-CoverFraction-layer",
               "Tree-CoverFraction-layer", "Grass-CoverFraction-layer", "MossLichen-CoverFraction-layer",
               "SeasonalWater-CoverFraction-layer", "Shrub-CoverFraction-layer", "Snow-CoverFraction-layer",
-              "PermanentWater-CoverFraction-layer", "Forest-Type", "DataDensityIndicator")
+              "PermanentWater-CoverFraction-layer", "Forest-Type-layer", "DataDensityIndicator")
   # 5. Create the grid
   grid_urls <- expand.grid(
-    lon = lon,
-    lat = lat,
+    lon_code  = lon_code,
+    lat_code  = lat_code,
     years_url = years_url,
-    layers = layers
+    layers    = layers
   )
   # 6. Prepare grid and urls
   grid_urls <- grid_urls %>%
     tibble::as_tibble() %>%
     dplyr::mutate(
-      year = stringr::str_extract(years_url, "([0-9]{4})")
+      year = stringr::str_extract(years_url, "([0-9]{4})") %>% as.numeric()
     ) %>%
     dplyr::mutate(
-      lonlat = paste0(lon, lat),
-      url = stringr::str_glue("https://s3-eu-west-1.amazonaws.com/vito.landcover.global/v3.0.1/{year}/{lonlat}/{lonlat}_PROBAV_LC100_global_v3.0.1_{years_url}_{layers}_EPSG-4326.tif")
-    )
+      lonlat     = paste0(lon_code, lat_code),
+      lon        = stringr::str_sub(lon_code, 2, 4) %>% as.numeric(),
+      lon        = ifelse(stringr::str_detect(lon_code, "E([0-9]{3})"), lon, -lon),
+      lat        = stringr::str_sub(lat_code, 2, 3) %>% as.numeric(),
+      lat        = ifelse(stringr::str_detect(lat_code, "N([0-9]{2})"), lat, -lat),
+      url        = stringr::str_glue("https://s3-eu-west-1.amazonaws.com/vito.landcover.global/v3.0.1/{year}/{lonlat}/{lonlat}_PROBAV_LC100_global_v3.0.1_{years_url}_{layers}_EPSG-4326.tif"),
+      layer_shrt = stringr::str_split(layers, "-"),
+      layer_shrt = purrr::map_chr(layer_shrt, 1) %>% stringr::str_to_lower()
+      )
   return(grid_urls)
 }
 
@@ -60,7 +67,7 @@ get_glc_tbl <- function() {
 
 #' Download data form the Global Land Cover
 #'
-#' Download a SpatRater from the Global Land Cover from the Copernicus Global
+#' Download a SpatRaster from the Global Land Cover from the Copernicus Global
 #' Land Service.
 #'
 #'
@@ -69,29 +76,23 @@ get_glc_tbl <- function() {
 #'          specified, this argument is ignored)
 #' @param lat A number specifying the latitude of the area where we want the tile
 #' @param lon A number specifying the longitude of the area where we want the tile
-#' @param year Year of the forest extent data. One of 2000, 2020 or 'all'
+#' @param year Year of the forest extent data. One of 2015:2019 or 'all'
+#' @param layer The layer to use from the Global Land Cover. See details
 #' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
 #'             object
 #' @param ... additional arguments passed to the \code{terra::crop} function
 #'
 #' @return \code{SpatRaster} object
 #' @export
+#' @include utils_notExported.R
 #'
 #' @details
-#' The Forest Extent Map is a product offered by the Global Land Analysis &
-#' Discovery organization. The spatial resolution of the product is 0.00025º
-#' (approximately 30 meters at the Equator), and it's distributed in tiles of
-#' 10ºx10º. Pixels with forest height > 5 meters are classified as the forest class.
+#' The ....
 #'
-#' Note that each tile is stored as a raster file of 1.5 GB, so for
-#' big extensions the function might take some time to retrieve the data.
-#'
-#' @references P. Potapov, X. Li, A. Hernandez-Serna, A. Tyukavina, M.C. Hansen,
-#'             A. Kommareddy, A. Pickens, S. Turubanova, H. Tang, C.E. Silva,
-#'             J. Armston, R. Dubayah, J. B. Blair, M. Hofton (2020) Mapping
-#'             and monitoring global forest canopy height through integration
-#'             of GEDI and Landsat data. Remote Sensing of Environment,
-#'             112165. https://doi.org/10.1016/j.rse.2020.112165
+#' @references Buchhorn, M.; Smets, B.; Bertels, L.; De Roo, B.; Lesiv, M.;
+#'             Tsendbazar, N. - E.; Herold, M.; Fritz, S. Copernicus Global
+#'             Land Service: Land Cover 100m: collection 3: epoch 2019: Globe
+#'             2020. DOI 10.5281/zenodo.3939050
 #'
 #' @examples
 #' \dontrun{
@@ -107,14 +108,67 @@ get_glc_tbl <- function() {
 #' }
 
 fd_landcover_copernicus <- function(x,
-                                    lon = NULL,
-                                    lat = NULL,
-                                    year = 2019,
-                                    layer = NULL) {
+                                    lon   = NULL,
+                                    lat   = NULL,
+                                    year  = 2019,
+                                    layer = "forest",
+                                    crop  = FALSE, ...) {
 
   # 0. Handle errors
-  print(x)
+  if (!year %in% 2015:2019) stop("Invalid year")
+  if (lon > 180 | lon < -180) stop("Invalid longitude coordinate value")
+  if (lat > 80 | lat < -60) stop("Invalid latitude coordinate value")
+  sel_year <- year
+  ## 0.1. Handle formats
+  if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
 
+  # 1. If user specify lat and lon
+  if (!is.null(lat) & !is.null(lon)) {
+    ## 1.1. Get tile coordinates
+    new_lat <- ceiling(lat / 20) * 20
+    new_lon <- floor(lon / 20) * 20
+    ## 1.2. Filter file
+    tile_tbl <- glc_tbl %>%
+      dplyr::filter(lat == new_lat & lon == new_lon)
+  } else {
+    ## 1.3. Get tiles for x
+    ### 1.3.1. Transform to lat/lon and get bbox
+    xwgs84 <- sf::st_transform(x, crs = "epsg:4326")
+    xbbox  <- sf::st_bbox(xwgs84)
+    ### 1.3.2 Get tile coordinates
+    new_lat <- ceiling(xbbox[c(1,3)]/20) * 20
+    new_lon <- floor(xbbox[c(2,4)]/20) * 20
+    ### 1.3.3. Filter file
+    tile_tbl <- glc_tbl %>%
+      dplyr::filter(lat %in% new_lat & lon %in% new_lon)
+  }
 
+  # 2. Rest of the filters
+  ## 2.1. Filter years
+  if (year != "all") tile_tbl <- dplyr::filter(tile_tbl, year %in% sel_year)
+  ## 2.2. Filter layer
+  tile_tbl <- dplyr::filter(tile_tbl, layer_shrt == tolower(layer))
+
+  # 3. Manage different tiles
+  ## 3.1. Get one element per year
+  ids <- unique(tile_tbl$year)
+  ## 3.2. Get the combined rasters per year
+  message(stringr::str_glue("{nrow(tile_tbl)} tile(s) were found."))
+  combined_sr <- purrr::map(ids, get_combined_raster, url_table = tile_tbl)
+  ## 3.3. Convert to SpatRaster if it's a list
+  glad_sr <- terra::rast(combined_sr)
+  ## 3.4. Rename layers
+  names(glad_sr) <- paste0("tile_", ids)
+
+  # 4. Manage crop
+  if (crop) glad_sr <- crop(glad_sr, x, ...)
+
+  # 5. Return
+  return(glad_sr)
 
 }
+
+
+
+
+
