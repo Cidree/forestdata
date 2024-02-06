@@ -138,8 +138,8 @@ fd_landcover_copernicus <- function(x,
     xwgs84 <- sf::st_transform(x, crs = "epsg:4326")
     xbbox  <- sf::st_bbox(xwgs84)
     ### 1.3.2 Get tile coordinates
-    new_lat <- ceiling(xbbox[c(1,3)]/20) * 20
-    new_lon <- floor(xbbox[c(2,4)]/20) * 20
+    new_lon <- floor(xbbox[c(1,3)]/20) * 20
+    new_lat <- ceiling(xbbox[c(2,4)]/20) * 20
     ### 1.3.3. Filter file
     tile_tbl <- glc_tbl %>%
       dplyr::filter(lat %in% new_lat & lon %in% new_lon)
