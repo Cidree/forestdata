@@ -116,8 +116,10 @@ fd_landcover_copernicus <- function(x,
 
   # 0. Handle errors
   if (!year %in% 2015:2019) stop("Invalid year")
-  if ((lon > 180 | lon < -180) & !is.null(lon)) stop("Invalid longitude coordinate value")
-  if ((lat > 80 | lat < -60) & !is.null(lat)) stop("Invalid latitude coordinate value")
+  if (!is.null(lon) & !is.null(lat)) {
+    if (lon > 180 | lon < -180) stop("Invalid longitude coordinate value")
+    if (lat > 80 | lat < -60) stop("Invalid latitude coordinate value")
+  }
   sel_year <- year
   ## 0.1. Handle formats
   if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
