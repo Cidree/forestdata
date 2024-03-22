@@ -165,7 +165,7 @@ fd_forest_spain_mfe50 <- function(province,
   province_fix <- province %>%
     fdi_fix_names()
   ## 1.2. Get url for province
-  province_url <- mfe50_provinces %>%
+  province_url <- mfe_provinces %>%
     dplyr::filter(stringr::str_detect(province, province_fix)) %>%
     dplyr::pull(url)
   ## 1.3. Fix URL (incomplete)

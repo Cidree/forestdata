@@ -144,3 +144,44 @@ get_combined_raster <- function(year_i, url_table) {
 
   return(r_combined)
 }
+
+
+# fdi_download_raster
+
+#'  Donwload a read a raster
+#'  (Internal) Helper to download and read a raster from an URL
+#'
+#' @return A \code{SpatRaster}
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' fdi_download_raster(url)
+#' }
+
+fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
+
+  ## 1. File name
+  if (is.null(start) & is.null(end)) {
+    url_path <- str_glue("{tempdir()}/{basename(url)}")
+  } else {
+    url_path <- str_glue("{tempdir()}/{basename(url) %>% stringr::str_sub(start, end)}")
+  }
+
+
+  ## Filter urls within the year
+  if (!file.exists(url_path)) {
+    options(timeout = max(timeout, getOption("timeout")))
+    download.file(
+      url      = url,
+      destfile = url_path,
+      mode     = "wb"
+    )
+  }
+  ## Read raster into R
+  r <- terra::rast(url_path)
+
+  return(r)
+
+}
+

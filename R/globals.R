@@ -1,5 +1,5 @@
 utils::globalVariables(
-  c("Species", "DOI", "code", "province", ".", "Department", "Version",
-    "mfe50_provinces", "Year", "Number", "Letter", "lat", "lon", "layer_shrt",
-    "extension", "year"
+  c("Department", "code", "DOI", "extension","lat", "layer","layer_shrt", "Letter", "lon",
+    "mfe50_provinces", "Number", "province", "Species", "Version", "Year",
+     "year", "."
   ))

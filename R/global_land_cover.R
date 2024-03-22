@@ -119,10 +119,10 @@ fd_landcover_copernicus <- function(x,
   if (!is.null(lon) & !is.null(lat)) {
     if (lon > 180 | lon < -180) stop("Invalid longitude coordinate value")
     if (lat > 80 | lat < -60) stop("Invalid latitude coordinate value")
+  } else {
+    if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
   }
   sel_year <- year
-  ## 0.1. Handle formats
-  if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
 
   # 1. If user specify lat and lon
   if (!is.null(lat) & !is.null(lon)) {
