@@ -41,7 +41,7 @@ get_eutrees4f_tbl <- function() {
 #' distribution, and future distribution (2035, 2065, 2095).
 #'
 #' Data may be freely used for research, study, or teaching, but be cited
-#' appropiately (see references below).
+#' appropriately (see references below).
 #'
 #' @param species A character vector of length 1 with the latin name of the
 #'                tree species (genus and species)
@@ -68,58 +68,62 @@ get_eutrees4f_tbl <- function() {
 #' Lambert Azimuthal Equal Area (EPSG:3035) CRS. The possible models to download
 #' are the following:
 #'
-#' __Model__: type of model used
+#' \strong{Model}: type of model used
 #'
-#' - _clim_: climatic ensemble. A ensemble mean model that projects a consensus model
+#' - clim: climatic ensemble. A ensemble mean model that projects a consensus model
 #' from \code{biomod2} into future conditions using the average of 11 Regional
 #' Climate Models (RCM).
 #'
-#' - _sdms_: Species Distribution Model (SDM) ensemble. A model that projects the
+#' - sdms: Species Distribution Model (SDM) ensemble. A model that projects the
 #' consensus model for every single RCM, and then it averages the output of
 #' then 11 SDMs.
 #'
-#' __Period__: 30-year time period
+#' \strong{Period}: 30-year time period
 #'
-#' - _2005_: for current projections. This option ignores the scenario argument.
+#' - 2005: for current projections. This option ignores the scenario argument.
 #' They are not available for \code{model = 'sdms'} with \code{type = 'std'}.
 #'
-#' - _2035_: average of 2020-2050
+#' - 2035: average of 2020-2050
 #'
-#' - _2065_: average of 2050-2080
+#' - 2065: average of 2050-2080
 #'
-#' - _2095_: average of 2080-2110
+#' - 2095: average of 2080-2110
 #'
-#' - _all_: get the four periods (or three for std type)
+#' - all: get the four periods (or three for std type)
 #'
-#' __Scenario__: climate change scenario
+#' \strong{Scenario}: climate change scenario
 #'
-#' - _rcp45_: a climate change scenario that assumes moderate emissions reductions
+#' - rcp45: a climate change scenario that assumes moderate emissions reductions
 #'
-#' - _rcp85_: a climate change scenario with high greenhouse gas emissions
+#' - rcp85: a climate change scenario with high greenhouse gas emissions
 #' and limited mitigation efforts
 #'
-#' __Type__: type of output layer
+#' \strong{Type}: type of output layer
 #'
-#' _bin_: binary distribution map, where 1 represents presence of the tree species,
+#' - bin: binary distribution map, where 1 represents presence of the tree species,
 #' while 0 represents absence of the tree species, derived from the prob map
 #'
-#' _prob_: probability disitribution map (0-1000). Represents the probability
+#' - prob: probability distribution map (0-1000). Represents the probability
 #' of being the potential distribution of the species
 #'
-#' _std_: standard deviation of prob map. Only available for \code{model = 'sdms'}.
+#' - std: standard deviation of prob map. Only available for \code{model = 'sdms'}.
 #'
-#' __Distrib__: type of species distribution
+#' \strong{Distrib}: type of species distribution
 #'
-#' - _nat_: realized distribution (masked with native range). Only available
+#' - nat: realized distribution (masked with native range). Only available
 #' with \code{type = 'bin'}
 #'
-#' - _pot_: potential distribution
+#' - pot: potential distribution
 #'
-#' - _disp_: natural dispersal model (migclim). Only available
+#' - disp: natural dispersal model (migclim). Only available
 #' with \code{type = 'bin'}
 #'
-#' - *disp_lu*: natural dispersal model clipped by forest areas. Only available
+#' - disp_lu: natural dispersal model clipped by forest areas. Only available
 #' with \code{type = 'bin'}
+#'
+#' @seealso
+#'
+#' [eutrees4f_species] for a list of possible species
 #'
 #'
 #' @references Mauri, Achille; Cescatti, Alessandro; GIRARDELLO, MARCO; Strona,
@@ -131,7 +135,6 @@ get_eutrees4f_tbl <- function() {
 #' \dontrun{
 #' # Download data for Betula pendula
 #' betula_pendula_sr <- fd_forest_eutrees4f(species = "Betula pendula")
-#'
 #' }
 fd_forest_eutrees4f <- function(species,
                                 model    = "clim",

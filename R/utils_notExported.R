@@ -114,8 +114,7 @@ fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
 # get_combined_raster
 
 #'  Combines different raster tiles
-#'  (Internal) Helper to combine rasters from forest extent GLAD and
-#'  Copernicus Global Land Cover.
+#'  (Internal) Helper to combine rasters from forest extent GLAD
 #'
 #' @return A \code{SpatRaster}
 #' @keywords internal
@@ -125,7 +124,40 @@ fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
 #' get_combined_raster(2000, url_table = urls)
 #' }
 
-get_combined_raster <- function(year_i, layer_i, url_table) {
+get_combined_raster <- function(year_i, url_table) {
+
+  ## Filter urls within the year
+  filtered_url <- dplyr::filter(url_table, year == year_i) %>%
+    dplyr::pull(url) %>%
+    as.character()
+
+  ## Download all the rasters
+  rast_lst <- lapply(filtered_url, terra::rast)
+
+  ## Combine all the raster
+  if (length(rast_lst) == 1) {
+    r_combined <- rast_lst[[1]]
+  } else {
+    r_combined <- do.call(terra::merge, rast_lst)
+  }
+
+  return(r_combined)
+}
+
+# get_combined_raster_2l
+
+#'  Combines different raster tiles
+#'  (Internal) Helper to combine rasters from Copernicus Global Land Cover.
+#'
+#' @return A \code{SpatRaster}
+#' @keywords internal
+#'
+#' @examples
+#' \dontrun{
+#' get_combined_raster(2000, "forest", url_table = urls)
+#' }
+
+get_combined_raster_2l <- function(year_i, layer_i, url_table) {
 
   ## Filter urls within the year
   filtered_url <- dplyr::filter(url_table, year == year_i, layer_shrt == layer_i) %>%
@@ -163,9 +195,9 @@ fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
 
   ## 1. File name
   if (is.null(start) & is.null(end)) {
-    url_path <- str_glue("{tempdir()}/{basename(url)}")
+    url_path <- stringr::str_glue("{tempdir()}/{basename(url)}")
   } else {
-    url_path <- str_glue("{tempdir()}/{basename(url) %>% stringr::str_sub(start, end)}")
+    url_path <- stringr::str_glue("{tempdir()}/{basename(url) %>% stringr::str_sub(start, end)}")
   }
 
 

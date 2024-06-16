@@ -81,7 +81,7 @@ get_glc_tbl <- function() {
 #'              Land Cover. See details
 #' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
 #'             object
-#' @param ... additional arguments passed to the \code{terra::crop} function
+#' @param ... additional arguments passed to the `terra::crop()` function
 #'
 #' @return \code{SpatRaster} object
 #' @export
@@ -182,7 +182,7 @@ fd_landcover_copernicus <- function(x,
   ids$layer_names <- paste0(ids$layer, "_", ids$year)
   ## 3.2. Get the combined rasters per year
   message(stringr::str_glue("{nrow(tile_tbl)} tile(s) were found."))
-  combined_sr <- purrr::map2(ids$year, ids$layer, get_combined_raster, url_table = tile_tbl)
+  combined_sr <- purrr::map2(ids$year, ids$layer, get_combined_raster_2l, url_table = tile_tbl)
   ## 3.3. Convert to SpatRaster if it's a list
   glad_sr <- terra::rast(combined_sr)
   ## 3.4. Rename layers

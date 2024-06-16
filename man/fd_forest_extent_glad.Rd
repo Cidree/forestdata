@@ -5,7 +5,7 @@
 \title{Download Forest Extent}
 \usage{
 fd_forest_extent_glad(
-  x,
+  x = NULL,
   lon = NULL,
   lat = NULL,
   year = 2020,
@@ -27,7 +27,7 @@ specified, this argument is ignored)}
 \item{crop}{When \code{x} is specified, whether to crop the tiles(s) to the
 object}
 
-\item{...}{additional arguments passed to the \code{terra::crop} function}
+\item{...}{additional arguments passed to the `terra::crop()` function}
 }
 \value{
 \code{SpatRaster} object

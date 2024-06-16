@@ -62,7 +62,7 @@ get_chorological_tbl <- function() {
 #' appropriately (see references below).
 #'
 #' @param species The latin name of a tree species contained in the
-#'                Chorological Maps database (check [forestdata::chorological_species])
+#'                Chorological Maps database
 #' @param range The default "\code{nat}" downloads the probable native range
 #'              of the species, while "\code{syn}" downloads the synanthropic
 #'              range (i.e. the introduced and naturalized area and isolated
@@ -86,6 +86,8 @@ get_chorological_tbl <- function() {
 #' @references Caudullo, G., Welk, E., San-Miguel-Ayanz, J., 2017.
 #' Chorological maps for the main European woody species. Data in Brief 12,
 #' 666. DOI: doi.org/10.1016/j.dib.2017.05.007
+#'
+#' @seealso [chorological_species] for a list of possible species
 #'
 #' @examples
 #' \dontrun{

@@ -8,17 +8,17 @@
 ## `eutrees4f_species`
 A vector with 67 rows:
 \describe{
-  The latin name of tree species to use in [forestdata::fd_forest_eutrees4f()]
+  The latin name of tree species to use in `fd_forest_eutrees4f()`
 }
 }
 \source{
-<https://springernature.figshare.com/collections/EU-Trees4F_A_dataset_on_the_future_distribution_of_European_tree_species_/5525688>
+\url{https://springernature.figshare.com/collections/EU-Trees4F_A_dataset_on_the_future_distribution_of_European_tree_species_/5525688}
 }
 \usage{
 eutrees4f_species
 }
 \description{
 A \code{character} vector with the names of the tree species that are
-available for [forestdata::fd_forest_eutrees4f()] function
+available for \code{\link{forestdata::fd_forest_eutrees4f}} function
 }
 \keyword{datasets}

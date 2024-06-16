@@ -6,7 +6,7 @@ Author: person("Adrián", "Cidre González",
           email = "adrian.cidre@gmail.com", 
           role = c("aut", "cre"))
 Maintainer: Adrián Cidre González <adrian.cidre@gmail.com>
-Description: Downloads forest and land cover data from various sources
+Description: Downloads forest and land cover data from various sources.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

@@ -42,5 +42,5 @@ cordoba_mfe50_sf <- fd_forest_spain_mfe50(province = "Cordoba", metadata = getwd
 }
 }
 \references{
-<https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html>
+\url{https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html}
 }

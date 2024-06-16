@@ -8,7 +8,7 @@ fd_forest_chorological(species, range = "nat", quiet = TRUE)
 }
 \arguments{
 \item{species}{The latin name of a tree species contained in the
-Chorological Maps database (check [forestdata::chorological_species])}
+Chorological Maps database}
 
 \item{range}{The default "\code{nat}" downloads the probable native range
 of the species, while "\code{syn}" downloads the synanthropic
@@ -50,4 +50,7 @@ version 2, and therefore, the data from that version will be retrieved.
 Caudullo, G., Welk, E., San-Miguel-Ayanz, J., 2017.
 Chorological maps for the main European woody species. Data in Brief 12,
 666. DOI: doi.org/10.1016/j.dib.2017.05.007
+}
+\seealso{
+[chorological_species] for a list of possible species
 }

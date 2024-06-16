@@ -35,21 +35,18 @@ get_landcoverexplorer_tbl <- function() {
 #'
 #' Download a UTM tile of the ESRI Land Cover Explorer for a specified year
 #'
-#' @param utm_code A character string of length 1 with the name of a
-#'                 spanish province
+#' @param utm_code A character string of length 1 with an UTM code (e.g. "29N)
 #' @param year An integer or vector of integers corresponding to the base year
-#'             of the Land Cover image. The option year = 'all' download all
-#'             the available images.
+#'             of the Land Cover image. The option \code{year = 'all'} downloads all
+#'             the available images
 #' @param quiet If \code{TRUE} (the default), suppress status messages, and
 #'              the progress bar
 #'
 #' @return A \code{SpatRaster}
 #' @export
 #'
-#' @details
-#' The Land Cover Explorer ...
 #'
-#' @references <https://livingatlas.arcgis.com/en/home/>
+#' @references \url{https://livingatlas.arcgis.com/en/home/}
 #'
 #' @examples
 #' \dontrun{

@@ -2,20 +2,47 @@
 % Please edit documentation in R/canopy_height.R
 \name{fd_canopy_height}
 \alias{fd_canopy_height}
-\title{Canopy Height
- Get canopy height}
+\title{Download forest canopy height
+ Download the ETH Global Sentinel-2 10m Canopy Height (2020)}
 \usage{
 fd_canopy_height(x, lon = NULL, lat = NULL, layer = "chm", crop = FALSE, ...)
+}
+\arguments{
+\item{x}{An \code{sf} or \code{SpatVector} object. It will retrieve the
+necessary tiles to cover the area (if \code{lat} and \code{lon} are
+specified, this argument is ignored)}
+
+\item{lon}{A number specifying the longitude of the area where we want the tile}
+
+\item{lat}{A number specifying the latitude of the area where we want the tile}
+
+\item{layer}{A string for the layer to download. The default "\code{chm}"
+downloads the Canopy Height Model, while "\code{std}" downloads
+the standard deviation. If you want both layers, use "\code{all}"}
+
+\item{crop}{When \code{x} is specified, whether to crop the tiles(s) to the
+object}
+
+\item{...}{additional arguments passed to the `terra::crop()`}
 }
 \value{
 A \code{SpatRaster}
 }
 \description{
-Canopy Height
- Get canopy height
+Download forest canopy height
+ Download the ETH Global Sentinel-2 10m Canopy Height (2020)
+}
+\details{
+Data may be freely used for research, study, or teaching, but be cited
+appropriately (see references below).
 }
 \examples{
 \dontrun{
 fd_canopy_height(lon = -7.27, lat = 42.43)
 }
+}
+\references{
+Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk
+             Wegner. "A high-resolution canopy height model of the Earth."
+             arXiv preprint arXiv:2204.08322 (2022).
 }

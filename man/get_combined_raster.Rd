@@ -3,8 +3,7 @@
 \name{get_combined_raster}
 \alias{get_combined_raster}
 \title{Combines different raster tiles
- (Internal) Helper to combine rasters from forest extent GLAD and
- Copernicus Global Land Cover.}
+ (Internal) Helper to combine rasters from forest extent GLAD}
 \usage{
 get_combined_raster(year_i, url_table)
 }
@@ -13,8 +12,7 @@ A \code{SpatRaster}
 }
 \description{
 Combines different raster tiles
- (Internal) Helper to combine rasters from forest extent GLAD and
- Copernicus Global Land Cover.
+ (Internal) Helper to combine rasters from forest extent GLAD
 }
 \examples{
 \dontrun{

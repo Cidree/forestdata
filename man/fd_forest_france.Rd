@@ -77,5 +77,5 @@ bouches_bdforet2_sf <- fd_forest_spain_mfe50(
 }
 }
 \references{
-<https://geoservices.ign.fr/bdforet>
+\url{https://geoservices.ign.fr/bdforet}
 }

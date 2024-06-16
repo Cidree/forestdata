@@ -7,12 +7,11 @@
 fd_landcover_esri(utm_code, year, quiet = TRUE)
 }
 \arguments{
-\item{utm_code}{A character string of length 1 with the name of a
-spanish province}
+\item{utm_code}{A character string of length 1 with an UTM code (e.g. "29N)}
 
 \item{year}{An integer or vector of integers corresponding to the base year
-of the Land Cover image. The option year = 'all' download all
-the available images.}
+of the Land Cover image. The option \code{year = 'all'} downloads all
+the available images}
 
 \item{quiet}{If \code{TRUE} (the default), suppress status messages, and
 the progress bar}
@@ -23,9 +22,6 @@ A \code{SpatRaster}
 \description{
 Download a UTM tile of the ESRI Land Cover Explorer for a specified year
 }
-\details{
-The Land Cover Explorer ...
-}
 \examples{
 \dontrun{
 # Download Land Cover for UTM tile 29N year 2022
@@ -33,5 +29,5 @@ lc <- fd_landcover_esri("29N", 2017:2020)
 }
 }
 \references{
-<https://livingatlas.arcgis.com/en/home/>
+\url{https://livingatlas.arcgis.com/en/home/}
 }

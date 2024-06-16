@@ -63,7 +63,7 @@ get_forest_extent_tbl <- function() {
 #' @param year Year of the forest extent data. One of 2000, 2020 or 'all'
 #' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
 #'             object
-#' @param ... additional arguments passed to the \code{terra::crop} function
+#' @param ... additional arguments passed to the `terra::crop()` function
 #'
 #' @include utils_notExported.R
 #' @return \code{SpatRaster} object
@@ -99,7 +99,7 @@ get_forest_extent_tbl <- function() {
 #'  mask = TRUE)
 #' }
 
-fd_forest_extent_glad <- function(x,
+fd_forest_extent_glad <- function(x    = NULL,
                                   lon  = NULL,
                                   lat  = NULL,
                                   year = 2020,
@@ -107,7 +107,7 @@ fd_forest_extent_glad <- function(x,
 
   # 0. Handle errors
   if (year != "all" & !year %in% c(2000, 2020)) stop("Invalid year. Please, use year 2000, 2020 or 'all'")
-  if (is.na(sf::st_crs(x))) stop("The object x is not georreferenced.")
+  if (is.na(sf::st_crs(x)) & !is.null(x)) stop("The object x is not georreferenced.")
   if (!class(x) %in% c("sf", "SpatVector") & is.null(lat) & is.null(lon)) stop("Invalid x format, or lat&lon not specified.")
   ## 0.1. Handle formats
   if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)

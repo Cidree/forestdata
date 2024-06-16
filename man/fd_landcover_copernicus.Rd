@@ -25,12 +25,13 @@ specified, this argument is ignored)}
 
 \item{year}{Year of the forest extent data. One of 2015:2019 or 'all'}
 
-\item{layer}{The layer to use from the Global Land Cover. See details}
+\item{layer}{A character vector of the layer(s) to use from the Global
+Land Cover. See details}
 
 \item{crop}{When \code{x} is specified, whether to crop the tiles(s) to the
 object}
 
-\item{...}{additional arguments passed to the \code{terra::crop} function}
+\item{...}{additional arguments passed to the `terra::crop()` function}
 }
 \value{
 \code{SpatRaster} object
@@ -40,19 +41,38 @@ Download a SpatRaster from the Global Land Cover from the Copernicus Global
 Land Service.
 }
 \details{
-The ....
+There are 14 different layers that can be downloaded:
+- "discrete": land cover discrete classification
+- "classification": land cover classification probability
+- "bare": cover fraction of bare and sparse vegetation
+- "builtup": cover fraction of builtup
+- "crops": cover fraction of cropland
+- "tree": cover fraction of forest
+- "grass": cover fraction of herbaceous vegetation
+- "mosslichen": cover fraction of moss and lichen
+- "seasonalwater": cover fraction of seasonal inland water
+- "shrub": cover fraction of shrubland
+- "snow": cover fraction of snow and ice
+- "permanentwater": cover fraction of permanent inland water
+- "forest" (default): forest types. (0): unknown; (1): evergreen needle leaf forest;
+(2): evergreen broad leaf forest; (3): deciduous needle leaf; (4): deciduous
+broad leaf; (5): mix of forest types
+- "datadensityindicator": input data density
 }
 \examples{
 \dontrun{
- # Get tile for Galicia (Spain)
- galicia_forest_extent <- fd_landcover_copernicus(lat = 42.7, lon = -7.8, year = 2020)
- # Get masked tile for Galicia (Spain)
+ # Get tile for Galicia (Spain) and year 2019
  galicia_forest_extent <- fd_landcover_copernicus(
  lat  = 42.7,
  lon  = -7.8,
- year = 2020,
- crop = TRUE,
- mask = TRUE)
+ year = 2019)
+ # Get forest and discrete classification tiles for all years
+ galicia_forest_extent <- fd_landcover_copernicus(
+ lat  = 42.7,
+ lon  = -7.8,
+ year = "all",
+ layer = c("forest", "discrete")
+ )
 }
 }
 \references{

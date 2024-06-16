@@ -145,7 +145,7 @@ get_mfe50_provinces_tbl <- function() {
 #' stands in Spain. The definition of the variables is contained in an excel
 #' file that can be downloaded by using the argument \code{path_metadata}.
 #'
-#' @references <https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html>
+#' @references \url{https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html}
 #'
 #' @examples
 #' \dontrun{
@@ -316,7 +316,7 @@ get_bdforet_tbl <- function() {
 #' \code{path_metadata} (information in French).
 #'
 #'
-#' @references <https://geoservices.ign.fr/bdforet>
+#' @references \url{https://geoservices.ign.fr/bdforet}
 #'
 #' @examples
 #' \dontrun{
