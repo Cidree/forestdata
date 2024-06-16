@@ -41,7 +41,7 @@ fdi_fix_names <- function(name) {
 #' fdi_download_unzip()
 #' }
 fdi_download_unzip <- function(download_url, dir_unzip, dir_zip,
-                               timeout = 100000, quiet = TRUE) {
+                               quiet = TRUE, timeout = 100000) {
 
   # 1. Download file
   ## 1.1. Url and file destination
