@@ -77,7 +77,8 @@ get_glc_tbl <- function() {
 #' @param lat A number specifying the latitude of the area where we want the tile
 #' @param lon A number specifying the longitude of the area where we want the tile
 #' @param year Year of the forest extent data. One of 2015:2019 or 'all'
-#' @param layer The layer to use from the Global Land Cover. See details
+#' @param layer A character vector of the layer(s) to use from the Global
+#'              Land Cover. See details
 #' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
 #'             object
 #' @param ... additional arguments passed to the \code{terra::crop} function
@@ -86,25 +87,46 @@ get_glc_tbl <- function() {
 #' @export
 #' @include utils_notExported.R
 #'
-#' @details
-#' The ....
 #'
 #' @references Buchhorn, M.; Smets, B.; Bertels, L.; De Roo, B.; Lesiv, M.;
 #'             Tsendbazar, N. - E.; Herold, M.; Fritz, S. Copernicus Global
 #'             Land Service: Land Cover 100m: collection 3: epoch 2019: Globe
 #'             2020. DOI 10.5281/zenodo.3939050
 #'
+#' @details
+#' There are 14 different layers that can be downloaded:
+#' - "discrete": land cover discrete classification
+#' - "classification": land cover classification probability
+#' - "bare": cover fraction of bare and sparse vegetation
+#' - "builtup": cover fraction of builtup
+#' - "crops": cover fraction of cropland
+#' - "tree": cover fraction of forest
+#' - "grass": cover fraction of herbaceous vegetation
+#' - "mosslichen": cover fraction of moss and lichen
+#' - "seasonalwater": cover fraction of seasonal inland water
+#' - "shrub": cover fraction of shrubland
+#' - "snow": cover fraction of snow and ice
+#' - "permanentwater": cover fraction of permanent inland water
+#' - "forest" (default): forest types. (0): unknown; (1): evergreen needle leaf forest;
+#' (2): evergreen broad leaf forest; (3): deciduous needle leaf; (4): deciduous
+#' broad leaf; (5): mix of forest types
+#' - "datadensityindicator": input data density
+#'
+#'
 #' @examples
 #' \dontrun{
-#'  # Get tile for Galicia (Spain)
-#'  galicia_forest_extent <- fd_landcover_copernicus(lat = 42.7, lon = -7.8, year = 2020)
-#'  # Get masked tile for Galicia (Spain)
+#'  # Get tile for Galicia (Spain) and year 2019
 #'  galicia_forest_extent <- fd_landcover_copernicus(
 #'  lat  = 42.7,
 #'  lon  = -7.8,
-#'  year = 2020,
-#'  crop = TRUE,
-#'  mask = TRUE)
+#'  year = 2019)
+#'  # Get forest and discrete classification tiles for all years
+#'  galicia_forest_extent <- fd_landcover_copernicus(
+#'  lat  = 42.7,
+#'  lon  = -7.8,
+#'  year = "all",
+#'  layer = c("forest", "discrete")
+#'  )
 #' }
 
 fd_landcover_copernicus <- function(x,
@@ -115,7 +137,7 @@ fd_landcover_copernicus <- function(x,
                                     crop  = FALSE, ...) {
 
   # 0. Handle errors
-  if (!year %in% 2015:2019) stop("Invalid year")
+  if (!year %in% 2015:2019 & year != "all") stop("Invalid year")
   if (!is.null(lon) & !is.null(lat)) {
     if (lon > 180 | lon < -180) stop("Invalid longitude coordinate value")
     if (lat > 80 | lat < -60) stop("Invalid latitude coordinate value")
@@ -123,6 +145,7 @@ fd_landcover_copernicus <- function(x,
     if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
   }
   sel_year <- year
+  if (!all(layer %in% unique(get_glc_tbl()$layer_shrt))) stop("Invalid layer name(s)")
 
   # 1. If user specify lat and lon
   if (!is.null(lat) & !is.null(lon)) {
@@ -149,21 +172,24 @@ fd_landcover_copernicus <- function(x,
   ## 2.1. Filter years
   if (year != "all") tile_tbl <- dplyr::filter(tile_tbl, year %in% sel_year)
   ## 2.2. Filter layer
-  tile_tbl <- dplyr::filter(tile_tbl, layer_shrt == tolower(layer))
+  tile_tbl <- dplyr::filter(tile_tbl, layer_shrt %in% tolower(layer))
 
   # 3. Manage different tiles
-  ## 3.1. Get one element per year
-  ids <- unique(tile_tbl$year)
+  ## 3.1. Get one element per year and layer
+  id_year <- unique(tile_tbl$year)
+  id_lyr  <- unique(tile_tbl$layer_shrt)
+  ids <- expand.grid(year = id_year, layer = id_lyr)
+  ids$layer_names <- paste0(ids$layer, "_", ids$year)
   ## 3.2. Get the combined rasters per year
   message(stringr::str_glue("{nrow(tile_tbl)} tile(s) were found."))
-  combined_sr <- purrr::map(ids, get_combined_raster, url_table = tile_tbl)
+  combined_sr <- purrr::map2(ids$year, ids$layer, get_combined_raster, url_table = tile_tbl)
   ## 3.3. Convert to SpatRaster if it's a list
   glad_sr <- terra::rast(combined_sr)
   ## 3.4. Rename layers
-  names(glad_sr) <- paste0("tile_", ids)
+  names(glad_sr) <- ids$layer_names
 
   # 4. Manage crop
-  if (crop) glad_sr <- crop(glad_sr, x, ...)
+  if (crop) glad_sr <- terra::crop(glad_sr, x, ...)
 
   # 5. Return
   return(glad_sr)

@@ -125,10 +125,10 @@ fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
 #' get_combined_raster(2000, url_table = urls)
 #' }
 
-get_combined_raster <- function(year_i, url_table) {
+get_combined_raster <- function(year_i, layer_i, url_table) {
 
   ## Filter urls within the year
-  filtered_url <- dplyr::filter(url_table, year == year_i) %>%
+  filtered_url <- dplyr::filter(url_table, year == year_i, layer_shrt == layer_i) %>%
     dplyr::pull(url) %>%
     as.character()
 

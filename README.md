@@ -17,6 +17,8 @@ Functions to download land cover data
 
 Functions to download forest data
 
+`fd_canopy_height`
+
 `fd_forest_chorological`
 
 `fd_forest_eutrees4f`

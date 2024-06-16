@@ -52,11 +52,33 @@ get_gch_tbl <- function() {
 
 # fd_canopy_height
 
-#'  Canopy Height
-#'  Get canopy height
+#'  Download forest canopy height
+#'  Download the ETH Global Sentinel-2 10m Canopy Height (2020)
 #'
+#' Data may be freely used for research, study, or teaching, but be cited
+#' appropriately (see references below).
+#'
+#' @param x An \code{sf} or \code{SpatVector} object. It will retrieve the
+#'          necessary tiles to cover the area (if \code{lat} and \code{lon} are
+#'          specified, this argument is ignored)
+#' @param lon A number specifying the longitude of the area where we want the tile
+#' @param lat A number specifying the latitude of the area where we want the tile
+#'
+#' @param layer A string for the layer to download. The default "\code{chm}"
+#'              downloads the Canopy Height Model, while "\code{std}" downloads
+#'              the standard deviation. If you want both layers, use "\code{all}"
+#' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
+#'             object
+#' @param ... additional arguments passed to the \code{terra::crop} function
+#'
+#' @include utils_notExported.R
 #' @return A \code{SpatRaster}
 #' @export
+#'
+#'
+#' @references Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk
+#'              Wegner. "A high-resolution canopy height model of the Earth."
+#'              arXiv preprint arXiv:2204.08322 (2022).
 #'
 #' @examples
 #' \dontrun{

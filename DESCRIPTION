@@ -6,8 +6,7 @@ Author: person("Adrián", "Cidre González",
           email = "adrian.cidre@gmail.com", 
           role = c("aut", "cre"))
 Maintainer: Adrián Cidre González <adrian.cidre@gmail.com>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: Downloads forest and land cover data from various sources
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
