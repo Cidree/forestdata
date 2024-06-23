@@ -5,7 +5,14 @@
 \title{Download forest canopy height
  Download the ETH Global Sentinel-2 10m Canopy Height (2020)}
 \usage{
-fd_canopy_height(x, lon = NULL, lat = NULL, layer = "chm", crop = FALSE, ...)
+fd_canopy_height(
+  x = NULL,
+  lon = NULL,
+  lat = NULL,
+  layer = "chm",
+  crop = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{An \code{sf} or \code{SpatVector} object. It will retrieve the

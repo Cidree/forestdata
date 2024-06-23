@@ -9,8 +9,8 @@ fdi_download_unzip(
   download_url,
   dir_unzip,
   dir_zip,
-  timeout = 1000,
-  quiet = TRUE
+  quiet = TRUE,
+  timeout = 1e+05
 )
 }
 \arguments{
@@ -20,10 +20,10 @@ fdi_download_unzip(
 
 \item{dir_zip}{Path of the zipped downloaded data}
 
-\item{timeout}{Time to stop downloading}
-
 \item{quiet}{If \code{TRUE} (the default), suppress status messages, and
 the progress bar}
+
+\item{timeout}{Time to stop downloading}
 }
 \value{
 Unzipped file

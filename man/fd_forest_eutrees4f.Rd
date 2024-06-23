@@ -75,7 +75,9 @@ They are not available for \code{model = 'sdms'} with \code{type = 'std'}.
 
 - 2095: average of 2080-2110
 
-- all: get the four periods (or three for std type)
+- all: get the four periods (or three for std type). Note that for some species
+or configurations this might fail, because the raster extent might not match
+in different periods
 
 \strong{Scenario}: climate change scenario
 

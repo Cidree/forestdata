@@ -19,6 +19,6 @@ eutrees4f_species
 }
 \description{
 A \code{character} vector with the names of the tree species that are
-available for \code{\link{forestdata::fd_forest_eutrees4f}} function
+available for `forestdata::fd_forest_eutrees4f` function
 }
 \keyword{datasets}
