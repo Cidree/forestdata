@@ -84,18 +84,29 @@ get_gch_tbl <- function() {
 #' \dontrun{
 #' fd_canopy_height(lon = -7.27, lat = 42.43)
 #' }
-fd_canopy_height <- function(x,
+fd_canopy_height <- function(x     = NULL,
                              lon   = NULL,
                              lat   = NULL,
                              layer = "chm",
                              crop  = FALSE, ...) {
 
   # 0. Handle errors
+  ## 0.1. Handle all NULL
+  if (is.null(x) & is.null(lon) & is.null(lat)) stop("No coordinates or object were specified")
+  ## 0.2. Handle non-existing coordinates
   if (!is.null(lon) & !is.null(lat)) {
     if (lon > 180 | lon < -180) stop("Invalid longitude coordinate value")
     if (lat > 80 | lat < -80) stop("Invalid latitude coordinate value")
   } else {
     if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
+  }
+  ## 0.3. Handle incompatible arguments
+  if (!is.null(lon) & !is.null(lat) & !is.null(x)) {
+    stop("Both coordinates (`lon` and `lat`) and object (`x`) were specified. Specify only one of them.")
+  }
+  ## 0.4. Handle incompatible arguments (crop = TRUE & coords)
+  if (crop & !is.null(lon) & !is.null(lat)) {
+    stop("`crop = TRUE` is only available when `x` is specified.")
   }
 
   # 1. If user specify lat and lon
@@ -160,12 +171,18 @@ fd_canopy_height <- function(x,
     ch_sr <- do.call(terra::merge, tiles_list)
   }
 
-  ## 3.4. Rename layers
+  # 4. Rename layers
   if (layer == "all") {
     names(ch_sr) <- c("chm", "std")
   } else {
     names(ch_sr) <- layer
   }
+
+  # 5. Manage crop
+  if (crop) ch_sr <- crop(ch_sr, x, ...)
+
+  # 6. Return
+  return(ch_sr)
 
 
 }
