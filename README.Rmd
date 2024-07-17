@@ -1,0 +1,114 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+## forestdata
+
+`forestdata` is an R package for downloading forestry and land use data. This package aims to provide users with easy access to various datasets related to forestry and land use.
+
+## Installation
+
+You can install the development version of `forestdata` from GitHub using the `pak` package:
+
+``` {r, eval=FALSE}
+pak::pak("Cidree/forestdata")
+```
+
+## Functions
+
+In the following table, you can find a summary of the available functions, a short description, and the object type of the output.
+
+```{r, echo=FALSE}
+# Load necessary libraries
+library(tibble)
+library(gt)
+
+# Create a tibble with the specified columns
+forestdata_info <- tibble(
+  Function = c(
+    "fd_landcover_copernicus", 
+    "fd_landcover_esri",
+    "fd_canopy_height",
+    "fd_forest_chorological",
+    "fd_forest_eutrees4f",
+    "fd_forest_extent_glad",
+    "fd_forest_spain_mfe50",
+    "fd_forest_france",
+    "fd_inventory_spain",
+    "fd_pathogens_defid2"
+  ),
+  Description = c(
+    "Download data from the Global Land Cover from the Copernicus Global Land Service.",
+    "Download data from the ESRI Land Cover Explorer.",
+    "Download data from the ETH Global Sentinel-2 canopy height from 2020.",
+    "Download data from the European Chorological Maps.",
+    "Download data from the EU-Trees4F Database.",
+    "Download data for the forest extension from the Global Land Analysis & Discovery.",
+    "Download the Spanish Forest Map (MFE50) for a province.",
+    "Download the BD Forêt for a French Department (French Forest Map).",
+    "Download data for the IFN2, IFN3 or IFN4 for a Spanish province.",
+    "Download the Database of European Forest Insect and Disease Disturbances (DEFID)."
+  ),
+  Output = c(
+    "SpatRaster", 
+    "SpatRaster", 
+    "SpatRaster", 
+    "sf", 
+    "SpatRaster", 
+    "SpatRaster", 
+    "sf", 
+    "sf", 
+    "list", 
+    "sf"
+  ),
+  group = c(
+    rep("Land Cover", 2),
+    rep("Forest", 7),
+    rep("Forest Pathogens", 1)
+  )
+)
+
+# Render the tibble as a nice table using gt
+gt(forestdata_info, groupname_col = "group") |>
+  opt_stylize(style = 3, color = "cyan") |> 
+  tab_header(
+    title    = "{forestdata} Package Functions",
+    subtitle = "Download and Process Forestry and Land Use Data"
+  ) |>
+  cols_label(
+    Function = "Function",
+    Description = "Description",
+    Output = "Output"
+  ) |>
+  fmt_markdown(
+    columns = c(Description)
+  ) |>
+  cols_align(
+    align = "left",
+    columns = c(Function, Description, Output)
+  ) |>
+  tab_options(
+    table.font.size = 12,
+    heading.title.font.size = 14,
+    heading.subtitle.font.size = 12
+  ) |> 
+  tab_options(
+    table.font.name           = "Merriweather",
+    column_labels.font.size   = 14,
+    column_labels.font.weight = "bold",
+    row_group.font.size       = 14,
+    row_group.padding         = 10,
+    row_group.font.weight     = "bold",
+    data_row.padding          = 10
+  )
+```
+
+
+
+## Note
+
+Please read the function documentation carefully. Some datasets may require proper citation when used.
