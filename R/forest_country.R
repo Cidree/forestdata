@@ -23,20 +23,20 @@ get_mfe50_ccaa_tbl <- function() {
 
   # 2. Get CCAA table
   ## 2.1. Get CCAA names
-  ccaa_vec <- url_html %>%
-    rvest::html_element(".image-mapping") %>%
-    rvest::html_elements("area") %>%
+  ccaa_vec <- url_html |>
+    rvest::html_element(".image-mapping") |>
+    rvest::html_elements("area") |>
     rvest::html_attr("title")
   ## 2.2. Get CCAA url
-  ccaa_url_vec <- url_html %>%
-    rvest::html_element(".image-mapping") %>%
-    rvest::html_elements("area") %>%
+  ccaa_url_vec <- url_html |>
+    rvest::html_element(".image-mapping") |>
+    rvest::html_elements("area") |>
     rvest::html_attr("href")
   ## 2.3. Create table and remove NA (Ceuta and Melilla)
   ccaa_tbl <- data.frame(
     ccaa = ccaa_vec,
     url  = ccaa_url_vec
-  ) %>% na.omit()
+  ) |> na.omit()
   ## 2.4. Return
   return(ccaa_tbl)
 }
@@ -61,19 +61,19 @@ get_mfe50_ccaa_tbl <- function() {
 create_mfe50_table <- function(url) {
 
   # 1. Get provinces vector
-  provinces_vec <- rvest::read_html(url) %>%
-    rvest::html_elements(".data-table") %>%
-    rvest::html_elements("tr") %>%
-    rvest::html_element("td") %>%
-    rvest::html_text() %>%
+  provinces_vec <- rvest::read_html(url) |>
+    rvest::html_elements(".data-table") |>
+    rvest::html_elements("tr") |>
+    rvest::html_element("td") |>
+    rvest::html_text() |>
     .[-c(1,2)]
 
   # 2. Get url for provinces
-  url_provinces_vec <- rvest::read_html(url) %>%
-    rvest::html_elements(".data-table") %>%
-    rvest::html_elements("tr") %>%
-    rvest::html_elements("td") %>%
-    rvest::html_elements("a") %>%
+  url_provinces_vec <- rvest::read_html(url) |>
+    rvest::html_elements(".data-table") |>
+    rvest::html_elements("tr") |>
+    rvest::html_elements("td") |>
+    rvest::html_elements("a") |>
     rvest::html_attr("href")
 
   # 3. Create table
@@ -107,9 +107,9 @@ get_mfe50_provinces_tbl <- function() {
   provinces_lst <- purrr::map(ccaa_tbl$url, create_mfe50_table)
 
   # 3. Convert list to tibble
-  provinces_tbl <- provinces_lst %>%
-    purrr::list_rbind() %>%
-    tibble::as_tibble() %>%
+  provinces_tbl <- provinces_lst |>
+    purrr::list_rbind() |>
+    tibble::as_tibble() |>
     dplyr::mutate(
       province = fdi_fix_names(name = province)
     )
@@ -162,11 +162,11 @@ fd_forest_spain_mfe50 <- function(province,
 
   # 1. Get url
   ## 1.1. Fix province
-  province_fix <- province %>%
+  province_fix <- province |>
     fdi_fix_names()
   ## 1.2. Get url for province
-  province_url <- mfe_provinces_tbl %>%
-    dplyr::filter(stringr::str_detect(province, province_fix)) %>%
+  province_url <- mfe_provinces_tbl |>
+    dplyr::filter(stringr::str_detect(province, province_fix)) |>
     dplyr::pull(url)
   ## 1.3. Fix URL (incomplete)
   province_url <- paste0("https://www.miteco.gob.es", province_url)
@@ -226,33 +226,36 @@ get_bdforet_tbl <- function() {
   url_html <- rvest::read_html(url)
 
   # 2. Get the departments vector
-  departments <- url_html %>%
-    ## Get department names
-    rvest::html_elements(".field .field--name-field-texte") %>%
-    rvest::html_elements(".field--item") %>%
-    .[4] %>%
-    rvest::html_elements("p") %>%
-    rvest::html_text2() %>%
+  ## -> as for 2024-07-17 there's an error on Department 67.
+  ## -> Instead of being <p>, it's <a>
+  departments <- url_html |>
+    rvest::html_elements(".field--item") |>
+    rvest::html_elements("p") |>
+    rvest::html_elements(xpath = "//p[contains(text(), 'Département ')]") |>
+    rvest::html_text2() |>
     ## Clean names
-    stringr::str_split(" - ") %>%
-    purrr::map(\(x) purrr::pluck(x, 2)) %>%
-    as.character() %>%
-    stringr::str_remove(" :") %>%
+    stringr::str_split(" - ") |>
+    purrr::map(\(x) purrr::pluck(x, 2)) |>
+    as.character() |>
+    stringr::str_remove(" :") |>
     fdi_fix_names()
+  ## -> Temporary fix
+  departments <- append(departments, "Bas-Rhin", after = 67)
 
   # 3. Get url vector
-  download_url <- url_html %>%
-    rvest::html_elements(".field .field--name-field-texte") %>%
-    rvest::html_elements(".field--item") %>%
-    rvest::html_elements("ul") %>%
-    rvest::html_elements("li") %>%
-    rvest::html_elements("a") %>%
+  ## -> Eliminate first element: a GPKG in the begining
+  download_url <- url_html |>
+    rvest::html_elements(".field .field--name-field-texte") |>
+    rvest::html_elements(".field--item") |>
+    rvest::html_elements("ul") |>
+    rvest::html_elements("li") |>
+    rvest::html_elements("a") |>
     rvest::html_attr("href")
 
   # 4. Create data frame
   tibble::tibble(
     Department   = departments,
-    url          = download_url,
+    url          = download_url[-1],
     Version      = c(rep(1, length(departments)/2), rep(2, length(departments)/2))
   )
 }
@@ -343,12 +346,12 @@ fd_forest_france <- function(department,
   if (!version %in% c(1 , 2)) stop("The valid versions are 1 or 2")
 
   # 1. Get download url
-  download_url <- bdforet_tbl %>%
+  download_url <- bdforet_tbl |>
     ## Filter version number (1 or 2)
-    dplyr::filter(Version == version) %>%
+    dplyr::filter(Version == version) |>
     ## Filter department name
     dplyr::filter(stringr::str_detect(Department, department_fix
-    )) %>%
+    )) |>
     dplyr::pull(url)
 
   # 2. Download file
