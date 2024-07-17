@@ -52,5 +52,5 @@ Chorological maps for the main European woody species. Data in Brief 12,
 666. DOI: doi.org/10.1016/j.dib.2017.05.007
 }
 \seealso{
-[chorological_species] for a list of possible species
+[metadata_forestdata] for a list of possible species
 }

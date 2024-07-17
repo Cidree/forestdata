@@ -122,5 +122,5 @@ dataset on the future distribution of European tree species.. figshare.
 Collection. https://doi.org/10.6084/m9.figshare.c.5525688.v2
 }
 \seealso{
-[eutrees4f_species] for a list of possible species
+[metadata_forestdata] for a list of possible species
 }

@@ -123,9 +123,7 @@ get_eutrees4f_tbl <- function() {
 #' - disp_lu: natural dispersal model clipped by forest areas. Only available
 #' with \code{type = 'bin'}
 #'
-#' @seealso
-#'
-#' [eutrees4f_species] for a list of possible species
+#' @seealso [metadata_forestdata] for a list of possible species
 #'
 #'
 #' @references Mauri, Achille; Cescatti, Alessandro; GIRARDELLO, MARCO; Strona,

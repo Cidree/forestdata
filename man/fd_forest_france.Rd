@@ -79,3 +79,6 @@ bouches_bdforet2_sf <- fd_forest_spain_mfe50(
 \references{
 \url{https://geoservices.ign.fr/bdforet}
 }
+\seealso{
+[metadata_forestdata] for a list of possible species
+}

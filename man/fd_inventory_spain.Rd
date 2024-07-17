@@ -47,3 +47,6 @@ lugo_ifn3_gis_lst <- fd_inventory_spain("Lugo", ifn = 3, database = "gis")
 \references{
 \url{https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional.html}
 }
+\seealso{
+[metadata_forestdata] for a list of possible species
+}

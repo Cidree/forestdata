@@ -246,6 +246,8 @@ get_spain_ifn4_tbl <- function() {
 #' @return A \code{list} with the tables
 #' @export
 #'
+#' @seealso [metadata_forestdata] for a list of possible species
+#'
 #' @details
 #' The IFN2 doesn't have 'gis' data for Asturias, Cantabria and Navarra.
 #'
