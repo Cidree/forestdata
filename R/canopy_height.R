@@ -53,6 +53,7 @@ get_gch_tbl <- function() {
 # fd_canopy_height
 
 #'  Download forest canopy height
+#'
 #'  Download the ETH Global Sentinel-2 10m Canopy Height (2020)
 #'
 #' @param x An \code{sf} or \code{SpatVector} object. It will retrieve the

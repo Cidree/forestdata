@@ -2,7 +2,7 @@
 % Please edit documentation in R/forest_country.R
 \name{fd_forest_spain_mfe50}
 \alias{fd_forest_spain_mfe50}
-\title{Download MFE50 polygons for a province}
+\title{Download forest cover in Spain}
 \usage{
 fd_forest_spain_mfe50(province, path_metadata = NULL, quiet = TRUE)
 }

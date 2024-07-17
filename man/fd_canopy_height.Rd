@@ -2,8 +2,7 @@
 % Please edit documentation in R/canopy_height.R
 \name{fd_canopy_height}
 \alias{fd_canopy_height}
-\title{Download forest canopy height
- Download the ETH Global Sentinel-2 10m Canopy Height (2020)}
+\title{Download forest canopy height}
 \usage{
 fd_canopy_height(
   x = NULL,
@@ -36,8 +35,7 @@ object}
 A \code{SpatRaster}
 }
 \description{
-Download forest canopy height
- Download the ETH Global Sentinel-2 10m Canopy Height (2020)
+Download the ETH Global Sentinel-2 10m Canopy Height (2020)
 }
 \details{
 Data may be freely used for research, study, or teaching, but be cited

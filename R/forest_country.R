@@ -122,7 +122,7 @@ get_mfe50_provinces_tbl <- function() {
 
 ## fd_forest_spain_mfe50 ----
 
-#' Download MFE50 polygons for a province
+#' Download forest cover in Spain
 #'
 #' Download the MFE50 (Spanish Forestry Map 1:50,000) for a province. The
 #' MFE50 was built during 1997-2006.
