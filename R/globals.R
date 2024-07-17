@@ -1,5 +1,29 @@
 utils::globalVariables(
-  c("Department", "code", "DOI", "extension","lat", "layer","layer_shrt", "Letter", "lon",
-    "mfe50_provinces", "Number", "province", "Species", "Version", "Year",
-     "year", "."
+  c(
+    "database",
+    "databasex",
+    "Department",
+    "code",
+    "DOI",
+    "extension",
+    "id",
+    "ifn",
+    "ifnx",
+    "lat",
+    "layer",
+    "layer_shrt",
+    "Letter",
+    "lon",
+    "mfe50_provinces",
+    "Number",
+    "province",
+    "Species",
+    "TABLE_NAME",
+    "TABLE_TYPE",
+    "url_field_db",
+    "url_sig_db",
+    "Version",
+    "Year",
+    "year",
+    "."
   ))

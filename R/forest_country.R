@@ -65,8 +65,8 @@ create_mfe50_table <- function(url) {
     rvest::html_elements(".data-table") |>
     rvest::html_elements("tr") |>
     rvest::html_element("td") |>
-    rvest::html_text() |>
-    .[-c(1,2)]
+    rvest::html_text()
+    provinces_vec <- provinces_vec[-c(1,2)]
 
   # 2. Get url for provinces
   url_provinces_vec <- rvest::read_html(url) |>
@@ -231,7 +231,7 @@ get_bdforet_tbl <- function() {
   departments <- url_html |>
     rvest::html_elements(".field--item") |>
     rvest::html_elements("p") |>
-    rvest::html_elements(xpath = "//p[contains(text(), 'Département ')]") |>
+    rvest::html_elements(xpath = "//p[contains(text(), 'partement ')]") |>
     rvest::html_text2() |>
     ## Clean names
     stringr::str_split(" - ") |>

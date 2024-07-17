@@ -58,10 +58,13 @@ fdi_download_unzip <- function(download_url, dir_unzip, dir_zip,
       mode     = "wb"
     )
     ## 1.3. Unzip the file
-    unzip(
-      zipfile = dir_zip,
-      exdir   = dir_unzip
-    )
+    try({
+      unzip(zipfile = dir_zip, exdir = dir_unzip)
+    }, silent = TRUE)
+
+    if (!file.exists(dir_unzip) || length(list.files(dir_unzip)) == 0) {
+      system(paste("unzip", shQuote(dir_zip), "-d", shQuote(dir_unzip)))
+    }
     ## 1.4. Remove zip to release space
     file.remove(dir_zip)
   }
