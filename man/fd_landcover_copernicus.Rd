@@ -42,22 +42,36 @@ Land Service.
 }
 \details{
 There are 14 different layers that can be downloaded:
-- "discrete": land cover discrete classification
-- "classification": land cover classification probability
-- "bare": cover fraction of bare and sparse vegetation
-- "builtup": cover fraction of builtup
-- "crops": cover fraction of cropland
-- "tree": cover fraction of forest
-- "grass": cover fraction of herbaceous vegetation
-- "mosslichen": cover fraction of moss and lichen
-- "seasonalwater": cover fraction of seasonal inland water
-- "shrub": cover fraction of shrubland
-- "snow": cover fraction of snow and ice
-- "permanentwater": cover fraction of permanent inland water
-- "forest" (default): forest types. (0): unknown; (1): evergreen needle leaf forest;
+
+- \strong{"discrete"}: land cover discrete classification
+
+- \strong{"classification"}: land cover classification probability
+
+- \strong{"bare"}: cover fraction of bare and sparse vegetation
+
+- \strong{"builtup"}: cover fraction of builtup
+
+- \strong{"crops"}: cover fraction of cropland
+
+- \strong{"tree"}: cover fraction of forest
+
+- \strong{"grass"}: cover fraction of herbaceous vegetation
+
+- \strong{"mosslichen"}: cover fraction of moss and lichen
+
+- \strong{"seasonalwater"}: cover fraction of seasonal inland water
+
+- \strong{"shrub"}: cover fraction of shrubland
+
+- \strong{"snow"}: cover fraction of snow and ice
+
+- \strong{"permanentwater"}: cover fraction of permanent inland water
+
+- \strong{"forest"} (default): forest types. (0): unknown; (1): evergreen needle leaf forest;
 (2): evergreen broad leaf forest; (3): deciduous needle leaf; (4): deciduous
 broad leaf; (5): mix of forest types
-- "datadensityindicator": input data density
+
+- \strong{"datadensityindicator"}: input data density
 }
 \examples{
 \dontrun{

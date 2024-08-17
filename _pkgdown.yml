@@ -1,0 +1,14 @@
+url: https://cidree.github.io/forestdata/
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#202123"
+    fg: "#E0E0E2"
+    primary: "#0B6E4F"
+    pkgdown-nav-height: 75px
+    base_font: {google: "Roboto"}
+    heading_font: {google: "Merriweather"}
+    code_font: {google: "Source Code Pro"}
+
+navbar:
+  bg: dark
