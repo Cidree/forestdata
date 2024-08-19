@@ -9,3 +9,4 @@ my_notes
 ^\.github$
 ^cran-comments\.md$
 ^revdep$
+^CRAN-SUBMISSION$
