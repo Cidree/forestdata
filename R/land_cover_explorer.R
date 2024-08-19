@@ -31,11 +31,11 @@ get_landcoverexplorer_tbl <- function() {
 
 ## fd_landcover_esri ----
 
-#' Download a Land Cover SpatRaster for a UTM tile
+#' Download data from the ESRI Land Cover Explorer
 #'
-#' Download a UTM tile of the ESRI Land Cover Explorer for a specified year
+#' Download an UTM tile of the ESRI Land Cover Explorer for a specified year
 #'
-#' @param utm_code A character string of length 1 with an UTM code (e.g. "29N)
+#' @param utm_code A character string of length 1 with an UTM code (e.g. "29N")
 #' @param year An integer or vector of integers corresponding to the base year
 #'             of the Land Cover image. The option \code{year = 'all'} downloads all
 #'             the available images

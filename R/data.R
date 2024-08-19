@@ -3,8 +3,7 @@
 #' A \code{list} with the names of tree species or regions depending on the
 #' dataset.
 #'
-#' @format ## `metadata_forestdata`
-#' A list of 7 elements:
+#' @format A list of 7 elements:
 #' \describe{
 #'   \item{chorological_species}{Latin name of tree species for \code{fd_forest_chorological}}
 #'   \item{eutrees4f_species}{Latin name of tree species for \code{fd_forest_eutrees4f}}

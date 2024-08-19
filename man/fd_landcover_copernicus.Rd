@@ -2,7 +2,7 @@
 % Please edit documentation in R/global_land_cover.R
 \name{fd_landcover_copernicus}
 \alias{fd_landcover_copernicus}
-\title{Download data form the Global Land Cover}
+\title{Download data from the Global Land Cover}
 \usage{
 fd_landcover_copernicus(
   x,

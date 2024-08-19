@@ -1,7 +1,10 @@
+---
+editor_options: 
+  markdown: 
+    wrap: 72
+---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-## forestdata
+## forestdata <img src="man/figures/logo.png" align="right" width="200px"/>
 
 `forestdata` is an R package for downloading forestry and land use data.
 This package aims to provide users with easy access to various datasets
@@ -21,10 +24,9 @@ pak::pak("Cidree/forestdata")
 In the following table, you can find a summary of the available
 functions, a short description, and the object type of the output.
 
-
-<div align="center">
-<img src="man/figures/functions_gt.png" width="800px">
-</div>
+::: {align="center"}
+<img src="man/figures/functions_gt.png" width="800px"/>
+:::
 
 ## Note
 

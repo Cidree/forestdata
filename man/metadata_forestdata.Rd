@@ -5,7 +5,6 @@
 \alias{metadata_forestdata}
 \title{Metadata for `forestdata` functions}
 \format{
-## `metadata_forestdata`
 A list of 7 elements:
 \describe{
   \item{chorological_species}{Latin name of tree species for \code{fd_forest_chorological}}

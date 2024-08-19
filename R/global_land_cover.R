@@ -65,7 +65,7 @@ get_glc_tbl <- function() {
 
 # fd_landcover_copernicus ----
 
-#' Download data form the Global Land Cover
+#' Download data from the Global Land Cover
 #'
 #' Download a SpatRaster from the Global Land Cover from the Copernicus Global
 #' Land Service.

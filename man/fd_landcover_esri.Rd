@@ -2,12 +2,12 @@
 % Please edit documentation in R/land_cover_explorer.R
 \name{fd_landcover_esri}
 \alias{fd_landcover_esri}
-\title{Download a Land Cover SpatRaster for a UTM tile}
+\title{Download data from the ESRI Land Cover Explorer}
 \usage{
 fd_landcover_esri(utm_code, year, quiet = TRUE)
 }
 \arguments{
-\item{utm_code}{A character string of length 1 with an UTM code (e.g. "29N)}
+\item{utm_code}{A character string of length 1 with an UTM code (e.g. "29N")}
 
 \item{year}{An integer or vector of integers corresponding to the base year
 of the Land Cover image. The option \code{year = 'all'} downloads all
@@ -20,7 +20,7 @@ the progress bar}
 A \code{SpatRaster}
 }
 \description{
-Download a UTM tile of the ESRI Land Cover Explorer for a specified year
+Download an UTM tile of the ESRI Land Cover Explorer for a specified year
 }
 \examples{
 \dontrun{

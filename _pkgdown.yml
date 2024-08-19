@@ -2,13 +2,51 @@ url: https://cidree.github.io/forestdata/
 template:
   bootstrap: 5
   bslib:
-    bg: "#202123"
-    fg: "#E0E0E2"
-    primary: "#0B6E4F"
+    # bg: "#202123"
+    # fg: "#E0E0E2"
+    # primary: "#0B6E4F"
     pkgdown-nav-height: 75px
     base_font: {google: "Roboto"}
     heading_font: {google: "Merriweather"}
     code_font: {google: "Source Code Pro"}
 
+authors:
+  Adrián Cidre González:
+    href: https://adrian-cidre.com/
+
+reference:
+  - title: "Land Cover data"
+    contents:
+    - fd_landcover_copernicus
+    - fd_landcover_esri
+  - title: "Forest Cover data"
+    contents:
+    - fd_canopy_height
+    - fd_forest_chorological
+    - fd_forest_eutrees4f
+    - fd_forest_extent_glad
+    - fd_forest_spain_mfe50
+    - fd_forest_france
+  - title: "Forest Inventory data"
+    contents:
+    - fd_inventory_spain
+  - title: "Forest Pathogens data"
+    contents:
+    - fd_pathogens_defid2
+  - title: "Metadata for functions"
+    contents:
+    - metadata_forestdata
+
 navbar:
+  title: "forestdata"
   bg: dark
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Reference"
+      href: reference/index.html
+    - text: "News"
+      href: news/index.html
+  right:
+    - icon: fa-github
+      href: https://github.com/Cidree/forestdata
