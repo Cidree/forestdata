@@ -1,11 +1,8 @@
 Package: forestdata
 Type: Package
-Title: Download forestry data into R
+Title: Download Forestry Data into R
 Version: 0.1.0
-Author: person("Adrián", "Cidre González", 
-          email = "adrian.cidre@gmail.com", 
-          role = c("aut", "cre"))
-Maintainer: Adrián Cidre González <adrian.cidre@gmail.com>
+Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
 Description: Downloads forest and land cover data from various sources.
 License: GPL (>= 3)
 Encoding: UTF-8
