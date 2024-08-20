@@ -10,6 +10,7 @@ template:
     base_font: {google: "Roboto"}
     heading_font: {google: "Merriweather"}
     code_font: {google: "Source Code Pro"}
+  theme: pygments
 
 authors:
   Adrián Cidre González:
@@ -48,6 +49,10 @@ navbar:
       href: reference/index.html
     - text: "News"
       href: news/index.html
-  right:
-    - icon: fa-github
+  structure:
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
       href: https://github.com/Cidree/forestdata
+      aria-label: GitHub

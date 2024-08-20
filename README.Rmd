@@ -1,17 +1,25 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
 # forestdata <a href="https://cidree.github.io/forestdata/"><img src="man/figures/logo.png" align="right" height="138" alt="forestdata website" /></a>
 
 <!-- badges: start -->
-
-[![CRAN
-status](https://www.r-pkg.org/badges/version/forestdata)](https://CRAN.R-project.org/package=forestdata)
+[![CRAN status](https://www.r-pkg.org/badges/version/forestdata)](https://CRAN.R-project.org/package=forestdata)
 <!-- badges: end -->
 
-`forestdata` is an R package for downloading forestry and land use data.
-This package aims to provide users with easy access to various datasets
-related to forestry and land use.
+`forestdata` is an R package for downloading forestry and land use data. This package aims to provide users with easy access to various datasets related to forestry and land use.
 
 ## Installation
 
@@ -27,13 +35,13 @@ pak::pak("Cidree/forestdata")
 In the following table, you can find a summary of the available
 functions, a short description, and the object type of the output.
 
-<div align="center">
-
+::: {align="center"}
 <img src="man/figures/functions_gt.png" width="800px"/>
-
-</div>
+:::
 
 ## Note
 
 Please read the function documentation carefully. Some datasets may
 require proper citation when used.
+
+

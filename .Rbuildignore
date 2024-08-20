@@ -10,3 +10,4 @@ my_notes
 ^cran-comments\.md$
 ^revdep$
 ^CRAN-SUBMISSION$
+^README\.Rmd$
