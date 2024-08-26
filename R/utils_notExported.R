@@ -11,10 +11,6 @@
 #' @keywords internal
 #'
 #' @importFrom stringi stri_trans_general
-#' @examples
-#' \dontrun{
-#' fdi_fix_names("CórDoBa   ")
-#' }
 fdi_fix_names <- function(name) {
   name %>%
     stringi::stri_trans_general("Latin-ASCII") %>%
@@ -36,10 +32,6 @@ fdi_fix_names <- function(name) {
 #'
 #' @return Unzipped file
 #' @keywords internal
-#' @examples
-#' \dontrun{
-#' fdi_download_unzip()
-#' }
 fdi_download_unzip <- function(download_url, dir_unzip, dir_zip,
                                quiet = TRUE, timeout = 100000) {
 
@@ -84,10 +76,6 @@ fdi_download_unzip <- function(download_url, dir_unzip, dir_zip,
 #'
 #' @return Unzipped file
 #' @keywords internal
-#' @examples
-#' \dontrun{
-#' fdi_download_7zip()
-#' }
 fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
                                timeout = 5000, quiet = TRUE) {
 
@@ -121,12 +109,6 @@ fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
 #'
 #' @return A \code{SpatRaster}
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_combined_raster(2000, url_table = urls)
-#' }
-
 get_combined_raster <- function(year_i, url_table) {
 
   ## Filter urls within the year
@@ -154,12 +136,6 @@ get_combined_raster <- function(year_i, url_table) {
 #'
 #' @return A \code{SpatRaster}
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_combined_raster(2000, "forest", url_table = urls)
-#' }
-
 get_combined_raster_2l <- function(year_i, layer_i, url_table) {
 
   ## Filter urls within the year
@@ -188,12 +164,6 @@ get_combined_raster_2l <- function(year_i, layer_i, url_table) {
 #'
 #' @return A \code{SpatRaster}
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' fdi_download_raster(url)
-#' }
-
 fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
 
   ## 1. File name

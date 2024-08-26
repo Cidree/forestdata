@@ -7,11 +7,6 @@
 #' @return A \code{tibble}
 #' @keywords internal
 #' @references <https://gee-community-catalog.org/projects/canopy/>
-#'
-#' @examples
-#' \dontrun{
-#' get_gch_tbl()
-#' }
 get_gch_tbl <- function() {
   # 1. Vector with possible longitudes
   lon_code <- c(

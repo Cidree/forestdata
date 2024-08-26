@@ -8,11 +8,6 @@
 #' @return A \code{tibble}
 #' @keywords internal
 #' @include utils_notExported.R
-#'
-#' @examples
-#' \dontrun{
-#' get_landcoverexplorer_tbl()
-#' }
 get_landcoverexplorer_tbl <- function() {
 
   # 1. Possible options

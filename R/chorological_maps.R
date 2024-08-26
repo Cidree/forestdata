@@ -7,10 +7,6 @@
 #' @keywords internal
 #'
 #' @importFrom dplyr %>%
-#' @examples
-#' \dontrun{
-#' get_chorological_tbl()
-#' }
 get_chorological_tbl <- function() {
 
   ## Get website html

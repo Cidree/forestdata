@@ -9,12 +9,6 @@
 #'
 #' @return A \code{tibble}
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_forest_extent_tbl()
-#' }
-
 get_forest_extent_tbl <- function() {
   # 1. Get possible lat/long
   ## 1.1. Read html

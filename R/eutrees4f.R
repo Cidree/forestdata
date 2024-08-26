@@ -5,11 +5,6 @@
 #'
 #' @return a character vector
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_eutrees4f_tbl()
-#' }
 get_eutrees4f_tbl <- function() {
   # 1. Download file
   ## 1.1. Url and file destination

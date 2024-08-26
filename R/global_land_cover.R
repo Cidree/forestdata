@@ -10,12 +10,6 @@
 #' @return A \code{tibble}
 #' @keywords internal
 #' @references <https://lcviewer.vito.be/download>
-#'
-#' @examples
-#' \dontrun{
-#' get_glc_tbl()
-#' }
-
 get_glc_tbl <- function() {
 
   # 1. Vector with possible longitudes

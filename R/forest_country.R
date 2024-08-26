@@ -11,11 +11,6 @@
 #' @return A \code{tibble}
 #' @keywords internal
 #' @include utils_notExported.R
-#'
-#' @examples
-#' \dontrun{
-#' get_mfe50_ccaa_tbl()
-#' }
 get_mfe50_ccaa_tbl <- function() {
   # 1. Read url
   url <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50_descargas_ccaa.html"
@@ -52,12 +47,6 @@ get_mfe50_ccaa_tbl <- function() {
 #'
 #' @return A \code{data.frame}
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' ccaa_tbl <- get_mfe50_ccaa_tbl()
-#' create_mfe50_table(ccaa_tbl[1,2])
-#' }
 create_mfe50_table <- function(url) {
 
   # 1. Get provinces vector
@@ -93,11 +82,6 @@ create_mfe50_table <- function(url) {
 #' @return A \code{tibble}
 #' @keywords internal
 #' @importFrom rlang .data
-#'
-#' @examples
-#' \dontrun{
-#' get_mfe50_provinces_tbl()
-#' }
 get_mfe50_provinces_tbl <- function() {
 
   # 1. Get CCAA table
@@ -217,11 +201,6 @@ fd_forest_spain_mfe50 <- function(province,
 #' @return A \code{tibble}
 #' @keywords internal
 #' @importFrom rlang .data
-#'
-#' @examples
-#' \dontrun{
-#' get_bdforet_tbl()
-#' }
 get_bdforet_tbl <- function() {
   # 1. Read url
   url <- "https://geoservices.ign.fr/bdforet"

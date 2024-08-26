@@ -11,11 +11,6 @@
 #'
 #' @return A \code{tibble}
 #' @keywords internal
-#'
-#' @examples
-#' \dontrun{
-#' get_spain_ifn_metadata_tbl()
-#' }
 get_spain_ifn_metadata_tbl <- function() {
 
   tibble::tibble(
@@ -45,11 +40,6 @@ get_spain_ifn_metadata_tbl <- function() {
 #' @return A \code{tibble}
 #' @keywords internal
 #' @include utils_notExported.R
-#'
-#' @examples
-#' \dontrun{
-#' get_spain_ifn2_tbl()
-#' }
 get_spain_ifn2_tbl <- function() {
 
   # 1. Read urls (there is one per each 25 provinces)
@@ -119,9 +109,6 @@ get_spain_ifn2_tbl <- function() {
 
 
 
-
-
-
 ## get_spain_ifn3_tbl ----
 
 #' (Internal) Get table with Provinces and Urls for the Spanish IFN3
@@ -131,11 +118,6 @@ get_spain_ifn2_tbl <- function() {
 #' @return A \code{tibble}
 #' @keywords internal
 #' @include utils_notExported.R
-#'
-#' @examples
-#' \dontrun{
-#' get_spain_ifn3_tbl()
-#' }
 get_spain_ifn3_tbl <- function() {
 
   # 1. Read urls (there is one per each 25 provinces)
@@ -189,11 +171,6 @@ get_spain_ifn3_tbl <- function() {
 #' @return A \code{tibble}
 #' @keywords internal
 #' @include utils_notExported.R
-#'
-#' @examples
-#' \dontrun{
-#' get_spain_ifn4_tbl()
-#' }
 get_spain_ifn4_tbl <- function() {
   # 1. Read url
   url <- "https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional/cuarto_inventario.html"
@@ -224,8 +201,6 @@ get_spain_ifn4_tbl <- function() {
   ## 2.4. Return
   return(ifn4_tbl)
 }
-
-
 
 
 
