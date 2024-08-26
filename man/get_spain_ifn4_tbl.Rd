@@ -12,9 +12,4 @@ A \code{tibble}
 \description{
 Get a table with the Provinces of Spain, and the Urls to download data
 }
-\examples{
-\dontrun{
-get_spain_ifn4_tbl()
-}
-}
 \keyword{internal}

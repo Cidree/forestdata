@@ -44,7 +44,7 @@
 #'  Global Change Biology
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Get the entire database (takes some seconds/minutes)
 #' defid2_sf <- fd_pathogens_defid2()
 #'
@@ -52,9 +52,11 @@
 #' defid2_iberia_sf <- fd_pathogens_defid2(country = c("Spain", "Portugal"))
 #'
 #' }
-fd_pathogens_defid2 <- function(agent = "all", host = "all",
-                      symptoms = "all", country = "all",
-                      geometry = "polygon") {
+fd_pathogens_defid2 <- function(agent = "all",
+                                host = "all",
+                                symptoms = "all",
+                                country = "all",
+                                geometry = "polygon") {
 
   # 1. Download file
   ## 1.1. File url
@@ -105,6 +107,7 @@ fd_pathogens_defid2 <- function(agent = "all", host = "all",
     query  = c(agent_qr, host_qr, country_qr, symptoms_qr)
   ) %>% na.omit()
   ### Build final clauses query
+  tmp.query <- ""
   if (nrow(query_df) == 1) {
     tmp.query <- stringr::str_glue("WHERE {query_df[1,2]}")
   } else if (nrow(query_df) > 1) {

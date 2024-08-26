@@ -13,9 +13,4 @@ A \code{tibble}
 Creates a table with the province names, and the url to each province's
 vectorial data (full table with all provinces)
 }
-\examples{
-\dontrun{
-get_mfe50_provinces_tbl()
-}
-}
 \keyword{internal}

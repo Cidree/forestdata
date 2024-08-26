@@ -42,7 +42,7 @@ Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
 }
 \examples{
-\dontrun{
+\donttest{
 fd_canopy_height(lon = -7.27, lat = 42.43)
 }
 }

@@ -127,7 +127,7 @@ get_eutrees4f_tbl <- function() {
 #' Collection. https://doi.org/10.6084/m9.figshare.c.5525688.v2
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Download data for Betula pendula
 #' betula_pendula_sr <- fd_forest_eutrees4f(species = "Betula pendula")
 #' }

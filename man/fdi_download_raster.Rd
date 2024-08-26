@@ -14,9 +14,4 @@ A \code{SpatRaster}
 Donwload a read a raster
  (Internal) Helper to download and read a raster from an URL
 }
-\examples{
-\dontrun{
-fdi_download_raster(url)
-}
-}
 \keyword{internal}

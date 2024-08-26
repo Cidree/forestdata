@@ -77,7 +77,7 @@ get_gch_tbl <- function() {
 #'              arXiv preprint arXiv:2204.08322 (2022).
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' fd_canopy_height(lon = -7.27, lat = 42.43)
 #' }
 fd_canopy_height <- function(x     = NULL,

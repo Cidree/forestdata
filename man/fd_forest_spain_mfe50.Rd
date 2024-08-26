@@ -32,14 +32,11 @@ stands in Spain. The definition of the variables is contained in an excel
 file that can be downloaded by using the argument \code{path_metadata}.
 }
 \examples{
-\dontrun{
 # Download MFE50 for the province of Lugo
-lugo_mfe50_sf <- fd_forest_spain_mfe50(province = "Lugo") # works
-lugo_mfe50_sf <- fd_forest_spain_mfe50(province = "luGo") # also works
+lugo_mfe50_sf <- fd_forest_spain_mfe50(province = "Lugo")
 
 # Download MFE50 for the province of Córdoba with metadata
-cordoba_mfe50_sf <- fd_forest_spain_mfe50(province = "Cordoba", metadata = getwd())
-}
+cordoba_mfe50_sf <- fd_forest_spain_mfe50(province = "Cordoba", path_metadata = getwd())
 }
 \references{
 \url{https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html}

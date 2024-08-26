@@ -23,9 +23,12 @@ A \code{SpatRaster}
 Download an UTM tile of the ESRI Land Cover Explorer for a specified year
 }
 \examples{
-\dontrun{
+\donttest{
 # Download Land Cover for UTM tile 29N year 2022
-lc <- fd_landcover_esri("29N", 2017:2020)
+lc <- fd_landcover_esri("29N", year = 2020)
+
+# Download Land Cover for UTM time 29N for all years
+lc <- fd_landcover_esri("29N", year = "all")
 }
 }
 \references{

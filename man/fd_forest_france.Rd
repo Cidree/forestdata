@@ -64,15 +64,15 @@ For more information, download the metadata using the argument
 \code{path_metadata} (information in French).
 }
 \examples{
-\dontrun{
+\donttest{
 # Download BD Foret V2 for the department of Ardèche
-ardeche_bdforet2_sf <- fd_forest_france(province = "Ardeche") # works (prefered)
-ardeche_bdforet2_sf <- fd_forest_france(province = "ardèche") # also works
+ardeche_bdforet2_sf <- fd_forest_france(department = "Ardeche") # works (prefered)
+ardeche_bdforet2_sf <- fd_forest_france(department = "ardèche") # also works
 
 # Download BD Foret V2 for the department of Bouches-du-Rhône with metadata
-bouches_bdforet2_sf <- fd_forest_spain_mfe50(
-          province = "Bouches-du-Rhone",
-          metadata = getwd()
+bouches_bdforet2_sf <- fd_forest_france(
+          department = "Bouches-du-Rhone",
+          path_metadata = getwd()
 )
 }
 }

@@ -14,9 +14,4 @@ A \code{tibble}
 Chorological Maps table
  Get a table with the names and references of each species
 }
-\examples{
-\dontrun{
-get_chorological_tbl()
-}
-}
 \keyword{internal}

@@ -16,10 +16,4 @@ A \code{data.frame}
 Creates a table with the province name and the url of the
 vectorial data.
 }
-\examples{
-\dontrun{
-ccaa_tbl <- get_mfe50_ccaa_tbl()
-create_mfe50_table(ccaa_tbl[1,2])
-}
-}
 \keyword{internal}

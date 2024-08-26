@@ -50,7 +50,7 @@ as points or polygons, representing insects and diseases that occurred between
 Please, cite the data with the reference below.
 }
 \examples{
-\dontrun{
+\donttest{
 # Get the entire database (takes some seconds/minutes)
 defid2_sf <- fd_pathogens_defid2()
 

@@ -13,9 +13,4 @@ A \code{tibble}
 Creates a table with the France department names, the url to download
 the data, and the version
 }
-\examples{
-\dontrun{
-get_bdforet_tbl()
-}
-}
 \keyword{internal}

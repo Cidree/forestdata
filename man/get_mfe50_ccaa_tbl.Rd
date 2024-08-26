@@ -13,9 +13,4 @@ A \code{tibble}
 Get a table with the Autonomous Communities of Spain, and the urls
 to each of them.
 }
-\examples{
-\dontrun{
-get_mfe50_ccaa_tbl()
-}
-}
 \keyword{internal}

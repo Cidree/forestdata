@@ -32,9 +32,4 @@ Unzipped file
 (Internal) Downloads data to tempdir
  Download data to tempdir
 }
-\examples{
-\dontrun{
-fdi_download_7zip()
-}
-}
 \keyword{internal}

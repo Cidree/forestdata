@@ -16,9 +16,4 @@ A character vector of same length as name
 A function that fixes names with strange characters, spaces, and
 also convert to title
 }
-\examples{
-\dontrun{
-fdi_fix_names("CórDoBa   ")
-}
-}
 \keyword{internal}

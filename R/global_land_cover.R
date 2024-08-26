@@ -122,7 +122,6 @@ get_glc_tbl <- function() {
 #'
 #'
 #' @examples
-#' \dontrun{
 #'  # Get tile for Galicia (Spain) and year 2019
 #'  galicia_forest_extent <- fd_landcover_copernicus(
 #'  lat  = 42.7,
@@ -135,7 +134,6 @@ get_glc_tbl <- function() {
 #'  year = "all",
 #'  layer = c("forest", "discrete")
 #'  )
-#' }
 
 fd_landcover_copernicus <- function(x,
                                     lon   = NULL,

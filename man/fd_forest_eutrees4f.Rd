@@ -110,7 +110,7 @@ with \code{type = 'bin'}
 with \code{type = 'bin'}
 }
 \examples{
-\dontrun{
+\donttest{
 # Download data for Betula pendula
 betula_pendula_sr <- fd_forest_eutrees4f(species = "Betula pendula")
 }

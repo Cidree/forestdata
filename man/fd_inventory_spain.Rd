@@ -37,12 +37,10 @@ Download the tables and SIG data from the Spanish Forest Inventory
 The IFN2 doesn't have 'gis' data for Asturias, Cantabria and Navarra.
 }
 \examples{
-\dontrun{
 # Download MFE50 for the province of Lugo
 lugo_ifn4_lst <- fd_inventory_spain("Lugo")
 
 lugo_ifn3_gis_lst <- fd_inventory_spain("Lugo", ifn = 3, database = "gis")
-}
 }
 \references{
 \url{https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional.html}

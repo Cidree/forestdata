@@ -14,9 +14,4 @@ A \code{SpatRaster}
 Combines different raster tiles
  (Internal) Helper to combine rasters from forest extent GLAD
 }
-\examples{
-\dontrun{
-get_combined_raster(2000, url_table = urls)
-}
-}
 \keyword{internal}

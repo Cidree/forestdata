@@ -12,9 +12,4 @@ A \code{tibble}
 \description{
 Get a table with the Land Cover explorer codes and urls
 }
-\examples{
-\dontrun{
-get_landcoverexplorer_tbl()
-}
-}
 \keyword{internal}

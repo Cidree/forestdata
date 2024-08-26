@@ -14,9 +14,4 @@ A \code{SpatRaster}
 Combines different raster tiles
  (Internal) Helper to combine rasters from Copernicus Global Land Cover.
 }
-\examples{
-\dontrun{
-get_combined_raster(2000, "forest", url_table = urls)
-}
-}
 \keyword{internal}

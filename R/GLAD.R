@@ -80,17 +80,9 @@ get_forest_extent_tbl <- function() {
 #'             112165. https://doi.org/10.1016/j.rse.2020.112165
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #'  # Get tile for Galicia (Spain)
 #'  galicia_forest_extent <- fd_forest_extent_glad(lon = -7.8, lat = 42.7, year = 2020)
-#'
-#'  # Get masked tile for Galicia (Spain)
-#'  galicia_forest_extent <- fd_forest_extent_glad(
-#'  lon  = -7.8,
-#'  lat  = 42.7,
-#'  year = 2020,
-#'  crop = TRUE,
-#'  mask = TRUE)
 #' }
 
 fd_forest_extent_glad <- function(x    = NULL,

@@ -16,11 +16,6 @@ Global Land Cover Table
  Get a table with the year, coordinates, and URL of the Global Land Cover
  tiles.
 }
-\examples{
-\dontrun{
-get_glc_tbl()
-}
-}
 \references{
 <https://lcviewer.vito.be/download>
 }

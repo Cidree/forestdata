@@ -38,13 +38,11 @@ of the species. This means for instance that some species may be on
 version 2, and therefore, the data from that version will be retrieved.
 }
 \examples{
-\dontrun{
  # Download data for sweet chestnut
  chestnut_nat_sf <- fd_forest_chorological(species = "Castanea sativa", range = "nat")
 
  # Plot the data
  plot(chestnut_nat_sf$geometry)
-}
 }
 \references{
 Caudullo, G., Welk, E., San-Miguel-Ayanz, J., 2017.

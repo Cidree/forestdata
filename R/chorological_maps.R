@@ -86,13 +86,11 @@ get_chorological_tbl <- function() {
 #' @seealso [metadata_forestdata] for a list of possible species
 #'
 #' @examples
-#' \dontrun{
 #'  # Download data for sweet chestnut
 #'  chestnut_nat_sf <- fd_forest_chorological(species = "Castanea sativa", range = "nat")
 #'
 #'  # Plot the data
 #'  plot(chestnut_nat_sf$geometry)
-#' }
 fd_forest_chorological <- function(species, range = "nat", quiet = TRUE) {
 
   # 1. Get species table
@@ -183,7 +181,7 @@ fd_forest_chorological <- function(species, range = "nat", quiet = TRUE) {
     path_shp <- stringr::str_glue("{user_species_shp_unzip}/{user_species_tbl$Species %>% stringr::str_replace_all(' ', '_')}_syn_plg_clip.shp")
   }
   ## 4.3. Read file
-  message("Please, cite the data as:
+  if (!quiet) message("Please, cite the data as:
 Caudullo, G., Welk, E., San-Miguel-Ayanz, J., 2017. Chorological maps for the main European woody species. Data in Brief 12, 662-666. DOI: https://doi.org/10.1016/j.dib.2017.05.007")
   sf::read_sf(path_shp)
 

@@ -12,9 +12,4 @@ A \code{tibble}
 \description{
 Get a table with the IFN and database codes, and their metadata download URL
 }
-\examples{
-\dontrun{
-get_spain_ifn_metadata_tbl()
-}
-}
 \keyword{internal}

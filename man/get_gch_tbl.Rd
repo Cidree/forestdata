@@ -14,11 +14,6 @@ A \code{tibble}
 Global Canopy Height Table
  Get a table with the coordinates and URL of the Global Canopy Height tiles
 }
-\examples{
-\dontrun{
-get_gch_tbl()
-}
-}
 \references{
 <https://gee-community-catalog.org/projects/canopy/>
 }

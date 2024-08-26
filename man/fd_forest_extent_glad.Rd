@@ -46,17 +46,9 @@ Note that each tile is stored as a raster file of 1.5 GB, so for
 big extensions the function might take some time to retrieve the data.
 }
 \examples{
-\dontrun{
+\donttest{
  # Get tile for Galicia (Spain)
  galicia_forest_extent <- fd_forest_extent_glad(lon = -7.8, lat = 42.7, year = 2020)
-
- # Get masked tile for Galicia (Spain)
- galicia_forest_extent <- fd_forest_extent_glad(
- lon  = -7.8,
- lat  = 42.7,
- year = 2020,
- crop = TRUE,
- mask = TRUE)
 }
 }
 \references{

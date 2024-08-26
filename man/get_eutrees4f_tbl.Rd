@@ -14,9 +14,4 @@ a character vector
 (Internal) Gets the tree species
  Get tree species for EU-Trees4F database
 }
-\examples{
-\dontrun{
-get_eutrees4f_tbl()
-}
-}
 \keyword{internal}
