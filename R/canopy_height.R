@@ -155,7 +155,7 @@ fd_canopy_height <- function(x     = NULL,
     chm_tiles <- tiles_list[[n_tiles[n_tiles %% 2 == 0]]]
     ## Filter uneven tiles (std)
     std_tiles <- tiles_list[[n_tiles[n_tiles %% 2 != 0]]]
-    ## Merge them
+    ## Merge them if there are multiple tiles
     if (length(tiles_list) > 2) {
       chm_tiles <- do.call(terra::merge, chm_tiles)
       std_tiles <- do.call(terra::merge, std_tiles)
@@ -164,7 +164,13 @@ fd_canopy_height <- function(x     = NULL,
     ch_sr <- c(chm_tiles, std_tiles)
   } else {
     ## 3.3. Convert to SpatRaster if it's a list
-    ch_sr <- do.call(terra::merge, tiles_list)
+    ## Merge them if there are multiple tiles
+    if (length(tiles_list) > 1) {
+      ch_sr <- do.call(terra::merge, tiles_list)
+    } else {
+      ch_sr <- tiles_list[[1]]
+    }
+
   }
 
   # 4. Rename layers

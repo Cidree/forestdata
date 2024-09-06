@@ -271,27 +271,38 @@ get_bdforet_tbl <- function() {
 #' for each department varies between 1987 and 2002. The version 1 contains the
 #' following variables:
 #'
-#' - DEP: department name.
-#' - CYCLE: order number of the departmental revision.
+#' - DEP: department name
+#'
+#' - CYCLE: order number of the departmental revision
+#'
 #' - ANREF: year of reference of the data
+#'
 #' - TFIFN: code of the departalmenta type of vegetation cover. The nomenclature is
-#'   specific to each department.
+#'   specific to each department
+#'
 #' - LIBELLE: departamental type of vegetation cover. The nomenclature is
-#'   specific to each department.
+#'   specific to each department
+#'
 #' - LIBELLE2: departamental type of vegetation cover in capital letters.
-#'   The nomenclature is specific to each department.
-#' - TYPN: code of the national type of vegetation cover.
-#' - NOMB_TYPN: national type of vegetation cover.
+#'   The nomenclature is specific to each department
+#'
+#' - TYPN: code of the national type of vegetation cover
+#'
+#' - NOMB_TYPN: national type of vegetation cover
 #'
 #' The BD Forêt version 2 was developed between 2007 and 2018 by photointerpretation
 #' of color infrared images from the BD ORTHO. It assigns a vegetation formation
-#' type to each mapped area larger than 5,000m^2^. This version contains the variables:
+#' type to each mapped area larger than 5,000\eqn{m^2}. This version contains the variables:
 #'
 #' - ID: surface object identifier
+#'
 #' - CODE_TFV: alphanumeric code of the vegetation formation
+#'
 #' - TFV: vegetation formation type
+#'
 #' - TFV_G11: type of coverage and predominant composition of the vegetation
 #'            in 11 groups
+#'
 #' - ESSENCE: description of tree species according to the unique basic
 #'            nomenclature for all departments
 #'

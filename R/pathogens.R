@@ -64,7 +64,11 @@ fd_pathogens_defid2 <- function(agent = "all",
   file_path <- stringr::str_glue("{tempdir()}/{basename(url)}")
   ## 1.2. Download file if doesn't exist
   if (!file.exists(file_path)) {
-    options(timeout = max(600, getOption("timeout")))
+    ## Check for user's timeout
+    old_timeout <- getOption("timeout")
+    on.exit(options(timeout = old_timeout))
+    ## Download file
+    options(timeout = 10000)
     download.file(
       url      = url,
       destfile = stringr::str_glue("{tempdir()}/{basename(url)}"),

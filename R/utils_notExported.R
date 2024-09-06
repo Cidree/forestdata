@@ -42,6 +42,10 @@ fdi_download_unzip <- function(download_url, dir_unzip, dir_zip,
   dir_zip      <- dir_zip
   ## 1.2. Download to tempdir
   if (!file.exists(dir_unzip)) {
+    ## Check for user's timeout
+    old_timeout <- getOption("timeout")
+    on.exit(options(timeout = old_timeout))
+    ## Download file
     options(timeout = max(timeout, getOption("timeout")))
     download.file(
       url      = download_url,
@@ -176,6 +180,10 @@ fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
 
   ## Filter urls within the year
   if (!file.exists(url_path)) {
+    ## Check for user's timeout
+    old_timeout <- getOption("timeout")
+    on.exit(options(timeout = old_timeout))
+    ## Download file
     options(timeout = max(timeout, getOption("timeout")))
     download.file(
       url      = url,

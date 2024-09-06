@@ -79,7 +79,11 @@ fd_landcover_esri <- function(utm_code,
   # 4. Download
   ## 4.1. Tiff file
   tif_path <- paste0(tempdir(), "/", basename(download_url))
-  options(timeout = max(1000, getOption("timeout")))
+  ## Check for user's timeout
+  old_timeout <- getOption("timeout")
+  on.exit(options(timeout = old_timeout))
+  ## Download file
+  options(timeout = 10000)
   purrr::map2(
     download_url,
     tif_path,
