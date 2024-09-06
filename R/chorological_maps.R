@@ -86,11 +86,13 @@ get_chorological_tbl <- function() {
 #' @seealso [metadata_forestdata] for a list of possible species
 #'
 #' @examples
+#' \donttest{
 #'  # Download data for sweet chestnut
 #'  chestnut_nat_sf <- fd_forest_chorological(species = "Castanea sativa", range = "nat")
 #'
 #'  # Plot the data
 #'  plot(chestnut_nat_sf$geometry)
+#'  }
 fd_forest_chorological <- function(species, range = "nat", quiet = TRUE) {
 
   # 1. Get species table

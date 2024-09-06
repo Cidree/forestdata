@@ -229,10 +229,12 @@ get_spain_ifn4_tbl <- function() {
 #' @references \url{https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional.html}
 #'
 #' @examples
+#' \donttest{
 #' # Download MFE50 for the province of Lugo
 #' lugo_ifn4_lst <- fd_inventory_spain("Lugo")
 #'
 #' lugo_ifn3_gis_lst <- fd_inventory_spain("Lugo", ifn = 3, database = "gis")
+#' }
 fd_inventory_spain <- function(province,
                                ifn = 4,
                                database = "field",
