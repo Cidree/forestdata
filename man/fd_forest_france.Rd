@@ -79,12 +79,6 @@ For more information, download the metadata using the argument
 # Download BD Foret V2 for the department of Ardèche
 ardeche_bdforet2_sf <- fd_forest_france(department = "Ardeche") # works (prefered)
 ardeche_bdforet2_sf <- fd_forest_france(department = "ardèche") # also works
-
-# Download BD Foret V2 for the department of Bouches-du-Rhône with metadata
-bouches_bdforet2_sf <- fd_forest_france(
-          department = "Bouches-du-Rhone",
-          path_metadata = getwd()
-)
 }
 }
 \references{

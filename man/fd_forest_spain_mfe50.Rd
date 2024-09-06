@@ -35,9 +35,6 @@ file that can be downloaded by using the argument \code{path_metadata}.
 \donttest{
 # Download MFE50 for the province of Lugo
 lugo_mfe50_sf <- fd_forest_spain_mfe50(province = "Lugo")
-
-# Download MFE50 for the province of Córdoba with metadata
-cordoba_mfe50_sf <- fd_forest_spain_mfe50(province = "Cordoba", path_metadata = getwd())
 }
 }
 \references{

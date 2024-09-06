@@ -137,9 +137,6 @@ get_mfe50_provinces_tbl <- function() {
 #' \donttest{
 #' # Download MFE50 for the province of Lugo
 #' lugo_mfe50_sf <- fd_forest_spain_mfe50(province = "Lugo")
-#'
-#' # Download MFE50 for the province of Córdoba with metadata
-#' cordoba_mfe50_sf <- fd_forest_spain_mfe50(province = "Cordoba", path_metadata = getwd())
 #' }
 fd_forest_spain_mfe50 <- function(province,
                                   path_metadata = NULL,
@@ -319,12 +316,6 @@ get_bdforet_tbl <- function() {
 #' # Download BD Foret V2 for the department of Ardèche
 #' ardeche_bdforet2_sf <- fd_forest_france(department = "Ardeche") # works (prefered)
 #' ardeche_bdforet2_sf <- fd_forest_france(department = "ardèche") # also works
-#'
-#' # Download BD Foret V2 for the department of Bouches-du-Rhône with metadata
-#' bouches_bdforet2_sf <- fd_forest_france(
-#'           department = "Bouches-du-Rhone",
-#'           path_metadata = getwd()
-#' )
 #' }
 fd_forest_france <- function(department,
                              path_metadata = NULL,

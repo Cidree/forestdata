@@ -74,6 +74,7 @@ broad leaf; (5): mix of forest types
 - \strong{"datadensityindicator"}: input data density
 }
 \examples{
+\donttest{
  # Get tile for Galicia (Spain) and year 2019
  galicia_forest_extent <- fd_landcover_copernicus(
  lat  = 42.7,
@@ -86,6 +87,7 @@ broad leaf; (5): mix of forest types
  year = "all",
  layer = c("forest", "discrete")
  )
+ }
 }
 \references{
 Buchhorn, M.; Smets, B.; Bertels, L.; De Roo, B.; Lesiv, M.;
