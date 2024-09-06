@@ -82,26 +82,26 @@ department, with the spatial distribution of tree species in the country.</p>
 aerial images with a minimum mapped area of 2.25 hectares. The year of reference
 for each department varies between 1987 and 2002. The version 1 contains the
 following variables:</p>
-<p>- DEP: department name.
-- CYCLE: order number of the departmental revision.
-- ANREF: year of reference of the data
-- TFIFN: code of the departalmenta type of vegetation cover. The nomenclature is
-  specific to each department.
-- LIBELLE: departamental type of vegetation cover. The nomenclature is
-  specific to each department.
-- LIBELLE2: departamental type of vegetation cover in capital letters.
-  The nomenclature is specific to each department.
-- TYPN: code of the national type of vegetation cover.
-- NOMB_TYPN: national type of vegetation cover.</p>
+<p>- DEP: department name</p>
+<p>- CYCLE: order number of the departmental revision</p>
+<p>- ANREF: year of reference of the data</p>
+<p>- TFIFN: code of the departalmenta type of vegetation cover. The nomenclature is
+  specific to each department</p>
+<p>- LIBELLE: departamental type of vegetation cover. The nomenclature is
+  specific to each department</p>
+<p>- LIBELLE2: departamental type of vegetation cover in capital letters.
+  The nomenclature is specific to each department</p>
+<p>- TYPN: code of the national type of vegetation cover</p>
+<p>- NOMB_TYPN: national type of vegetation cover</p>
 <p>The BD Forêt version 2 was developed between 2007 and 2018 by photointerpretation
 of color infrared images from the BD ORTHO. It assigns a vegetation formation
-type to each mapped area larger than 5,000m^2^. This version contains the variables:</p>
-<p>- ID: surface object identifier
-- CODE_TFV: alphanumeric code of the vegetation formation
-- TFV: vegetation formation type
-- TFV_G11: type of coverage and predominant composition of the vegetation
-           in 11 groups
-- ESSENCE: description of tree species according to the unique basic
+type to each mapped area larger than 5,000\(m^2\). This version contains the variables:</p>
+<p>- ID: surface object identifier</p>
+<p>- CODE_TFV: alphanumeric code of the vegetation formation</p>
+<p>- TFV: vegetation formation type</p>
+<p>- TFV_G11: type of coverage and predominant composition of the vegetation
+           in 11 groups</p>
+<p>- ESSENCE: description of tree species according to the unique basic
            nomenclature for all departments</p>
 <p>For more information, download the metadata using the argument
 <code>path_metadata</code> (information in French).</p>
@@ -117,17 +117,17 @@ type to each mapped area larger than 5,000m^2^. This version contains the variab
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download BD Foret V2 for the department of Ardèche</span></span></span>
-<span class="r-in"><span><span class="va">ardeche_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span>province <span class="op">=</span> <span class="st">"Ardeche"</span><span class="op">)</span> <span class="co"># works (prefered)</span></span></span>
-<span class="r-in"><span><span class="va">ardeche_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span>province <span class="op">=</span> <span class="st">"ardèche"</span><span class="op">)</span> <span class="co"># also works</span></span></span>
+<span class="r-in"><span><span class="va">ardeche_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span>department <span class="op">=</span> <span class="st">"Ardeche"</span><span class="op">)</span> <span class="co"># works (prefered)</span></span></span>
+<span class="r-in"><span><span class="va">ardeche_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span>department <span class="op">=</span> <span class="st">"ardèche"</span><span class="op">)</span> <span class="co"># also works</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Download BD Foret V2 for the department of Bouches-du-Rhône with metadata</span></span></span>
-<span class="r-in"><span><span class="va">bouches_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="fd_forest_spain_mfe50.html">fd_forest_spain_mfe50</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>          province <span class="op">=</span> <span class="st">"Bouches-du-Rhone"</span>,</span></span>
-<span class="r-in"><span>          metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bouches_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span></span></span>
+<span class="r-in"><span>          department <span class="op">=</span> <span class="st">"Bouches-du-Rhone"</span>,</span></span>
+<span class="r-in"><span>          path_metadata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
