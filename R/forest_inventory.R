@@ -26,7 +26,7 @@ get_spain_ifn_metadata_tbl <- function() {
     )
   ) |>
     dplyr::mutate(
-      filename = paste0("metadata_ifn", ifn, "_", database, c(".xls", ".xls", rep(".pdf", 4)))
+      filename = paste0("metadata_ifn", ifnx, "_", database, c(".xls", ".xls", rep(".pdf", 4)))
     )
 
 }
@@ -271,12 +271,15 @@ fd_inventory_spain <- function(province,
         ifnx      == ifn,
         databasex == database
       )
-    download.file(
-      metadata_file$url,
-      destfile = metadata_file$filename,
-      mode     = "wb",
-      quiet    = quiet
-    )
+    ## download only if it doesn't exist
+    if (!file.exists(metadata_file$filename)) {
+      download.file(
+        metadata_file$url,
+        destfile = metadata_file$filename,
+        mode     = "wb",
+        quiet    = quiet
+      )
+    }
   }
 
   # 4. Read data
