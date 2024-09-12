@@ -106,18 +106,18 @@ get_mfe50_provinces_tbl <- function() {
 
 ## fd_forest_spain_mfe50 ----
 
-#' Download forest cover in Spain
+#' Forest Cover of Spain
 #'
 #' Download the MFE50 (Spanish Forestry Map 1:50,000) for a province. The
 #' MFE50 was built during 1997-2006.
 #'
-#' @param province A character string of length 1 with the name of a
-#'                 spanish province
-#' @param path_metadata A character string of length 1 with the path
+#' @param province a character string of length 1 with the name of a
+#'                 Spanish province
+#' @param path_metadata a character string of length 1 with the path
 #'                      to store the metadata of the MFE50. The default
 #'                      \code{path_metadata = NULL} does not download the
 #'                      metadata
-#' @param quiet If \code{TRUE} (the default), suppress status messages, and
+#' @param quiet if \code{TRUE} (the default), suppress status messages, and
 #'              the progress bar
 #'
 #' @return A \code{sf} object with \code{POLYGON} geometry
@@ -129,7 +129,7 @@ get_mfe50_provinces_tbl <- function() {
 #' stands in Spain. The definition of the variables is contained in an excel
 #' file that can be downloaded by using the argument \code{path_metadata}.
 #'
-#' @seealso [metadata_forestdata] for a list of possible species
+#' @seealso \link{metadata_forestdata} for a list of possible species
 #'
 #' @references \url{https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html}
 #'
@@ -240,19 +240,19 @@ get_bdforet_tbl <- function() {
 
 ## fd_forest_france ------
 
-#' Download BD Forêt data for a French Department
+#' BD Forêt
 #'
 #' Download the BD Forêt data for a French Department. This function downloads
 #' the polygons of forest vegetation in France.
 #'
-#' @param department A character string of length 1 with the name of a
+#' @param department a character string of length 1 with the name of a
 #'                   French department (see examples)
-#' @param path_metadata A character string of length 1 with the path
+#' @param path_metadata a character string of length 1 with the path
 #'                      to store the metadata of the BD Forêt database.
 #'                      The default \code{path_metadata = NULL} does
 #'                      not download the metadata
-#' @param version The version number of the BD Forêt data. Either 1 or 2 (see details)
-#' @param quiet If \code{TRUE} (the default), suppress status messages, and
+#' @param version the version number of the BD Forêt data. Either 1 or 2 (see details)
+#' @param quiet if \code{TRUE} (the default), suppress status messages, and
 #'              the progress bar
 #'
 #' @return A \code{sf} object with \code{POLYGON} geometry
@@ -274,7 +274,7 @@ get_bdforet_tbl <- function() {
 #'
 #' - ANREF: year of reference of the data
 #'
-#' - TFIFN: code of the departalmenta type of vegetation cover. The nomenclature is
+#' - TFIFN: code of the departalmental type of vegetation cover. The nomenclature is
 #'   specific to each department
 #'
 #' - LIBELLE: departamental type of vegetation cover. The nomenclature is
@@ -307,7 +307,7 @@ get_bdforet_tbl <- function() {
 #' \code{path_metadata} (information in French).
 #'
 #'
-#' @seealso [metadata_forestdata] for a list of possible species
+#' @seealso \link{metadata_forestdata} for a list of possible Department names
 #'
 #' @references \url{https://geoservices.ign.fr/bdforet}
 #'

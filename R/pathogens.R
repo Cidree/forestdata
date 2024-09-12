@@ -5,17 +5,17 @@
 #' Download the Database of European Forest Insect and Disease Disturbances.
 #'
 #' Data may be freely used for research, study, or teaching, but be cited
-#' appropiately (see references below).
+#' appropriately (see references below).
 #'
-#' @param agent A character vector with the desired forest insect(s) and/or
+#' @param agent a character vector with the desired forest insect(s) and/or
 #'              disease(s). The default '\code{all}' retrieves every agent
-#' @param host A character vector with the desired host tree(s) species. The
+#' @param host a character vector with the desired host tree(s) species. The
 #'              default '\code{all}' retrieves every tree
-#' @param symptoms A character vector with the desired symptom(s). The default
+#' @param symptoms a character vector with the desired symptom(s). The default
 #'              '\code{all}' retrieves every symptom
-#' @param country A character vector with the desired country(ies). The default
+#' @param country a character vector with the desired country(ies). The default
 #'              '\code{all}' retrieves every country
-#' @param geometry A string with '\code{polygon}' to retrieve polygon data, or
+#' @param geometry a string with '\code{polygon}' to retrieve polygon data, or
 #'               '\code{point}' to retrieve point data
 #'
 #' @return \code{sf} object with \code{MULTIPOLYGON} or \code{POINT} geometry

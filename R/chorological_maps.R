@@ -57,14 +57,13 @@ get_chorological_tbl <- function() {
 #' Data may be freely used for research, study, or teaching, but be cited
 #' appropriately (see references below).
 #'
-#' @param species The latin name of a tree species contained in the
-#'                Chorological Maps database
-#' @param range The default "\code{nat}" downloads the probable native range
-#'              of the species, while "\code{syn}" downloads the synanthropic
-#'              range (i.e. the introduced and naturalized area and isolated
-#'              population since Neolithic)
-#' @param quiet If \code{TRUE} (the default), suppress status messages, and
-#'              the progress bar
+#' @param species a character vector with the Latin name of a tree species
+#' contained in the Chorological Maps database (see details)
+#' @param range the default "\code{nat}" downloads the probable native range
+#' of the species, while "\code{syn}" downloads the synanthropic range
+#' (i.e. the introduced and naturalized area and isolated population since Neolithic)
+#' @param quiet if \code{TRUE} (the default), suppress status messages, and
+#' the progress bar
 #'
 #' @return \code{sf} object
 #' @importFrom utils download.file unzip
@@ -83,7 +82,7 @@ get_chorological_tbl <- function() {
 #' Chorological maps for the main European woody species. Data in Brief 12,
 #' 666. DOI: doi.org/10.1016/j.dib.2017.05.007
 #'
-#' @seealso [metadata_forestdata] for a list of possible species
+#' @seealso \link{metadata_forestdata} for a list of possible species
 #'
 #' @examples
 #' \donttest{

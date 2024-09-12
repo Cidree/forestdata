@@ -1,5 +1,6 @@
 utils::globalVariables(
   c(
+    "CNTR_ID",
     "database",
     "databasex",
     "Department",
@@ -9,12 +10,14 @@ utils::globalVariables(
     "id",
     "ifn",
     "ifnx",
+    "ISO3_CODE",
     "lat",
     "layer",
     "layer_shrt",
     "Letter",
     "lon",
     "mfe50_provinces",
+    "NAME_ENGL",
     "Number",
     "province",
     "Species",

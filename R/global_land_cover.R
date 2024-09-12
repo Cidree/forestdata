@@ -59,23 +59,22 @@ get_glc_tbl <- function() {
 
 # fd_landcover_copernicus ----
 
-#' Download data from the Global Land Cover
+#' Global Land Cover
 #'
-#' Download a SpatRaster from the Global Land Cover from the Copernicus Global
+#' Download a \code{SpatRaster} from the Global Land Cover from the Copernicus Global
 #' Land Service.
 #'
-#'
-#' @param x An \code{sf} or \code{SpatVector} object. It will retrieve the
+#' @param x an \code{sf} or \code{SpatVector} object. It will retrieve the
 #'          necessary tiles to cover the area (if \code{lat} and \code{lon} are
 #'          specified, this argument is ignored)
-#' @param lat A number specifying the latitude of the area where we want the tile
-#' @param lon A number specifying the longitude of the area where we want the tile
-#' @param year Year of the forest extent data. One of 2015:2019 or 'all'
-#' @param layer A character vector of the layer(s) to use from the Global
+#' @param lat a number specifying the latitude of the area where we want the tile
+#' @param lon a number specifying the longitude of the area where we want the tile
+#' @param year year of the forest extent data. One of 2015:2019 or 'all'
+#' @param layer a character vector of the layer(s) to use from the Global
 #'              Land Cover. See details
-#' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
+#' @param crop when \code{x} is specified, whether to crop the tiles(s) to the
 #'             object
-#' @param ... additional arguments passed to the `terra::crop()` function
+#' @param ... additional arguments passed to the \link[terra]{crop} function
 #'
 #' @return \code{SpatRaster} object
 #' @export
@@ -125,15 +124,16 @@ get_glc_tbl <- function() {
 #' \donttest{
 #'  # Get tile for Galicia (Spain) and year 2019
 #'  galicia_forest_extent <- fd_landcover_copernicus(
-#'  lat  = 42.7,
-#'  lon  = -7.8,
-#'  year = 2019)
+#'   lat  = 42.7,
+#'   lon  = -7.8,
+#'   year = 2019
+#'  )
 #'  # Get forest and discrete classification tiles for all years
 #'  galicia_forest_extent <- fd_landcover_copernicus(
-#'  lat  = 42.7,
-#'  lon  = -7.8,
-#'  year = "all",
-#'  layer = c("forest", "discrete")
+#'   lat  = 42.7,
+#'   lon  = -7.8,
+#'   year = "all",
+#'   layer = c("forest", "discrete")
 #'  )
 #'  }
 

@@ -47,22 +47,22 @@ get_gch_tbl <- function() {
 
 # fd_canopy_height
 
-#'  Download forest canopy height
+#'  Forest Canopy Height
 #'
 #'  Download the ETH Global Sentinel-2 10m Canopy Height (2020)
 #'
-#' @param x An \code{sf} or \code{SpatVector} object. It will retrieve the
+#' @param x a \code{sf} or \code{SpatVector} object. It will retrieve the
 #'          necessary tiles to cover the area (if \code{lat} and \code{lon} are
 #'          specified, this argument is ignored)
-#' @param lon A number specifying the longitude of the area where we want the tile
-#' @param lat A number specifying the latitude of the area where we want the tile
+#' @param lon a number specifying the longitude of the area where we want the tile
+#' @param lat a number specifying the latitude of the area where we want the tile
 #'
-#' @param layer A string for the layer to download. The default "\code{chm}"
+#' @param layer a string for the layer to download. The default "\code{chm}"
 #'              downloads the Canopy Height Model, while "\code{std}" downloads
 #'              the standard deviation. If you want both layers, use "\code{all}"
-#' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
+#' @param crop when \code{x} is specified, whether to crop the tiles(s) to the
 #'             object
-#' @param ... additional arguments passed to the `terra::crop()`
+#' @param ... additional arguments passed to the \link[terra]{crop} function
 #'
 #' @include utils_notExported.R
 #' @return A \code{SpatRaster}
