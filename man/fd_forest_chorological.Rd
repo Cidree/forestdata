@@ -7,15 +7,14 @@
 fd_forest_chorological(species, range = "nat", quiet = TRUE)
 }
 \arguments{
-\item{species}{The latin name of a tree species contained in the
-Chorological Maps database}
+\item{species}{a character vector with the Latin name of a tree species
+contained in the Chorological Maps database (see details)}
 
-\item{range}{The default "\code{nat}" downloads the probable native range
-of the species, while "\code{syn}" downloads the synanthropic
-range (i.e. the introduced and naturalized area and isolated
-population since Neolithic)}
+\item{range}{the default "\code{nat}" downloads the probable native range
+of the species, while "\code{syn}" downloads the synanthropic range
+(i.e. the introduced and naturalized area and isolated population since Neolithic)}
 
-\item{quiet}{If \code{TRUE} (the default), suppress status messages, and
+\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
 the progress bar}
 }
 \value{
@@ -52,5 +51,5 @@ Chorological maps for the main European woody species. Data in Brief 12,
 666. DOI: doi.org/10.1016/j.dib.2017.05.007
 }
 \seealso{
-[metadata_forestdata] for a list of possible species
+\link{metadata_forestdata} for a list of possible species
 }

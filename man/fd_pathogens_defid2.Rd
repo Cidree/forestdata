@@ -13,19 +13,19 @@ fd_pathogens_defid2(
 )
 }
 \arguments{
-\item{agent}{A character vector with the desired forest insect(s) and/or
+\item{agent}{a character vector with the desired forest insect(s) and/or
 disease(s). The default '\code{all}' retrieves every agent}
 
-\item{host}{A character vector with the desired host tree(s) species. The
+\item{host}{a character vector with the desired host tree(s) species. The
 default '\code{all}' retrieves every tree}
 
-\item{symptoms}{A character vector with the desired symptom(s). The default
+\item{symptoms}{a character vector with the desired symptom(s). The default
 '\code{all}' retrieves every symptom}
 
-\item{country}{A character vector with the desired country(ies). The default
+\item{country}{a character vector with the desired country(ies). The default
 '\code{all}' retrieves every country}
 
-\item{geometry}{A string with '\code{polygon}' to retrieve polygon data, or
+\item{geometry}{a string with '\code{polygon}' to retrieve polygon data, or
 '\code{point}' to retrieve point data}
 }
 \value{
@@ -36,7 +36,7 @@ Download the Database of European Forest Insect and Disease Disturbances.
 }
 \details{
 Data may be freely used for research, study, or teaching, but be cited
-appropiately (see references below).
+appropriately (see references below).
 
 
 This function will download the DEFID2 database to the temporary directory

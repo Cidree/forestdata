@@ -2,20 +2,20 @@
 % Please edit documentation in R/forest_country.R
 \name{fd_forest_spain_mfe50}
 \alias{fd_forest_spain_mfe50}
-\title{Download forest cover in Spain}
+\title{Forest Cover of Spain}
 \usage{
 fd_forest_spain_mfe50(province, path_metadata = NULL, quiet = TRUE)
 }
 \arguments{
-\item{province}{A character string of length 1 with the name of a
-spanish province}
+\item{province}{a character string of length 1 with the name of a
+Spanish province}
 
-\item{path_metadata}{A character string of length 1 with the path
+\item{path_metadata}{a character string of length 1 with the path
 to store the metadata of the MFE50. The default
 \code{path_metadata = NULL} does not download the
 metadata}
 
-\item{quiet}{If \code{TRUE} (the default), suppress status messages, and
+\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
 the progress bar}
 }
 \value{
@@ -41,5 +41,5 @@ lugo_mfe50_sf <- fd_forest_spain_mfe50(province = "Lugo")
 \url{https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html}
 }
 \seealso{
-[metadata_forestdata] for a list of possible species
+\link{metadata_forestdata} for a list of possible species
 }

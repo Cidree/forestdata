@@ -2,7 +2,7 @@
 % Please edit documentation in R/GLAD.R
 \name{fd_forest_extent_glad}
 \alias{fd_forest_extent_glad}
-\title{Download Forest Extent}
+\title{Forest Extent}
 \usage{
 fd_forest_extent_glad(
   x = NULL,
@@ -14,20 +14,20 @@ fd_forest_extent_glad(
 )
 }
 \arguments{
-\item{x}{An \code{sf} or \code{SpatVector} object. It will retrieve the
+\item{x}{a \code{sf} or \code{SpatVector} object. It will retrieve the
 necessary tiles to cover the area (if \code{lat} and \code{lon} are
 specified, this argument is ignored)}
 
-\item{lon}{A number specifying the longitude of the area where we want the tile}
+\item{lon}{a number specifying the longitude of the area where we want the tile}
 
-\item{lat}{A number specifying the latitude of the area where we want the tile}
+\item{lat}{a number specifying the latitude of the area where we want the tile}
 
-\item{year}{Year of the forest extent data. One of 2000, 2020 or 'all'}
+\item{year}{year of the forest extent data. One of 2000, 2020 or 'all'}
 
-\item{crop}{When \code{x} is specified, whether to crop the tiles(s) to the
+\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
 object}
 
-\item{...}{additional arguments passed to the `terra::crop()` function}
+\item{...}{additional arguments passed to the \link[terra]{crop} function}
 }
 \value{
 \code{SpatRaster} object

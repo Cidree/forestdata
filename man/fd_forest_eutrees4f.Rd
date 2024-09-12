@@ -2,7 +2,7 @@
 % Please edit documentation in R/eutrees4f.R
 \name{fd_forest_eutrees4f}
 \alias{fd_forest_eutrees4f}
-\title{Download data from EU-Trees4F Database}
+\title{EU-Trees4F Database}
 \usage{
 fd_forest_eutrees4f(
   species,
@@ -15,26 +15,26 @@ fd_forest_eutrees4f(
 )
 }
 \arguments{
-\item{species}{A character vector of length 1 with the latin name of the
+\item{species}{a character vector of length 1 with the Latin name of the
 tree species (genus and species)}
 
-\item{model}{A character vector of length 1 with the name of the ensemble
+\item{model}{a character vector of length 1 with the name of the ensemble
 projection. One of 'clim' or 'sdms' (see details)}
 
-\item{period}{A numeric or character vector of length 1 with the center of
+\item{period}{a numeric or character vector of length 1 with the center of
 the 30-year time period used for the model. One of '2005',
 '2035', '2065', '2095', or 'all' (see details)}
 
-\item{scenario}{A character vector of length 1 with the climate change
+\item{scenario}{a character vector of length 1 with the climate change
 scenario used. One of 'rcp45' or 'rcp85' (see details)}
 
-\item{type}{A character vector of length 1 with the type of output layer.
+\item{type}{a character vector of length 1 with the type of output layer.
 One of 'bin', 'prob' or 'std' (see details)}
 
-\item{distrib}{A character vector of length 1 with the type of distribution.
+\item{distrib}{a character vector of length 1 with the type of distribution.
 One of 'nat', 'pot', 'disp' or 'disp_lu' (see details)}
 
-\item{quiet}{If \code{TRUE} (the default), suppress status messages, and
+\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
 the progress bar}
 }
 \value{
@@ -122,5 +122,5 @@ dataset on the future distribution of European tree species.. figshare.
 Collection. https://doi.org/10.6084/m9.figshare.c.5525688.v2
 }
 \seealso{
-[metadata_forestdata] for a list of possible species
+\link{metadata_forestdata} for a list of possible species
 }

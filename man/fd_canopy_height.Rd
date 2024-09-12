@@ -2,7 +2,7 @@
 % Please edit documentation in R/canopy_height.R
 \name{fd_canopy_height}
 \alias{fd_canopy_height}
-\title{Download forest canopy height}
+\title{Forest Canopy Height}
 \usage{
 fd_canopy_height(
   x = NULL,
@@ -14,22 +14,22 @@ fd_canopy_height(
 )
 }
 \arguments{
-\item{x}{An \code{sf} or \code{SpatVector} object. It will retrieve the
+\item{x}{a \code{sf} or \code{SpatVector} object. It will retrieve the
 necessary tiles to cover the area (if \code{lat} and \code{lon} are
 specified, this argument is ignored)}
 
-\item{lon}{A number specifying the longitude of the area where we want the tile}
+\item{lon}{a number specifying the longitude of the area where we want the tile}
 
-\item{lat}{A number specifying the latitude of the area where we want the tile}
+\item{lat}{a number specifying the latitude of the area where we want the tile}
 
-\item{layer}{A string for the layer to download. The default "\code{chm}"
+\item{layer}{a string for the layer to download. The default "\code{chm}"
 downloads the Canopy Height Model, while "\code{std}" downloads
 the standard deviation. If you want both layers, use "\code{all}"}
 
-\item{crop}{When \code{x} is specified, whether to crop the tiles(s) to the
+\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
 object}
 
-\item{...}{additional arguments passed to the `terra::crop()`}
+\item{...}{additional arguments passed to the \link[terra]{crop} function}
 }
 \value{
 A \code{SpatRaster}

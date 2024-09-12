@@ -2,7 +2,7 @@
 % Please edit documentation in R/global_land_cover.R
 \name{fd_landcover_copernicus}
 \alias{fd_landcover_copernicus}
-\title{Download data from the Global Land Cover}
+\title{Global Land Cover}
 \usage{
 fd_landcover_copernicus(
   x,
@@ -15,29 +15,29 @@ fd_landcover_copernicus(
 )
 }
 \arguments{
-\item{x}{An \code{sf} or \code{SpatVector} object. It will retrieve the
+\item{x}{an \code{sf} or \code{SpatVector} object. It will retrieve the
 necessary tiles to cover the area (if \code{lat} and \code{lon} are
 specified, this argument is ignored)}
 
-\item{lon}{A number specifying the longitude of the area where we want the tile}
+\item{lon}{a number specifying the longitude of the area where we want the tile}
 
-\item{lat}{A number specifying the latitude of the area where we want the tile}
+\item{lat}{a number specifying the latitude of the area where we want the tile}
 
-\item{year}{Year of the forest extent data. One of 2015:2019 or 'all'}
+\item{year}{year of the forest extent data. One of 2015:2019 or 'all'}
 
-\item{layer}{A character vector of the layer(s) to use from the Global
+\item{layer}{a character vector of the layer(s) to use from the Global
 Land Cover. See details}
 
-\item{crop}{When \code{x} is specified, whether to crop the tiles(s) to the
+\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
 object}
 
-\item{...}{additional arguments passed to the `terra::crop()` function}
+\item{...}{additional arguments passed to the \link[terra]{crop} function}
 }
 \value{
 \code{SpatRaster} object
 }
 \description{
-Download a SpatRaster from the Global Land Cover from the Copernicus Global
+Download a \code{SpatRaster} from the Global Land Cover from the Copernicus Global
 Land Service.
 }
 \details{
@@ -77,15 +77,16 @@ broad leaf; (5): mix of forest types
 \donttest{
  # Get tile for Galicia (Spain) and year 2019
  galicia_forest_extent <- fd_landcover_copernicus(
- lat  = 42.7,
- lon  = -7.8,
- year = 2019)
+  lat  = 42.7,
+  lon  = -7.8,
+  year = 2019
+ )
  # Get forest and discrete classification tiles for all years
  galicia_forest_extent <- fd_landcover_copernicus(
- lat  = 42.7,
- lon  = -7.8,
- year = "all",
- layer = c("forest", "discrete")
+  lat  = 42.7,
+  lon  = -7.8,
+  year = "all",
+  layer = c("forest", "discrete")
  )
  }
 }

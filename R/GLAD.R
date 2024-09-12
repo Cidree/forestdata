@@ -42,22 +42,22 @@ get_forest_extent_tbl <- function() {
 
 # fd_forest_extent_glad ----
 
-#' Download Forest Extent
+#' Forest Extent
 #'
 #' Download the Forest Extent raster from the Global Land Analysis & Discovery by
 #' using a vectorial object or a pair of coordinates (latitude, longitude).
 #'
 #'
-#' @param x An \code{sf} or \code{SpatVector} object. It will retrieve the
+#' @param x a \code{sf} or \code{SpatVector} object. It will retrieve the
 #'          necessary tiles to cover the area (if \code{lat} and \code{lon} are
 #'          specified, this argument is ignored)
-#' @param lon A number specifying the longitude of the area where we want the tile
-#' @param lat A number specifying the latitude of the area where we want the tile
+#' @param lon a number specifying the longitude of the area where we want the tile
+#' @param lat a number specifying the latitude of the area where we want the tile
 
-#' @param year Year of the forest extent data. One of 2000, 2020 or 'all'
-#' @param crop When \code{x} is specified, whether to crop the tiles(s) to the
+#' @param year year of the forest extent data. One of 2000, 2020 or 'all'
+#' @param crop when \code{x} is specified, whether to crop the tiles(s) to the
 #'             object
-#' @param ... additional arguments passed to the `terra::crop()` function
+#' @param ... additional arguments passed to the \link[terra]{crop} function
 #'
 #' @include utils_notExported.R
 #' @return \code{SpatRaster} object

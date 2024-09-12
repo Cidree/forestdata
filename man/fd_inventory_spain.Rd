@@ -2,7 +2,7 @@
 % Please edit documentation in R/forest_inventory.R
 \name{fd_inventory_spain}
 \alias{fd_inventory_spain}
-\title{Download Spanish Forest Inventory}
+\title{Spanish Forest Inventory}
 \usage{
 fd_inventory_spain(
   province,
@@ -13,18 +13,18 @@ fd_inventory_spain(
 )
 }
 \arguments{
-\item{province}{A character string of length 1 with the name of a
+\item{province}{a character string of length 1 with the name of a
 Spanish province}
 
-\item{ifn}{Number of Spanish Forest Inventory (from 2 to 4)}
+\item{ifn}{number of Spanish Forest Inventory (from 2 to 4)}
 
-\item{database}{The name of the database (either 'field' or 'gis')}
+\item{database}{the name of the database (either 'field' or 'gis')}
 
-\item{path_metadata}{A character string of length 1 with the path to store the
+\item{path_metadata}{a character string of length 1 with the path to store the
 metadata of the selected database. The default \code{path_metadata = NULL}
 does not download the metadata}
 
-\item{quiet}{If \code{TRUE} (the default), suppress status messages, and
+\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
 the progress bar}
 }
 \value{
@@ -35,6 +35,8 @@ Download the tables and SIG data from the Spanish Forest Inventory
 }
 \details{
 The IFN2 doesn't have 'gis' data for Asturias, Cantabria and Navarra.
+
+In the future a function to process the data will be added.
 }
 \examples{
 \donttest{
@@ -48,5 +50,5 @@ lugo_ifn3_gis_lst <- fd_inventory_spain("Lugo", ifn = 3, database = "gis")
 \url{https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional.html}
 }
 \seealso{
-[metadata_forestdata] for a list of possible species
+\link{metadata_forestdata} for a list of possible species
 }

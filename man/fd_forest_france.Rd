@@ -2,22 +2,22 @@
 % Please edit documentation in R/forest_country.R
 \name{fd_forest_france}
 \alias{fd_forest_france}
-\title{Download BD Forêt data for a French Department}
+\title{BD Forêt}
 \usage{
 fd_forest_france(department, path_metadata = NULL, version = 2, quiet = TRUE)
 }
 \arguments{
-\item{department}{A character string of length 1 with the name of a
+\item{department}{a character string of length 1 with the name of a
 French department (see examples)}
 
-\item{path_metadata}{A character string of length 1 with the path
+\item{path_metadata}{a character string of length 1 with the path
 to store the metadata of the BD Forêt database.
 The default \code{path_metadata = NULL} does
 not download the metadata}
 
-\item{version}{The version number of the BD Forêt data. Either 1 or 2 (see details)}
+\item{version}{the version number of the BD Forêt data. Either 1 or 2 (see details)}
 
-\item{quiet}{If \code{TRUE} (the default), suppress status messages, and
+\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
 the progress bar}
 }
 \value{
@@ -42,7 +42,7 @@ following variables:
 
 - ANREF: year of reference of the data
 
-- TFIFN: code of the departalmenta type of vegetation cover. The nomenclature is
+- TFIFN: code of the departalmental type of vegetation cover. The nomenclature is
   specific to each department
 
 - LIBELLE: departamental type of vegetation cover. The nomenclature is
@@ -85,5 +85,5 @@ ardeche_bdforet2_sf <- fd_forest_france(department = "ardèche") # also works
 \url{https://geoservices.ign.fr/bdforet}
 }
 \seealso{
-[metadata_forestdata] for a list of possible species
+\link{metadata_forestdata} for a list of possible Department names
 }
