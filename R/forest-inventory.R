@@ -1,9 +1,9 @@
 
-## Spain Inventario Forestal Nacional ---------------------------
+## SPAIN ---------------------------
 
 
 
-## get_spain_ifn_metadata_tbl ----
+## get_spain_ifn_metadata_tbl
 
 #' (Internal) Get table with URLs of the IFN metadata
 #'
@@ -31,7 +31,7 @@ get_spain_ifn_metadata_tbl <- function() {
 
 }
 
-## get_spain_ifn2_tbl ----
+## get_spain_ifn2_tbl
 
 #' (Internal) Get table with Provinces and Urls for the Spanish IFN2
 #'
@@ -39,7 +39,7 @@ get_spain_ifn_metadata_tbl <- function() {
 #'
 #' @return A \code{tibble}
 #' @keywords internal
-#' @include utils_notExported.R
+#' @include utils-not-exported.R
 get_spain_ifn2_tbl <- function() {
 
   # 1. Read urls (there is one per each 25 provinces)
@@ -109,7 +109,7 @@ get_spain_ifn2_tbl <- function() {
 
 
 
-## get_spain_ifn3_tbl ----
+## get_spain_ifn3_tbl
 
 #' (Internal) Get table with Provinces and Urls for the Spanish IFN3
 #'
@@ -117,7 +117,7 @@ get_spain_ifn2_tbl <- function() {
 #'
 #' @return A \code{tibble}
 #' @keywords internal
-#' @include utils_notExported.R
+#' @include utils-not-exported.R
 get_spain_ifn3_tbl <- function() {
 
   # 1. Read urls (there is one per each 25 provinces)
@@ -162,7 +162,7 @@ get_spain_ifn3_tbl <- function() {
 
 }
 
-## get_spain_ifn4_tbl ----
+## get_spain_ifn4_tbl
 
 #' (Internal) Get table Provinces and Urls
 #'
@@ -170,7 +170,7 @@ get_spain_ifn3_tbl <- function() {
 #'
 #' @return A \code{tibble}
 #' @keywords internal
-#' @include utils_notExported.R
+#' @include utils-not-exported.R
 get_spain_ifn4_tbl <- function() {
   # 1. Read url
   url <- "https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional/cuarto_inventario.html"
@@ -204,27 +204,29 @@ get_spain_ifn4_tbl <- function() {
 
 
 
-#' Download Spanish Forest Inventory
+#' Spanish Forest Inventory
 #'
 #' Download the tables and SIG data from the Spanish Forest Inventory
 #'
-#' @param province A character string of length 1 with the name of a
+#' @param province a character string of length 1 with the name of a
 #'                 Spanish province
-#' @param ifn Number of Spanish Forest Inventory (from 2 to 4)
-#' @param database The name of the database (either 'field' or 'gis')
-#' @param path_metadata A character string of length 1 with the path to store the
+#' @param ifn number of Spanish Forest Inventory (from 2 to 4)
+#' @param database the name of the database (either 'field' or 'gis')
+#' @param path_metadata a character string of length 1 with the path to store the
 #' metadata of the selected database. The default \code{path_metadata = NULL}
 #' does not download the metadata
-#' @param quiet If \code{TRUE} (the default), suppress status messages, and
+#' @param quiet if \code{TRUE} (the default), suppress status messages, and
 #'              the progress bar
 #'
 #' @return A \code{list} with the tables
 #' @export
 #'
-#' @seealso [metadata_forestdata] for a list of possible species
+#' @seealso \link{metadata_forestdata} for a list of possible species
 #'
 #' @details
 #' The IFN2 doesn't have 'gis' data for Asturias, Cantabria and Navarra.
+#'
+#' In the future a function to process the data will be added.
 #'
 #' @references \url{https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional.html}
 #'
@@ -240,7 +242,8 @@ fd_inventory_spain <- function(province,
                                database = "field",
                                path_metadata = NULL,
                                quiet = TRUE) {
-
+  # 0. Hanlde errors
+  if (!requireNamespace("RODBC", quietly = TRUE)) stop("Package `RODBC` is required to access the inventory data. Please, install it.")
   # 1. Filter province
   ## 1.1. Fix province
   province_fix <- province %>%

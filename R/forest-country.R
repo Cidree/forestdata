@@ -1,7 +1,7 @@
 
 # SPAIN -------------------------------------------------------------
 
-## get_mfe50_ccaa_tbl ----
+## get_mfe50_ccaa_tbl
 
 #' (Internal) Get table CCAA/MFE50
 #'
@@ -10,7 +10,7 @@
 #'
 #' @return A \code{tibble}
 #' @keywords internal
-#' @include utils_notExported.R
+#' @include utils-not-exported.R
 get_mfe50_ccaa_tbl <- function() {
   # 1. Read url
   url <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50_descargas_ccaa.html"
@@ -36,7 +36,7 @@ get_mfe50_ccaa_tbl <- function() {
   return(ccaa_tbl)
 }
 
-## create_mfe50_table ----
+## create_mfe50_table
 
 #' (Internal) Create MFE50 provinces table for one CCAA
 #'
@@ -72,7 +72,7 @@ create_mfe50_table <- function(url) {
   )
 }
 
-## get_mfe50_provinces_tbl ----
+## get_mfe50_provinces_tbl
 
 #' (Internal) Creates the MFE50 provinces table
 #'
@@ -104,7 +104,7 @@ get_mfe50_provinces_tbl <- function() {
 }
 
 
-## fd_forest_spain_mfe50 ----
+## fd_forest_spain_mfe50
 
 #' Forest Cover of Spain
 #'
@@ -238,7 +238,7 @@ get_bdforet_tbl <- function() {
 }
 
 
-## fd_forest_france ------
+## fd_forest_france
 
 #' BD Forêt
 #'

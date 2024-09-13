@@ -59,7 +59,7 @@ get_forest_extent_tbl <- function() {
 #'             object
 #' @param ... additional arguments passed to the \link[terra]{crop} function
 #'
-#' @include utils_notExported.R
+#' @include utils-not-exported.R
 #' @return \code{SpatRaster} object
 #' @export
 #'
