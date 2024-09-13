@@ -19,25 +19,26 @@ Imports:
     stringi,
     rlang,
     archive,
-    RODBC,
     foreign
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 2.10)
 Collate: 
-    'utils_notExported.R'
+    'utils-not-exported.R'
     'GLAD.R'
-    'canopy_height.R'
-    'chorological_maps.R'
+    'allometry.R'
+    'canopy-height.R'
+    'chorological-maps.R'
     'data.R'
     'eutrees4f.R'
-    'forest_country.R'
-    'forest_inventory.R'
-    'global_land_cover.R'
+    'forest-country.R'
+    'forest-inventory.R'
     'globals.R'
-    'land_cover_explorer.R'
+    'land-cover.R'
     'pathogens.R'
 Suggests: 
+    giscoR,
+    RODBC,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://cidree.github.io/forestdata/
