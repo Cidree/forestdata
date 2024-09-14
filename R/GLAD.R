@@ -15,8 +15,8 @@ get_forest_extent_tbl <- function() {
   url <- "https://glad.umd.edu/users/Potapov/GLCLUC2020/Forest_extent_2000/"
   forext_html <- rvest::read_html(url)
   ## 1.2. Get the href attributes
-  attr_vec <- forext_html %>%
-    rvest::html_elements("a") %>%
+  attr_vec <- forext_html |>
+    rvest::html_elements("a") |>
     rvest::html_attr("href")
   ## 1.3. Filter those ending in .tif
   tif_vec <- grep(".tif$", attr_vec, value = TRUE)
@@ -25,14 +25,14 @@ get_forest_extent_tbl <- function() {
   forext_tbl <- expand.grid(
     year      = c(2000, 2020),
     extension = tif_vec
-  ) %>%
+  ) |>
     dplyr::mutate(
-      lat = stringr::str_sub(extension, 1, 2) %>% as.numeric(),
+      lat = stringr::str_sub(extension, 1, 2) |> as.numeric(),
       lat = ifelse(stringr::str_detect(extension, "([0-9]{2})N"), lat, -lat),
-      lon = stringr::str_sub(extension, 5, 7) %>% as.numeric(),
+      lon = stringr::str_sub(extension, 5, 7) |> as.numeric(),
       lon = ifelse(stringr::str_detect(extension, "([0-9]{2})E"), lon, -lon),
       url = stringr::str_glue("https://glad.umd.edu/users/Potapov/GLCLUC2020/Forest_extent_{year}/{extension}")
-    ) %>%
+    ) |>
     tibble::as_tibble()
 
   # 3. Return object
@@ -104,7 +104,7 @@ fd_forest_extent_glad <- function(x    = NULL,
     new_lat <- ceiling(lat/10)*10
     new_lon <- floor(lon/10)*10
     ## 1.2. Filter file
-    tile_tbl <- forest_extent_tbl %>%
+    tile_tbl <- forest_extent_tbl |>
       dplyr::filter(lat == new_lat & lon == new_lon)
   } else {
     ## 1.3. Get tiles for x
@@ -115,16 +115,16 @@ fd_forest_extent_glad <- function(x    = NULL,
     new_lat <- ceiling(xbbox[c(1,3)]/10)*10
     new_lon <- floor(xbbox[c(2,4)]/10)*10
     ### 1.3.3. Filter file
-    tile_tbl <- forest_extent_tbl %>%
+    tile_tbl <- forest_extent_tbl |>
       dplyr::filter(lat %in% new_lat & lon %in% new_lon)
   }
 
   # 2. Filter years
   if (year == 2000) {
-    urls <- tile_tbl %>%
+    urls <- tile_tbl |>
       dplyr::filter(year == 2000)
   } else if (year == 2020) {
-    urls <- tile_tbl %>%
+    urls <- tile_tbl |>
       dplyr::filter(year == 2020)
   } else {
     urls <- tile_tbl

@@ -109,7 +109,7 @@ fd_pathogens_defid2 <- function(agent = "all",
   query_df <- data.frame(
     clause = c("agent", "host", "country", "symptoms"),
     query  = c(agent_qr, host_qr, country_qr, symptoms_qr)
-  ) %>% na.omit()
+  ) |> na.omit()
   ### Build final clauses query
   tmp.query <- ""
   if (nrow(query_df) == 1) {

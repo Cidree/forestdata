@@ -12,9 +12,9 @@
 #'
 #' @importFrom stringi stri_trans_general
 fdi_fix_names <- function(name) {
-  name %>%
-    stringi::stri_trans_general("Latin-ASCII") %>%
-    stringr::str_to_title() %>%
+  name |>
+    stringi::stri_trans_general("Latin-ASCII") |>
+    stringr::str_to_title() |>
     stringr::str_trim()
 }
 
@@ -116,8 +116,8 @@ fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
 get_combined_raster <- function(year_i, url_table) {
 
   ## Filter urls within the year
-  filtered_url <- dplyr::filter(url_table, year == year_i) %>%
-    dplyr::pull(url) %>%
+  filtered_url <- dplyr::filter(url_table, year == year_i) |>
+    dplyr::pull(url) |>
     as.character()
 
   ## Download all the rasters
@@ -143,8 +143,8 @@ get_combined_raster <- function(year_i, url_table) {
 get_combined_raster_2l <- function(year_i, layer_i, url_table) {
 
   ## Filter urls within the year
-  filtered_url <- dplyr::filter(url_table, year == year_i, layer_shrt == layer_i) %>%
-    dplyr::pull(url) %>%
+  filtered_url <- dplyr::filter(url_table, year == year_i, layer_shrt == layer_i) |>
+    dplyr::pull(url) |>
     as.character()
 
   ## Download all the rasters
@@ -174,7 +174,7 @@ fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
   if (is.null(start) & is.null(end)) {
     url_path <- stringr::str_glue("{tempdir()}/{basename(url)}")
   } else {
-    url_path <- stringr::str_glue("{tempdir()}/{basename(url) %>% stringr::str_sub(start, end)}")
+    url_path <- stringr::str_glue("{tempdir()}/{basename(url) |> stringr::str_sub(start, end)}")
   }
 
 

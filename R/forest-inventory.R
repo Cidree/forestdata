@@ -26,7 +26,7 @@ get_spain_ifn_metadata_tbl <- function() {
     )
   ) |>
     dplyr::mutate(
-      filename = paste0("metadata_ifn", ifnx, "_", database, c(".xls", ".xls", rep(".pdf", 4)))
+      filename = paste0("metadata_ifn", ifnx, "_", databasex, c(".xls", ".xls", rep(".pdf", 4)))
     )
 
 }
@@ -246,7 +246,7 @@ fd_inventory_spain <- function(province,
   if (!requireNamespace("RODBC", quietly = TRUE)) stop("Package `RODBC` is required to access the inventory data. Please, install it.")
   # 1. Filter province
   ## 1.1. Fix province
-  province_fix <- province %>%
+  province_fix <- province |>
     fdi_fix_names()
   ## 1.2. Filter selected province
   ifn_data <- switch(as.character(ifn),
@@ -256,7 +256,7 @@ fd_inventory_spain <- function(province,
     stop("Invalid IFN number. Please, choose a number from 1 to 4")
   )
 
-  selected_province <- ifn_data %>%
+  selected_province <- ifn_data |>
     dplyr::filter(stringr::str_detect(fdi_fix_names(province), province_fix))
 
   # 2. Download data

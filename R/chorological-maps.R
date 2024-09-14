@@ -6,7 +6,6 @@
 #' @return A \code{tibble}
 #' @keywords internal
 #'
-#' @importFrom dplyr |>
 get_chorological_tbl <- function() {
 
   ## Get website html
@@ -177,6 +176,7 @@ fd_forest_chorological <- function(species, range = "nat", quiet = TRUE) {
       file.d <- download.file(
         url      = stringr::str_glue("{download_url}/1"),
         destfile = user_species_zip,
+        quiet    = quiet,
         mode     = "wb"
       )
     )

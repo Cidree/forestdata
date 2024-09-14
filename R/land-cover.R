@@ -38,20 +38,20 @@ get_glc_tbl <- function() {
     layers    = layers
   )
   # 6. Prepare grid and urls
-  grid_urls <- grid_urls %>%
-    tibble::as_tibble() %>%
+  grid_urls <- grid_urls |>
+    tibble::as_tibble() |>
     dplyr::mutate(
-      year = stringr::str_extract(years_url, "([0-9]{4})") %>% as.numeric()
-    ) %>%
+      year = stringr::str_extract(years_url, "([0-9]{4})") |> as.numeric()
+    ) |>
     dplyr::mutate(
       lonlat     = paste0(lon_code, lat_code),
-      lon        = stringr::str_sub(lon_code, 2, 4) %>% as.numeric(),
+      lon        = stringr::str_sub(lon_code, 2, 4) |> as.numeric(),
       lon        = ifelse(stringr::str_detect(lon_code, "E([0-9]{3})"), lon, -lon),
-      lat        = stringr::str_sub(lat_code, 2, 3) %>% as.numeric(),
+      lat        = stringr::str_sub(lat_code, 2, 3) |> as.numeric(),
       lat        = ifelse(stringr::str_detect(lat_code, "N([0-9]{2})"), lat, -lat),
       url        = stringr::str_glue("https://s3-eu-west-1.amazonaws.com/vito.landcover.global/v3.0.1/{year}/{lonlat}/{lonlat}_PROBAV_LC100_global_v3.0.1_{years_url}_{layers}_EPSG-4326.tif"),
       layer_shrt = stringr::str_split(layers, "-"),
-      layer_shrt = purrr::map_chr(layer_shrt, 1) %>% stringr::str_to_lower()
+      layer_shrt = purrr::map_chr(layer_shrt, 1) |> stringr::str_to_lower()
       )
   return(grid_urls)
 }
@@ -161,7 +161,7 @@ fd_landcover_copernicus <- function(x,
     new_lat <- ceiling(lat / 20) * 20
     new_lon <- floor(lon / 20) * 20
     ## 1.2. Filter file
-    tile_tbl <- glc_tbl %>%
+    tile_tbl <- glc_tbl |>
       dplyr::filter(lat == new_lat & lon == new_lon)
   } else {
     ## 1.3. Get tiles for x
@@ -172,7 +172,7 @@ fd_landcover_copernicus <- function(x,
     new_lon <- floor(xbbox[c(1,3)]/20) * 20
     new_lat <- ceiling(xbbox[c(2,4)]/20) * 20
     ### 1.3.3. Filter file
-    tile_tbl <- glc_tbl %>%
+    tile_tbl <- glc_tbl |>
       dplyr::filter(lat %in% new_lat & lon %in% new_lon)
   }
 
@@ -227,7 +227,7 @@ get_landcoverexplorer_tbl <- function() {
   nmbrs   <- sprintf("%02d", nmbrs)
 
   # 2. Table with options
-  expand.grid(Year = years, Number = nmbrs, Letter = letters) %>%
+  expand.grid(Year = years, Number = nmbrs, Letter = letters) |>
     dplyr::mutate(download_url =
                     stringr::str_glue("https://lulctimeseries.blob.core.windows.net/lulctimeseriesv003/lc{Year}/{Number}{Letter}_{Year}0101-{Year + 1}0101.tif")
     )
@@ -274,12 +274,12 @@ fd_landcover_esri <- function(utm_code,
 
   # 2. Get url
   if (year == "all") {
-    download_url <- landcover_explorer_tbl %>%
-      dplyr::filter(Number == nmbr & Letter == lttr) %>%
+    download_url <- landcover_explorer_tbl |>
+      dplyr::filter(Number == nmbr & Letter == lttr) |>
       dplyr::pull(download_url)
   } else {
-    download_url <- landcover_explorer_tbl %>%
-      dplyr::filter(Year %in% year & Number == nmbr & Letter == lttr) %>%
+    download_url <- landcover_explorer_tbl |>
+      dplyr::filter(Year %in% year & Number == nmbr & Letter == lttr) |>
       dplyr::pull(download_url)
   }
 

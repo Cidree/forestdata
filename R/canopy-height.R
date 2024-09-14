@@ -25,11 +25,11 @@ get_gch_tbl <- function() {
     layer    = c("", "_SD")
   )
   # 4. Prepare urls
-  grid_urls <- grid_urls %>%
+  grid_urls <- grid_urls |>
     dplyr::mutate(
-      lon = stringr::str_sub(lon_code, 2, 4) %>% as.numeric(),
+      lon = stringr::str_sub(lon_code, 2, 4) |> as.numeric(),
       lon = ifelse(stringr::str_detect(lon_code, "E([0-9]{3})"), lon, -lon),
-      lat = stringr::str_sub(lat_code, 2, 3) %>% as.numeric(),
+      lat = stringr::str_sub(lat_code, 2, 3) |> as.numeric(),
       lat = ifelse(stringr::str_detect(lat_code, "N([0-9]{2})"), lat, -lat),
       url = paste0(
         "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_",
@@ -111,7 +111,7 @@ fd_canopy_height <- function(x     = NULL,
     new_lat <- floor(lat / 3) * 3
     new_lon <- floor(lon / 3) * 3
     ## 1.2. Filter file
-    tile_tbl <- gch_tbl %>%
+    tile_tbl <- gch_tbl |>
       dplyr::filter(lat == new_lat & lon == new_lon)
   } else {
     ## 1.3. Get tiles for x
@@ -125,7 +125,7 @@ fd_canopy_height <- function(x     = NULL,
     new_lon <- seq(new_lon[1], new_lon[2], 3)
     new_lat <- seq(new_lat[1], new_lat[2], 3)
     ### 1.3.4. Filter file
-    tile_tbl <- gch_tbl %>%
+    tile_tbl <- gch_tbl |>
       dplyr::filter(lat %in% new_lat & lon %in% new_lon)
   }
 
