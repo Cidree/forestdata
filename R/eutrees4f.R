@@ -18,10 +18,10 @@ get_eutrees4f_tbl <- function() {
   ## 2.1. List files in a folder
   eutrees_files <- list.files(path = stringr::str_glue("{dir_unzip}/ens_clim/bin"))
   ## 2.2. Extract species
-  eutrees_trees <- eutrees_files %>%
-    stringr::str_split("_") %>%
-    purrr::map(\(x) paste(x[1:2], collapse = " ")) %>%
-    as.character() %>%
+  eutrees_trees <- eutrees_files |>
+    stringr::str_split("_") |>
+    purrr::map(\(x) paste(x[1:2], collapse = " ")) |>
+    as.character() |>
     unique()
   ## 2.3. Return results
   return(eutrees_trees)
@@ -145,6 +145,7 @@ fd_forest_eutrees4f <- function(species,
   if (type == "std" & distrib != "pot") stop("You must use distrib = 'pot' for type = 'std'.")
   if (type == "std" & period == 2005) stop("There's no current map (2005) for type = 'std'. Please, choose 2035, 2065 or 2095.")
   if (distrib %in% c("nat", "disp", "dip_lu") & type != "bin") stop("The distribution chosen is only available in binary output. Please use `type = 'bin'`")
+  if (distrib == "nat" & period != 2005) stop("Natural distribution is only available for 2005")
 
   # 1. Download file
   ## 1.1. Url and file destination
@@ -186,7 +187,7 @@ fd_forest_eutrees4f <- function(species,
       path       = stringr::str_glue("{dir_unzip}/ens_{model}/{type}"),
       pattern    = x,
       full.names = TRUE
-    )) %>% as.character()
+    )) |> as.character()
     ## Read into R and rename
     rst <- terra::rast(rast.path)
     names(rst) <- c("cur2005", "fut2035", "fut2065", "fut2095")
