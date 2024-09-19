@@ -10,15 +10,12 @@ status](https://www.r-pkg.org/badges/version/forestdata)](https://CRAN.R-project
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![Codecov test
-coverage](https://codecov.io/gh/Cidree/forestdata/branch/main/graph/badge.svg)](https://app.codecov.io/gh/Cidree/forestdata?branch=main)
+coverage](https://codecov.io/gh/Cidree/forestdata/graph/badge.svg)](https://app.codecov.io/gh/Cidree/forestdata)
 [![License: GPL
 v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-
-[![Codecov test
-coverage](https://codecov.io/gh/Cidree/forestdata/graph/badge.svg)](https://app.codecov.io/gh/Cidree/forestdata)
 <!-- badges: end -->
 
 `forestdata` is an R package for downloading forestry and land use data.

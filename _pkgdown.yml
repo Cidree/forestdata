@@ -17,6 +17,9 @@ authors:
     href: https://adrian-cidre.com/
 
 reference:
+  - title: "Allometry"
+    contents:
+    - fd_allometry_tallo
   - title: "Land Cover data"
     contents:
     - fd_landcover_copernicus
