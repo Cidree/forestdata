@@ -9,7 +9,8 @@ fd_pathogens_defid2(
   host = "all",
   symptoms = "all",
   country = "all",
-  geometry = "polygon"
+  geometry = "polygon",
+  quiet = TRUE
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ default '\code{all}' retrieves every tree}
 
 \item{geometry}{a string with '\code{polygon}' to retrieve polygon data, or
 '\code{point}' to retrieve point data}
+
+\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
+the progress bar}
 }
 \value{
 \code{sf} object with \code{MULTIPOLYGON} or \code{POINT} geometry
@@ -39,9 +43,13 @@ Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
 
 
+
 This function will download the DEFID2 database to the temporary directory
 once per session. After it's downloaded, the queries to the database are
 faster than the first time.
+
+Note that 99.6% of the observations correspond to _Picea abies_.
+Also, 99.3% of the observations are in Czechia.
 
 The data comprises over 650,000 georeferenced records, which can be retrieved
 as points or polygons, representing insects and diseases that occurred between
