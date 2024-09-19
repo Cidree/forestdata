@@ -232,10 +232,10 @@ get_spain_ifn4_tbl <- function() {
 #'
 #' @examples
 #' \donttest{
-#' # Download MFE50 for the province of Lugo
-#' lugo_ifn4_lst <- fd_inventory_spain("Lugo")
+#' # Download MFE50 for Canary Islands
+#' canarias_ifn4_lst <- fd_inventory_spain("Canarias")
 #'
-#' lugo_ifn3_gis_lst <- fd_inventory_spain("Lugo", ifn = 3, database = "gis")
+#' canarias_ifn3_gis_lst <- fd_inventory_spain("Canarias", ifn = 3, database = "gis")
 #' }
 fd_inventory_spain <- function(province,
                                ifn = 4,
