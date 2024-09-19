@@ -52,10 +52,9 @@ big extensions the function might take some time to retrieve the data.
 }
 }
 \references{
-P. Potapov, X. Li, A. Hernandez-Serna, A. Tyukavina, M.C. Hansen,
-            A. Kommareddy, A. Pickens, S. Turubanova, H. Tang, C.E. Silva,
-            J. Armston, R. Dubayah, J. B. Blair, M. Hofton (2020) Mapping
-            and monitoring global forest canopy height through integration
-            of GEDI and Landsat data. Remote Sensing of Environment,
-            112165. https://doi.org/10.1016/j.rse.2020.112165
+Potapov P., Hansen M.C., Pickens A., Hernandez-Serna A., Tyukavina A.,
+Turubanova S., Zalles V., Li X., Khan A., Stolle F., Harris N., Song X.-P.,
+Baggett A., Kommareddy I., Kommareddy A. (2022) The global 2000-2020 land cover
+and land use change dataset derived from the Landsat archive: first results.
+Frontiers in Remote Sensing \url{https://doi.org/10.3389/frsen.2022.856903}
 }
