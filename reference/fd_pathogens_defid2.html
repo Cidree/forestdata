@@ -44,7 +44,8 @@
 <span>  host <span class="op">=</span> <span class="st">"all"</span>,</span>
 <span>  symptoms <span class="op">=</span> <span class="st">"all"</span>,</span>
 <span>  country <span class="op">=</span> <span class="st">"all"</span>,</span>
-<span>  geometry <span class="op">=</span> <span class="st">"polygon"</span></span>
+<span>  geometry <span class="op">=</span> <span class="st">"polygon"</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -53,28 +54,33 @@
 
 
 <dl><dt id="arg-agent">agent<a class="anchor" aria-label="anchor" href="#arg-agent"></a></dt>
-<dd><p>A character vector with the desired forest insect(s) and/or
+<dd><p>a character vector with the desired forest insect(s) and/or
 disease(s). The default '<code>all</code>' retrieves every agent</p></dd>
 
 
 <dt id="arg-host">host<a class="anchor" aria-label="anchor" href="#arg-host"></a></dt>
-<dd><p>A character vector with the desired host tree(s) species. The
+<dd><p>a character vector with the desired host tree(s) species. The
 default '<code>all</code>' retrieves every tree</p></dd>
 
 
 <dt id="arg-symptoms">symptoms<a class="anchor" aria-label="anchor" href="#arg-symptoms"></a></dt>
-<dd><p>A character vector with the desired symptom(s). The default
+<dd><p>a character vector with the desired symptom(s). The default
 '<code>all</code>' retrieves every symptom</p></dd>
 
 
 <dt id="arg-country">country<a class="anchor" aria-label="anchor" href="#arg-country"></a></dt>
-<dd><p>A character vector with the desired country(ies). The default
+<dd><p>a character vector with the desired country(ies). The default
 '<code>all</code>' retrieves every country</p></dd>
 
 
 <dt id="arg-geometry">geometry<a class="anchor" aria-label="anchor" href="#arg-geometry"></a></dt>
-<dd><p>A string with '<code>polygon</code>' to retrieve polygon data, or
+<dd><p>a string with '<code>polygon</code>' to retrieve polygon data, or
 '<code>point</code>' to retrieve point data</p></dd>
+
+
+<dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
+<dd><p>if <code>TRUE</code> (the default), suppress status messages, and
+the progress bar</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -84,11 +90,14 @@ default '<code>all</code>' retrieves every tree</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Data may be freely used for research, study, or teaching, but be cited
-appropiately (see references below).</p>
+appropriately (see references below).</p>
+
 
 <p>This function will download the DEFID2 database to the temporary directory
 once per session. After it's downloaded, the queries to the database are
 faster than the first time.</p>
+<p>Note that 99.6<!-- % of the observations correspond to _Picea abies_. -->
+Also, 99.3<!-- % of the observations are in Czechia. --></p>
 <p>The data comprises over 650,000 georeferenced records, which can be retrieved
 as points or polygons, representing insects and diseases that occurred between
 1963 and 2021 in European Forests.</p>
@@ -128,7 +137,7 @@ as points or polygons, representing insects and diseases that occurred between
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>
