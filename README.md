@@ -17,6 +17,8 @@ v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/li
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
+[![Codecov test
+coverage](https://codecov.io/gh/Cidree/forestdata/graph/badge.svg)](https://app.codecov.io/gh/Cidree/forestdata)
 <!-- badges: end -->
 
 `forestdata` is an R package for downloading forestry and land use data.
