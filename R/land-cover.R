@@ -221,7 +221,7 @@ fd_landcover_copernicus <- function(x,
 get_landcoverexplorer_tbl <- function() {
 
   # 1. Possible options
-  years   <- 2017:2022
+  years   <- 2017:2023
   letters <- LETTERS[-c(1, 2, 9, 15, 25:26)]
   nmbrs   <- 1:60
   nmbrs   <- sprintf("%02d", nmbrs)
