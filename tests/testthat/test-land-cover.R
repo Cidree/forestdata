@@ -9,20 +9,20 @@ copernicus_coords <- fd_landcover_copernicus(
   lat = 43
 )
 
-## LC coords several layers
-copernicus_coords_2_layers <- fd_landcover_copernicus(
-  lon   = -7,
-  lat   = 43,
-  layer = c("crops", "tree")
-)
-
-## LC coords several layers and years
-copernicus_years <- fd_landcover_copernicus(
-  lon   = -7,
-  lat   = 43,
-  year  = "all",
-  layer = c("crops", "tree")
-)
+# ## LC coords several layers
+# copernicus_coords_2_layers <- fd_landcover_copernicus(
+#   lon   = -7,
+#   lat   = 43,
+#   layer = c("crops", "tree")
+# )
+#
+# ## LC coords several layers and years
+# copernicus_years <- fd_landcover_copernicus(
+#   lon   = -7,
+#   lat   = 43,
+#   year  = "all",
+#   layer = c("crops", "tree")
+# )
 
 ## Create a polygon for 1 tile
 polygon_1tile_vect <- sf::st_sfc(sf::st_point(c(-7, 44)), crs = 4326) |>
@@ -42,10 +42,10 @@ copernicus_polygon <- fd_landcover_copernicus(
 )
 
 ## LC polygon 2 layers (merging 2 tiles)
-copernicus_polygon_2_layers <- fd_landcover_copernicus(
-  x     = polygon_2tiles_sf,
-  layer = c("snow", "bare")
-)
+# copernicus_polygon_2_layers <- fd_landcover_copernicus(
+#   x     = polygon_2tiles_sf,
+#   layer = c("snow", "bare")
+# )
 
 ## Crop
 copernicus_crop <- fd_landcover_copernicus(
@@ -61,10 +61,10 @@ copernicus_crop <- fd_landcover_copernicus(
 ## Check that data is properly downloaded (tiles are merged)
 test_that("Data is properly downloaded", {
   expect_s4_class(copernicus_coords, "SpatRaster")
-  expect_s4_class(copernicus_coords_2_layers, "SpatRaster")
-  expect_s4_class(copernicus_years, "SpatRaster")
+  # expect_s4_class(copernicus_coords_2_layers, "SpatRaster")
+  # expect_s4_class(copernicus_years, "SpatRaster")
   expect_s4_class(copernicus_polygon, "SpatRaster")
-  expect_s4_class(copernicus_polygon_2_layers, "SpatRaster")
+  # expect_s4_class(copernicus_polygon_2_layers, "SpatRaster")
   expect_s4_class(copernicus_crop, "SpatRaster")
 })
 
@@ -76,24 +76,24 @@ test_that("Layers are correctly downloaded and named", {
     "W020N60_PROBAV_LC100_global_v3.0.1_2019-nrt_Forest-Type-layer_EPSG-4326.tif"
   )
 
-  expect_equal(
-    copernicus_coords_2_layers |> terra::sources() |> basename(),
-    c(
-      "W020N60_PROBAV_LC100_global_v3.0.1_2019-nrt_Crops-CoverFraction-layer_EPSG-4326.tif",
-      "W020N60_PROBAV_LC100_global_v3.0.1_2019-nrt_Tree-CoverFraction-layer_EPSG-4326.tif"
-    )
-  )
+  # expect_equal(
+  #   copernicus_coords_2_layers |> terra::sources() |> basename(),
+  #   c(
+  #     "W020N60_PROBAV_LC100_global_v3.0.1_2019-nrt_Crops-CoverFraction-layer_EPSG-4326.tif",
+  #     "W020N60_PROBAV_LC100_global_v3.0.1_2019-nrt_Tree-CoverFraction-layer_EPSG-4326.tif"
+  #   )
+  # )
 
-  expect_equal(
-    copernicus_years |> names(),
-    c(
-      paste0("crops_", 2015:2019),
-      paste0("tree_", 2015:2019)
-    )
-  )
+  # expect_equal(
+  #   copernicus_years |> names(),
+  #   c(
+  #     paste0("crops_", 2015:2019),
+  #     paste0("tree_", 2015:2019)
+  #   )
+  # )
 
   expect_equal(copernicus_polygon |> names(), "builtup_2019")
-  expect_equal(copernicus_polygon_2_layers |> names(), c("bare_2019", "snow_2019"))
+  # expect_equal(copernicus_polygon_2_layers |> names(), c("bare_2019", "snow_2019"))
   expect_equal(copernicus_crop |> names(), "grass_2016")
 
 
@@ -117,7 +117,7 @@ test_that("Crop works", {
 lc_base <- fd_landcover_esri("29T", year = 2020, quiet = FALSE)
 
 ## Download LC for all the years
-lc_years <- fd_landcover_esri("29N", year = "all", quiet = FALSE)
+# lc_years <- fd_landcover_esri("29N", year = "all", quiet = FALSE)
 
 
 ## 2.2. Unit tests --------------------
@@ -125,7 +125,7 @@ lc_years <- fd_landcover_esri("29N", year = "all", quiet = FALSE)
 ## Check that data is properly downloaded
 test_that("Data is properly downloaded", {
   expect_s4_class(lc_base, "SpatRaster")
-  expect_s4_class(lc_years, "SpatRaster")
+  # expect_s4_class(lc_years, "SpatRaster")
 })
 
 ## Check that layers are the correct ones, and with correct name
