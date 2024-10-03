@@ -181,7 +181,7 @@ fd_canopy_height <- function(x     = NULL,
   }
 
   # 5. Manage crop
-  if (crop) ch_sr <- crop(ch_sr, x, ...)
+  if (crop) ch_sr <- terra::crop(ch_sr, xwgs84, ...)
 
   # 6. Return
   return(ch_sr)
