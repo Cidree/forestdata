@@ -10,8 +10,8 @@ fd_landcover_esri(utm_code, year, quiet = TRUE)
 \item{utm_code}{a character string of length 1 with an UTM code (e.g. "29N")}
 
 \item{year}{an integer or vector of integers corresponding to the base year
-of the Land Cover image. The option \code{year = 'all'} downloads all
-the available images}
+of the land cover tile. The option \code{year = 'all'} downloads all
+the available images (2017:2022)}
 
 \item{quiet}{if \code{TRUE} (the default), suppress status messages, and
 the progress bar}

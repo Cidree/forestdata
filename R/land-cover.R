@@ -69,7 +69,7 @@ get_glc_tbl <- function() {
 #'          specified, this argument is ignored)
 #' @param lat a number specifying the latitude of the area where we want the tile
 #' @param lon a number specifying the longitude of the area where we want the tile
-#' @param year year of the forest extent data. One of 2015:2019 or 'all'
+#' @param year year of the land cover data. One of 2015:2019 or 'all'
 #' @param layer a character vector of the layer(s) to use from the Global
 #'              Land Cover. See details
 #' @param crop when \code{x} is specified, whether to crop the tiles(s) to the
@@ -197,7 +197,7 @@ fd_landcover_copernicus <- function(x,
   names(glad_sr) <- ids$layer_names
 
   # 4. Manage crop
-  if (crop) glad_sr <- terra::crop(glad_sr, x, ...)
+  if (crop) glad_sr <- terra::crop(glad_sr, xwgs84, ...)
 
   # 5. Return
   return(glad_sr)
@@ -242,8 +242,8 @@ get_landcoverexplorer_tbl <- function() {
 #'
 #' @param utm_code a character string of length 1 with an UTM code (e.g. "29N")
 #' @param year an integer or vector of integers corresponding to the base year
-#'             of the Land Cover image. The option \code{year = 'all'} downloads all
-#'             the available images
+#'             of the land cover tile. The option \code{year = 'all'} downloads all
+#'             the available images (2017:2022)
 #' @param quiet if \code{TRUE} (the default), suppress status messages, and
 #'              the progress bar
 #'

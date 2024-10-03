@@ -23,7 +23,7 @@ specified, this argument is ignored)}
 
 \item{lat}{a number specifying the latitude of the area where we want the tile}
 
-\item{year}{year of the forest extent data. One of 2015:2019 or 'all'}
+\item{year}{year of the land cover data. One of 2015:2019 or 'all'}
 
 \item{layer}{a character vector of the layer(s) to use from the Global
 Land Cover. See details}
