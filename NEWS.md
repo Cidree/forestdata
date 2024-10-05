@@ -14,15 +14,17 @@
 
     -   New list containing metadata of possible options for `fd_pathogens_defid2()`.
 
+    -   New list containing metadata of codes for discrete and forest layers in `fd_landcover_copernicus()`.
+
 -   `fd_landcover_esri()`: now includes land cover data for 2023.
 
 ## Enhancements
 
 -   Properly name land cover instead of land use to `fd_landcover_copernicus()` and `fd_landcover_esri()` in their documentation.
 
--   `fd_forest_eutrees4f()`: now gives an error with a better message when `distrib == "nat" & period != 2005`
+-   `fd_forest_eutrees4f()`: now gives an error with a better message when `distrib == "nat" & period != 2005`.
 
--   Improve documentation, fix mistakes in urls to other functions, add unit tests for all functions, correct wrong `fd_forest_extent_glad()` reference
+-   Improve documentation, fix mistakes in urls to other functions, add unit tests for all functions, correct wrong `fd_forest_extent_glad()` reference.
 
 ## Bugs
 
