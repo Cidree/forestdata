@@ -168,7 +168,7 @@ get_combined_raster_2l <- function(year_i, layer_i, url_table) {
 #'
 #' @return A \code{SpatRaster}
 #' @keywords internal
-fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
+fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000, quiet = FALSE) {
 
   ## 1. File name
   if (is.null(start) & is.null(end)) {
@@ -188,7 +188,8 @@ fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
     download.file(
       url      = url,
       destfile = url_path,
-      mode     = "wb"
+      mode     = "wb",
+      quiet    = quiet
     )
   }
   ## Read raster into R
