@@ -16,5 +16,6 @@ Global Canopy Height Table
 }
 \references{
 <https://gee-community-catalog.org/projects/canopy/>
+<https://www.research-collection.ethz.ch/handle/20.500.11850/609802>
 }
 \keyword{internal}

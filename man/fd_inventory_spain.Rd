@@ -43,7 +43,7 @@ In the future a function to process the data will be added.
 # Download MFE50 for Canary Islands
 canarias_ifn4_lst <- fd_inventory_spain("Canarias")
 
-canarias_ifn3_gis_lst <- fd_inventory_spain("Canarias", ifn = 3, database = "gis")
+cantabria_ifn3_gis_lst <- fd_inventory_spain("cantabria", ifn = 3, database = "gis")
 }
 }
 \references{

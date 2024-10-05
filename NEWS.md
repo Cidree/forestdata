@@ -18,6 +18,12 @@
 
 -   `fd_landcover_esri()`: now includes land cover data for 2023.
 
+-   `fd_canopy_height()`: gains a new argument `model` with two possible options:
+
+    -   `model = "eth"`: default value. It returns the ETH Global Canopy Model with 10 meters of spatial resolution.
+
+    -   `model = "meta"`: it returns the Meta Global Canopy Model with 1 meter of spatial resolution.
+
 ## Enhancements
 
 -   Properly name land cover instead of land use to `fd_landcover_copernicus()` and `fd_landcover_esri()` in their documentation.
@@ -27,6 +33,8 @@
 -   Improve documentation, fix mistakes in urls to other functions, add unit tests for all functions, correct wrong `fd_forest_extent_glad()` reference.
 
 -   Remove dependency on `RODBC`, and use `DBI` and `odbc` instead in `fd_inventory_spain()`. Improve error message when data is not available.
+
+-   `fd_canopy_height()`: now crops and then merges multiples tiles, so it's much faster when using `crop = TRUE`.
 
 ## Bugs
 

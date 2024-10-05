@@ -8,6 +8,7 @@ fd_canopy_height(
   x = NULL,
   lon = NULL,
   lat = NULL,
+  model = "eth",
   layer = "chm",
   crop = FALSE,
   ...
@@ -22,12 +23,14 @@ specified, this argument is ignored)}
 
 \item{lat}{a number specifying the latitude of the area where we want the tile}
 
-\item{layer}{a string for the layer to download. The default "\code{chm}"
-downloads the Canopy Height Model, while "\code{std}" downloads
-the standard deviation. If you want both layers, use "\code{all}"}
+\item{model}{a string specifying the model to download. One of "\code{eth}"
+or "\code{meta}" (see details)}
 
-\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
-object}
+\item{layer}{a string for the layer to download. The default "\code{chm}"
+downloads the Canopy Height Model, while "\code{std}" downloads the standard
+deviation. If you want both layers, use "\code{all}"}
+
+\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the object}
 
 \item{...}{additional arguments passed to the \link[terra]{crop} function}
 }
@@ -35,19 +38,36 @@ object}
 A \code{SpatRaster}
 }
 \description{
-Download the ETH Global Sentinel-2 10m Canopy Height (2020)
+Download the ETH Global Sentinel-2 10m Canopy Height (2020) or the
+Meta High Resolution 1m Global Canopy Height Map
 }
 \details{
+There are currently two global canopy height models available within this function.
+
+- \strong{eth}: the ETH Global Sentinel-2 10m Canopy Height from the year 2020. Visit
+\url{https://www.research-collection.ethz.ch/handle/20.500.11850/609802} for more
+information
+
+- \strong{meta}: the Meta High Resolution 1m Global Canopy Height. Visit
+\url{https://doi.org/10.1016/j.rse.2023.113888} for more information
+
 Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
 }
 \examples{
 \donttest{
-fd_canopy_height(lon = -7.27, lat = 42.43)
+## Get 10m resolution CHM
+eth_model <- fd_canopy_height(lon = -7.27, lat = 42.43)
+
+## Get 1m resolution CHM
+meta_model <- fd_canopy_height(lon = -7.27, lat = 42.43, model = "meta")
 }
 }
 \references{
-Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk
-             Wegner. "A high-resolution canopy height model of the Earth."
-             arXiv preprint arXiv:2204.08322 (2022).
+Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk Wegner.
+"A high-resolution canopy height model of the Earth." arXiv preprint arXiv:2204.08322 (2022).
+
+Tolan, J., Yang, H.I., Nosarzewski, B., Couairon, G., Vo, H.V., Brandt, J., Spore, J., Majumdar, S., Haziza, D., Vamaraju, J. and Moutakanni, T.,
+2024. Very high resolution canopy height maps from RGB imagery using self-supervised vision transformer and convolutional decoder trained on aerial
+lidar. Remote Sensing of Environment, 300, p.113888.
 }
