@@ -95,10 +95,11 @@ Chorological maps for the main European woody species. Data in Brief 12,
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span> <span class="co"># Download data for sweet chestnut</span></span></span>
 <span class="r-in"><span> <span class="va">chestnut_nat_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_chorological</span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Castanea sativa"</span>, range <span class="op">=</span> <span class="st">"nat"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in download.file(url = stringr::str_glue("{download_url}/1"), destfile = user_species_zip,     quiet = quiet, mode = "wb"):</span> cannot open URL 'https://figshare.com/ndownloader/articles/5100802/versions/1'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span> <span class="co"># Plot the data</span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">chestnut_nat_sf</span><span class="op">$</span><span class="va">geometry</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="fd_forest_chorological-1.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'chestnut_nat_sf' not found</span>
 <span class="r-in"><span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
