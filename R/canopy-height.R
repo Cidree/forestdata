@@ -405,7 +405,7 @@ fd_canopy_height <- function(x = NULL,
   if (model == "eth") {
     fd_canopy_height_eth(x = x, lon = lon, lat = lat, layer = layer, crop = crop, ...)
   } else {
-    fd_canopy_height_meta(x = x, lon = lon, lat = lat, layer = layer, crop = crop, ...)
+    fd_canopy_height_meta(x = x, lon = lon, lat = lat, crop = crop, ...)
   }
 
 

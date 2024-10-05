@@ -22,7 +22,7 @@
 
     -   `model = "eth"`: default value. It returns the ETH Global Canopy Model with 10 meters of spatial resolution.
 
-    -   `model = "meta"`: it returns the Meta Global Canopy Model with 1 meter of spatial resolution.
+    -   `model = "meta"`: it returns the Meta Global Canopy Model with 1 meter of spatial resolution. Thanks to @Wycology in #2.
 
 ## Enhancements
 
