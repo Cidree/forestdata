@@ -235,7 +235,7 @@ get_spain_ifn4_tbl <- function() {
 #' # Download MFE50 for Canary Islands
 #' canarias_ifn4_lst <- fd_inventory_spain("Canarias")
 #'
-#' canarias_ifn3_gis_lst <- fd_inventory_spain("Canarias", ifn = 3, database = "gis")
+#' cantabria_ifn3_gis_lst <- fd_inventory_spain("cantabria", ifn = 3, database = "gis")
 #' }
 fd_inventory_spain <- function(province,
                                ifn = 4,
@@ -328,7 +328,7 @@ fd_inventory_spain <- function(province,
     ## 4.3. Disconnect on exit
     on.exit(DBI::dbDisconnect(conn))
     ## 4.4. Table names
-    tables_vec <- dbListTables(conn)[!grepl("^MSys", dbListTables(conn))]
+    tables_vec <- DBI::dbListTables(conn)[!grepl("^MSys", DBI::dbListTables(conn))]
     ## 4.5. Read data into a list
     data_lst <- purrr::map(
       .x = tables_vec,
