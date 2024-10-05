@@ -242,18 +242,19 @@ fd_inventory_spain <- function(province,
                                database = "field",
                                path_metadata = NULL,
                                quiet = TRUE) {
-  # 0. Hanlde errors
-  if (!requireNamespace("RODBC", quietly = TRUE)) stop("Package `RODBC` is required to access the inventory data. Please, install it.")
+  # 0. Handle errors
+  if (!requireNamespace("DBI", quietly = TRUE)) stop("Package `DBI` is required to access the inventory data. Please, install it.")
+  if (!requireNamespace("odbc", quietly = TRUE)) stop("Package `odbc` is required to access the inventory data. Please, install it.")
   # 1. Filter province
   ## 1.1. Fix province
   province_fix <- province |>
     fdi_fix_names()
   ## 1.2. Filter selected province
   ifn_data <- switch(as.character(ifn),
-    "2" = ifn2_tbl,
-    "3" = ifn3_tbl,
-    "4" = ifn4_tbl,
-    stop("Invalid IFN number. Please, choose a number from 1 to 4")
+                     "2" = ifn2_tbl,
+                     "3" = ifn3_tbl,
+                     "4" = ifn4_tbl,
+                     stop("Invalid IFN number. Please, choose a number from 1 to 4")
   )
 
   selected_province <- ifn_data |>
@@ -265,7 +266,15 @@ fd_inventory_spain <- function(province,
   dir_zip      <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_unzip    <- stringr::str_remove(dir_zip, ".zip")
   ## 2.1. Download and unzip
-  fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet = quiet)
+  tryCatch({
+    # Call the original function
+    fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet = quiet)
+
+  }, error = function(e) {
+    # Handle any errors by printing a custom message
+    message("Error. The files you are trying to download aren't available now.")
+  }
+  )
 
   # 3. Download metadata?
   if (!is.null(path_metadata)) {
@@ -309,21 +318,23 @@ fd_inventory_spain <- function(province,
     }
   } else {
     ## 4.1. File name
-    filename <- list.files(dir_unzip, full.names = TRUE)
+    filename <- list.files(dir_unzip, full.names = TRUE, pattern = "\\.accdb$")
     ## 4.2. Connect to DB
-    conn <- RODBC::odbcConnectAccess2007(filename)
-    ## 4.3. Table names
-    tables_vec <- RODBC::sqlTables(conn) |>
-      dplyr::filter(TABLE_TYPE != "SYSTEM TABLE") |>
-      dplyr::pull(TABLE_NAME)
-    ## 4.4. Read data into a list
+    conn <- odbc::dbConnect(odbc::odbc(),
+                            .connection_string = paste0(
+                              "Driver={Microsoft Access Driver (*.mdb, *.accdb)};",
+                              "Dbq=", filename, ";"
+                            ))
+    ## 4.3. Disconnect on exit
+    on.exit(DBI::dbDisconnect(conn))
+    ## 4.4. Table names
+    tables_vec <- dbListTables(conn)[!grepl("^MSys", dbListTables(conn))]
+    ## 4.5. Read data into a list
     data_lst <- purrr::map(
       .x = tables_vec,
-      .f = \(x) RODBC::sqlFetch(conn, x) |>
+      .f = \(x) DBI::dbReadTable(conn, x) |>
         tibble::as_tibble()
     )
-    ## 4.5. Disconnect from DB
-    RODBC::odbcClose(conn)
     ## 4.6. Rename list
     names(data_lst) <- tables_vec
     ## 4.7. Convert IFN4 PCDatosMap to projected SF (only in field database)

@@ -26,6 +26,8 @@
 
 -   Improve documentation, fix mistakes in urls to other functions, add unit tests for all functions, correct wrong `fd_forest_extent_glad()` reference.
 
+-   Remove dependency on `RODBC`, and use `DBI` and `odbc` instead in `fd_inventory_spain()`. Improve error message when data is not available.
+
 ## Bugs
 
 -   `fd_forest_chorological()`: fixes #5. Species *Cedrus atlantica* and *Phoenix theophrasti* are eliminated from the metadata since they have no range data. *Chamaerops humilis* is now well spelled. The function now retrieve an error message when data is not available (fixes #5).
