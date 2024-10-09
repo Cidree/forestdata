@@ -111,14 +111,11 @@ get_mfe50_provinces_tbl <- function() {
 #' Download the MFE50 (Spanish Forestry Map 1:50,000) for a province. The
 #' MFE50 was built during 1997-2006.
 #'
-#' @param province a character string of length 1 with the name of a
-#'                 Spanish province
-#' @param path_metadata a character string of length 1 with the path
-#'                      to store the metadata of the MFE50. The default
-#'                      \code{path_metadata = NULL} does not download the
-#'                      metadata
-#' @param quiet if \code{TRUE} (the default), suppress status messages, and
-#'              the progress bar
+#' @param province a character string of length 1 with the name of a Spanish province
+#' @param path_metadata a character string of length 1 with the path to store the
+#' metadata of the MFE50. The default \code{path_metadata = NULL} does not download
+#' the metadata
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return A \code{sf} object with \code{POLYGON} geometry
 #' @export
@@ -140,7 +137,7 @@ get_mfe50_provinces_tbl <- function() {
 #' }
 fd_forest_spain_mfe50 <- function(province,
                                   path_metadata = NULL,
-                                  quiet = TRUE) {
+                                  quiet = FALSE) {
 
   # 1. Get url
   ## 1.1. Fix province
@@ -178,10 +175,12 @@ fd_forest_spain_mfe50 <- function(province,
     download.file(
       url      = url_metadata,
       destfile = stringr::str_glue("{path_metadata}/{basename(url_metadata)}"),
-      mode     = "wb"
+      mode     = "wb",
+      quiet    = quiet
     )
   }
   ## 4.2. Return data
+  if (!quiet) message(crayon::cyan("Visit <https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html> for more information on the dataset"))
   return(province_shp)
 
 }
@@ -233,7 +232,7 @@ get_bdforet_tbl <- function() {
   tibble::tibble(
     Department   = departments,
     url          = download_url[-1],
-    Version      = c(rep(1, length(departments)/2), rep(2, length(departments)/2))
+    Version      = c(rep(2, length(departments)/2), rep(1, length(departments)/2))
   )
 }
 
@@ -246,14 +245,12 @@ get_bdforet_tbl <- function() {
 #' the polygons of forest vegetation in France.
 #'
 #' @param department a character string of length 1 with the name of a
-#'                   French department (see examples)
-#' @param path_metadata a character string of length 1 with the path
-#'                      to store the metadata of the BD Forêt database.
-#'                      The default \code{path_metadata = NULL} does
-#'                      not download the metadata
+#' French department (see examples)
+#' @param path_metadata a character string of length 1 with the path to store
+#' the metadata of the BD Forêt database. The default \code{path_metadata = NULL}
+#' does not download the metadata
 #' @param version the version number of the BD Forêt data. Either 1 or 2 (see details)
-#' @param quiet if \code{TRUE} (the default), suppress status messages, and
-#'              the progress bar
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return A \code{sf} object with \code{POLYGON} geometry
 #' @export
@@ -267,6 +264,22 @@ get_bdforet_tbl <- function() {
 #' aerial images with a minimum mapped area of 2.25 hectares. The year of reference
 #' for each department varies between 1987 and 2002. The version 1 contains the
 #' following variables:
+#'
+#' - ID: surface object identifier
+#'
+#' - CODE_TFV: alphanumeric code of the vegetation formation
+#'
+#' - TFV: vegetation formation type
+#'
+#' - TFV_G11: type of coverage and predominant composition of the vegetation
+#'            in 11 groups
+#'
+#' - ESSENCE: description of tree species according to the unique basic
+#'            nomenclature for all departments
+#'
+#' The BD Forêt version 2 was developed between 2007 and 2018 by photointerpretation
+#' of color infrared images from the BD ORTHO. It assigns a vegetation formation
+#' type to each mapped area larger than 5,000\eqn{m^2}. This version contains the variables:
 #'
 #' - DEP: department name
 #'
@@ -287,22 +300,6 @@ get_bdforet_tbl <- function() {
 #'
 #' - NOMB_TYPN: national type of vegetation cover
 #'
-#' The BD Forêt version 2 was developed between 2007 and 2018 by photointerpretation
-#' of color infrared images from the BD ORTHO. It assigns a vegetation formation
-#' type to each mapped area larger than 5,000\eqn{m^2}. This version contains the variables:
-#'
-#' - ID: surface object identifier
-#'
-#' - CODE_TFV: alphanumeric code of the vegetation formation
-#'
-#' - TFV: vegetation formation type
-#'
-#' - TFV_G11: type of coverage and predominant composition of the vegetation
-#'            in 11 groups
-#'
-#' - ESSENCE: description of tree species according to the unique basic
-#'            nomenclature for all departments
-#'
 #' For more information, download the metadata using the argument
 #' \code{path_metadata} (information in French).
 #'
@@ -314,19 +311,18 @@ get_bdforet_tbl <- function() {
 #' @examples
 #' \donttest{
 #' # Download BD Foret V2 for the department of Ardèche
-#' ardeche_bdforet2_sf <- fd_forest_france(department = "Ardeche") # works (prefered)
-#' ardeche_bdforet2_sf <- fd_forest_france(department = "ardèche") # also works
+#' ardeche_bdforet1_sf <- fd_forest_france(department = "Ardeche", version = 1)
 #' }
 fd_forest_france <- function(department,
                              path_metadata = NULL,
                              version       = 2,
-                             quiet         = TRUE) {
+                             quiet         = FALSE) {
 
   # 0. Check for errors
   ## 0.1. Fix name
   department_fix <- fdi_fix_names(department)
   ## 0.2. Department name valid?
-  if (!department_fix %in% bdforet_tbl$Department) stop("Sorry, the department name is not valid. Check https://geoservices.ign.fr/bdforet for the department names")
+  if (!department_fix %in% bdforet_tbl$Department) stop("The department name is not valid. Check <metadata_forestdata$bdforet_tbl_departments> for the department names")
   if (!version %in% c(1 , 2)) stop("The valid versions are 1 or 2")
 
   # 1. Get download url
@@ -343,7 +339,7 @@ fd_forest_france <- function(department,
   dir_zip   <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_unzip <- stringr::str_remove(dir_zip, ".7z$")
   ## 2.2. Download and unzip (download.file very slow for .7z, find alternative)
-  fdi_download_7zip(download_url, dir_unzip, dir_zip, quiet = FALSE)
+  fdi_download_7zip(download_url, dir_unzip, dir_zip, quiet = quiet)
 
   # 3. Get metadata?
   if (!is.null(path_metadata)) {
@@ -375,6 +371,7 @@ fd_forest_france <- function(department,
     full.names = TRUE
   )
   ## 4.2. Read into R
+  if (!quiet) message(crayon::cyan("Visit <https://geoservices.ign.fr/bdforet> for more information on the dataset"))
   sf::read_sf(vegetation_file)
 
 }
