@@ -19,7 +19,7 @@ polygon_sf <- sf::st_sfc(sf::st_point(c(-8, 43)), crs = 4326) |>
 ch_2tiles_sr <- fd_canopy_height(polygon_2tiles_sf)
 
 ## Download 1 tile
-ch_polygon_sr <- fd_canopy_height(polygon_sf)
+ch_polygon_sr <- fd_canopy_height(polygon_sf, quiet = TRUE)
 ch_polygon_crop_sr <- fd_canopy_height(polygon_sf, crop = TRUE)
 
 ## Download 1 tiles using coords

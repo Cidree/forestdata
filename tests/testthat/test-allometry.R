@@ -6,7 +6,7 @@ tallo_tbl        <- fd_allometry_tallo()
 tallo_sf         <- fd_allometry_tallo(spatial = TRUE)
 tallo_country_sf <- fd_allometry_tallo(country = "Spain")
 tallo_iso2_sf    <- fd_allometry_tallo(country = "ES")
-tallo_iso3_sf    <- fd_allometry_tallo(country = "ESP")
+tallo_iso3_sf    <- fd_allometry_tallo(country = "ESP", quiet = TRUE)
 tallo_2countries <- fd_allometry_tallo(country = c("ES", "PO"))
 
 ## Check formats

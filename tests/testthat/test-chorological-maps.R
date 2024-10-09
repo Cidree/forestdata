@@ -10,7 +10,8 @@ cs_syn <- fd_forest_chorological(
 
 cs_nat <- fd_forest_chorological(
   species = "Castanea sativa",
-  range   = "nat"
+  range   = "nat",
+  quiet   = TRUE
 )
 
 ## 1.2. Unit tests ------------------
@@ -35,13 +36,13 @@ test_that("Synanthropic range data is downloaded", {
 
 test_that("Polygons are downloaded, not points", {
 
-  expect_equal(
+  expect_in(
     sf::st_geometry_type(cs_nat, by_geometry = FALSE) |> as.character(),
-    "POLYGON"
+    c("POLYGON", "MULTIPOLYGON")
   )
 
-  expect_equal(
+  expect_in(
     sf::st_geometry_type(cs_syn, by_geometry = FALSE) |> as.character(),
-    "POLYGON"
+    c("POLYGON", "MULTIPOLYGON")
   )
 })

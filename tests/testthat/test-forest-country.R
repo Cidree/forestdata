@@ -6,7 +6,7 @@
 ## Get 1 file
 lugo_mfe <- fd_forest_spain_mfe50(
   province = "Lugo",
-  quiet    = FALSE
+  quiet    = TRUE
 )
 
 ## Get all files
@@ -49,7 +49,7 @@ hautes_alpes_forest_v2 <- fd_forest_france(
 hautes_alpes_forest_v1 <- fd_forest_france(
   department = metadata_forestdata$bdforet_tbl_departments[5],
   version   = 1,
-  quiet     = FALSE
+  quiet     = TRUE
 )
 
 ## 1.2. Unit tests ------------------
@@ -66,16 +66,16 @@ test_that("Data is downloaded properly for DB Foret v1", {
 })
 
 ## Check column names
-test_that("Column names are the correct ones for v2", {
+test_that("Column names are the correct ones for v1", {
   expect_equal(
-    names(hautes_alpes_forest_v2),
+    names(hautes_alpes_forest_v1),
     c("DEP", "CYCLE", "ANREF", "TFIFN", "LIBELLE", "LIBELLE2", "TYPN", "NOM_TYPN", "geometry")
   )
 })
 
-test_that("Column names are the correct ones for v1", {
+test_that("Column names are the correct ones for v2", {
   expect_equal(
-    names(hautes_alpes_forest_v1),
+    names(hautes_alpes_forest_v2),
     c("ID", "CODE_TFV", "TFV", "TFV_G11", "ESSENCE", "geometry")
   )
 })

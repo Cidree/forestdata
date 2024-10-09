@@ -31,7 +31,7 @@ albacete_ifn3_gis <- fd_inventory_spain(
 albacete_ifn2 <- fd_inventory_spain(
   province = "Albacete",
   ifn      = 2,
-  quiet    = FALSE
+  quiet    = TRUE
 )
 
 albacete_ifn2_gis <- fd_inventory_spain(

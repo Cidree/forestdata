@@ -13,7 +13,8 @@ acer_campestre_1_period <- purrr::map(
   c("2005", "2035", "2065", "2065"),
   \(x) fd_forest_eutrees4f(
     species = metadata_forestdata$eutrees4f_species[2],
-    period  = x
+    period  = x,
+    quiet   = TRUE
   )
 )
 
