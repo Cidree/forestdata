@@ -42,7 +42,7 @@ the polygons of forest vegetation in France.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fd_forest_france</span><span class="op">(</span><span class="va">department</span>, path_metadata <span class="op">=</span> <span class="cn">NULL</span>, version <span class="op">=</span> <span class="fl">2</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fd_forest_france</span><span class="op">(</span><span class="va">department</span>, path_metadata <span class="op">=</span> <span class="cn">NULL</span>, version <span class="op">=</span> <span class="fl">2</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -55,10 +55,9 @@ French department (see examples)</p></dd>
 
 
 <dt id="arg-path-metadata">path_metadata<a class="anchor" aria-label="anchor" href="#arg-path-metadata"></a></dt>
-<dd><p>a character string of length 1 with the path
-to store the metadata of the BD Forêt database.
-The default <code>path_metadata = NULL</code> does
-not download the metadata</p></dd>
+<dd><p>a character string of length 1 with the path to store
+the metadata of the BD Forêt database. The default <code>path_metadata = NULL</code>
+does not download the metadata</p></dd>
 
 
 <dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
@@ -66,8 +65,7 @@ not download the metadata</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
-<dd><p>if <code>TRUE</code> (the default), suppress status messages, and
-the progress bar</p></dd>
+<dd><p>if <code>TRUE</code>, suppress any message or progress bar</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -81,29 +79,27 @@ department, with the spatial distribution of tree species in the country.</p>
 <p>The BD Forêt version 1 was developed by photointerpretation of infrared color
 aerial images with a minimum mapped area of 2.25 hectares. The year of reference
 for each department varies between 1987 and 2002. The version 1 contains the
-following variables:</p>
-<p>- DEP: department name</p>
-<p>- CYCLE: order number of the departmental revision</p>
-<p>- ANREF: year of reference of the data</p>
-<p>- TFIFN: code of the departalmental type of vegetation cover. The nomenclature is
-  specific to each department</p>
-<p>- LIBELLE: departamental type of vegetation cover. The nomenclature is
-  specific to each department</p>
-<p>- LIBELLE2: departamental type of vegetation cover in capital letters.
-  The nomenclature is specific to each department</p>
-<p>- TYPN: code of the national type of vegetation cover</p>
-<p>- NOMB_TYPN: national type of vegetation cover</p>
-<p>The BD Forêt version 2 was developed between 2007 and 2018 by photointerpretation
+following variables:</p><ul><li><p>ID: surface object identifier</p></li>
+<li><p>CODE_TFV: alphanumeric code of the vegetation formation</p></li>
+<li><p>TFV: vegetation formation type</p></li>
+<li><p>TFV_G11: type of coverage and predominant composition of the vegetation
+in 11 groups</p></li>
+<li><p>ESSENCE: description of tree species according to the unique basic
+nomenclature for all departments</p></li>
+</ul><p>The BD Forêt version 2 was developed between 2007 and 2018 by photointerpretation
 of color infrared images from the BD ORTHO. It assigns a vegetation formation
-type to each mapped area larger than 5,000\(m^2\). This version contains the variables:</p>
-<p>- ID: surface object identifier</p>
-<p>- CODE_TFV: alphanumeric code of the vegetation formation</p>
-<p>- TFV: vegetation formation type</p>
-<p>- TFV_G11: type of coverage and predominant composition of the vegetation
-           in 11 groups</p>
-<p>- ESSENCE: description of tree species according to the unique basic
-           nomenclature for all departments</p>
-<p>For more information, download the metadata using the argument
+type to each mapped area larger than 5,000\(m^2\). This version contains the variables:</p><ul><li><p>DEP: department name</p></li>
+<li><p>CYCLE: order number of the departmental revision</p></li>
+<li><p>ANREF: year of reference of the data</p></li>
+<li><p>TFIFN: code of the departalmental type of vegetation cover. The nomenclature is
+specific to each department</p></li>
+<li><p>LIBELLE: departamental type of vegetation cover. The nomenclature is
+specific to each department</p></li>
+<li><p>LIBELLE2: departamental type of vegetation cover in capital letters.
+The nomenclature is specific to each department</p></li>
+<li><p>TYPN: code of the national type of vegetation cover</p></li>
+<li><p>NOMB_TYPN: national type of vegetation cover</p></li>
+</ul><p>For more information, download the metadata using the argument
 <code>path_metadata</code> (information in French).</p>
     </div>
     <div class="section level2">
@@ -119,8 +115,8 @@ type to each mapped area larger than 5,000\(m^2\). This version contains the var
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download BD Foret V2 for the department of Ardèche</span></span></span>
-<span class="r-in"><span><span class="va">ardeche_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span>department <span class="op">=</span> <span class="st">"Ardeche"</span><span class="op">)</span> <span class="co"># works (prefered)</span></span></span>
-<span class="r-in"><span><span class="va">ardeche_bdforet2_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span>department <span class="op">=</span> <span class="st">"ardèche"</span><span class="op">)</span> <span class="co"># also works</span></span></span>
+<span class="r-in"><span><span class="va">ardeche_bdforet1_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_france</span><span class="op">(</span>department <span class="op">=</span> <span class="st">"Ardeche"</span>, version <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Visit &lt;https://geoservices.ign.fr/bdforet&gt; for more information on the dataset</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

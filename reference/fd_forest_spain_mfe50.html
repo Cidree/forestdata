@@ -42,7 +42,7 @@ MFE50 was built during 1997-2006.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fd_forest_spain_mfe50</span><span class="op">(</span><span class="va">province</span>, path_metadata <span class="op">=</span> <span class="cn">NULL</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fd_forest_spain_mfe50</span><span class="op">(</span><span class="va">province</span>, path_metadata <span class="op">=</span> <span class="cn">NULL</span>, quiet <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -50,20 +50,17 @@ MFE50 was built during 1997-2006.</p>
 
 
 <dl><dt id="arg-province">province<a class="anchor" aria-label="anchor" href="#arg-province"></a></dt>
-<dd><p>a character string of length 1 with the name of a
-Spanish province</p></dd>
+<dd><p>a character string of length 1 with the name of a Spanish province</p></dd>
 
 
 <dt id="arg-path-metadata">path_metadata<a class="anchor" aria-label="anchor" href="#arg-path-metadata"></a></dt>
-<dd><p>a character string of length 1 with the path
-to store the metadata of the MFE50. The default
-<code>path_metadata = NULL</code> does not download the
-metadata</p></dd>
+<dd><p>a character string of length 1 with the path to store the
+metadata of the MFE50. The default <code>path_metadata = NULL</code> does not download
+the metadata</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
-<dd><p>if <code>TRUE</code> (the default), suppress status messages, and
-the progress bar</p></dd>
+<dd><p>if <code>TRUE</code>, suppress any message or progress bar</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -91,6 +88,7 @@ file that can be downloaded by using the argument <code>path_metadata</code>.</p
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download MFE50 for the province of Lugo</span></span></span>
 <span class="r-in"><span><span class="va">lugo_mfe50_sf</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_spain_mfe50</span><span class="op">(</span>province <span class="op">=</span> <span class="st">"Lugo"</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Visit &lt;https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html&gt; for more information on the dataset</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

@@ -44,7 +44,7 @@
 <span>  ifn <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  database <span class="op">=</span> <span class="st">"field"</span>,</span>
 <span>  path_metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -72,8 +72,7 @@ does not download the metadata</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
-<dd><p>if <code>TRUE</code> (the default), suppress status messages, and
-the progress bar</p></dd>
+<dd><p>if <code>TRUE</code>, suppress any message or progress bar</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -99,10 +98,14 @@ the progress bar</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download MFE50 for Canary Islands</span></span></span>
 <span class="r-in"><span><span class="va">canarias_ifn4_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"Canarias"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> 'odbcConnectAccess2007' is not an exported object from 'namespace:RODBC'</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE):</span> <span style="color: #BBBB00;">!</span> ODBC failed with error 00000 from <span style="color: #00BB00;">[unixODBC][Driver Manager]</span>.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Can't open lib 'Microsoft Access Driver (*.mdb, *.accdb)' : file not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> From <span style="color: #0000BB;">nanodbc/nanodbc.cpp:1150</span>.</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">canarias_ifn3_gis_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"Canarias"</span>, ifn <span class="op">=</span> <span class="fl">3</span>, database <span class="op">=</span> <span class="st">"gis"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (!file.exists(dir_unzip)) {    old_timeout &lt;- getOption("timeout")    on.exit(options(timeout = old_timeout))    options(timeout = max(timeout, getOption("timeout")))    download.file(url = download_url, destfile = dir_zip, quiet = quiet,         mode = "wb")    try({        unzip(zipfile = dir_zip, exdir = dir_unzip)    }, silent = TRUE)    if (!file.exists(dir_unzip) || length(list.files(dir_unzip)) ==         0) {        system(paste("unzip", shQuote(dir_zip), "-d", shQuote(dir_unzip)))    }    file.remove(dir_zip)}:</span> argument is of length zero</span>
+<span class="r-in"><span><span class="va">cantabria_ifn3_gis_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"cantabria"</span>, ifn <span class="op">=</span> <span class="fl">3</span>, database <span class="op">=</span> <span class="st">"gis"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE):</span> <span style="color: #BBBB00;">!</span> ODBC failed with error 00000 from <span style="color: #00BB00;">[unixODBC][Driver Manager]</span>.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Can't open lib 'Microsoft Access Driver (*.mdb, *.accdb)' : file not found</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> From <span style="color: #0000BB;">nanodbc/nanodbc.cpp:1150</span>.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

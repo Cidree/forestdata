@@ -49,7 +49,7 @@ distribution, and future distribution (2035, 2065, 2095).</p>
 <span>  scenario <span class="op">=</span> <span class="st">"rcp45"</span>,</span>
 <span>  type <span class="op">=</span> <span class="st">"bin"</span>,</span>
 <span>  distrib <span class="op">=</span> <span class="st">"pot"</span>,</span>
-<span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -89,8 +89,7 @@ One of 'nat', 'pot', 'disp' or 'disp_lu' (see details)</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
-<dd><p>if <code>TRUE</code> (the default), suppress status messages, and
-the progress bar</p></dd>
+<dd><p>if <code>TRUE</code>, suppress any message or progress bar</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -101,46 +100,40 @@ the progress bar</p></dd>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).</p>
-
 <p>The data of EU-Trees4F database represent the distribution of the main woody
 species in Europe at 5 arc-minutes (~ 10 km) spatial resolution, in the
 Lambert Azimuthal Equal Area (EPSG:3035) CRS. The possible models to download
 are the following:</p>
-<p><strong>Model</strong>: type of model used</p>
-<p>- clim: climatic ensemble. A ensemble mean model that projects a consensus model
+<p><strong>Model</strong>: type of model used</p><ul><li><p>clim: climatic ensemble. A ensemble mean model that projects a consensus model
 from <code>biomod2</code> into future conditions using the average of 11 Regional
-Climate Models (RCM).</p>
-<p>- sdms: Species Distribution Model (SDM) ensemble. A model that projects the
+Climate Models (RCM).</p></li>
+<li><p>sdms: Species Distribution Model (SDM) ensemble. A model that projects the
 consensus model for every single RCM, and then it averages the output of
-then 11 SDMs.</p>
-<p><strong>Period</strong>: 30-year time period</p>
-<p>- 2005: for current projections. This option ignores the scenario argument.
-They are not available for <code>model = 'sdms'</code> with <code>type = 'std'</code>.</p>
-<p>- 2035: average of 2020-2050</p>
-<p>- 2065: average of 2050-2080</p>
-<p>- 2095: average of 2080-2110</p>
-<p>- all: get the four periods (or three for std type). Note that for some species
+then 11 SDMs.</p></li>
+</ul><p><strong>Period</strong>: 30-year time period</p><ul><li><p>2005: for current projections. This option ignores the scenario argument.
+They are not available for <code>model = 'sdms'</code> with <code>type = 'std'</code>.</p></li>
+<li><p>2035: average of 2020-2050</p></li>
+<li><p>2065: average of 2050-2080</p></li>
+<li><p>2095: average of 2080-2110</p></li>
+<li><p>all: get the four periods (or three for std type). Note that for some species
 or configurations this might fail, because the raster extent might not match
-in different periods</p>
-<p><strong>Scenario</strong>: climate change scenario</p>
-<p>- rcp45: a climate change scenario that assumes moderate emissions reductions</p>
-<p>- rcp85: a climate change scenario with high greenhouse gas emissions
-and limited mitigation efforts</p>
-<p><strong>Type</strong>: type of output layer</p>
-<p>- bin: binary distribution map, where 1 represents presence of the tree species,
-while 0 represents absence of the tree species, derived from the prob map</p>
-<p>- prob: probability distribution map (0-1000). Represents the probability
-of being the potential distribution of the species</p>
-<p>- std: standard deviation of prob map. Only available for <code>model = 'sdms'</code>.</p>
-<p><strong>Distrib</strong>: type of species distribution</p>
-<p>- nat: realized distribution (masked with native range). Only available
-with <code>type = 'bin'</code></p>
-<p>- pot: potential distribution</p>
-<p>- disp: natural dispersal model (migclim). Only available
-with <code>type = 'bin'</code></p>
-<p>- disp_lu: natural dispersal model clipped by forest areas. Only available
-with <code>type = 'bin'</code></p>
-    </div>
+in different periods</p></li>
+</ul><p><strong>Scenario</strong>: climate change scenario</p><ul><li><p>rcp45: a climate change scenario that assumes moderate emissions reductions</p></li>
+<li><p>rcp85: a climate change scenario with high greenhouse gas emissions
+and limited mitigation efforts</p></li>
+</ul><p><strong>Type</strong>: type of output layer</p><ul><li><p>bin: binary distribution map, where 1 represents presence of the tree species,
+while 0 represents absence of the tree species, derived from the prob map</p></li>
+<li><p>prob: probability distribution map (0-1000). Represents the probability
+of being the potential distribution of the species</p></li>
+<li><p>std: standard deviation of prob map. Only available for <code>model = 'sdms'</code>.</p></li>
+</ul><p><strong>Distrib</strong>: type of species distribution</p><ul><li><p>nat: realized distribution (masked with native range). Only available
+with <code>type = 'bin'</code></p></li>
+<li><p>pot: potential distribution</p></li>
+<li><p>disp: natural dispersal model (migclim). Only available
+with <code>type = 'bin'</code></p></li>
+<li><p>disp_lu: natural dispersal model clipped by forest areas. Only available
+with <code>type = 'bin'</code></p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Mauri, Achille; Cescatti, Alessandro; GIRARDELLO, MARCO; Strona,
@@ -158,9 +151,7 @@ Collection. https://doi.org/10.6084/m9.figshare.c.5525688.v2</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download data for Betula pendula</span></span></span>
 <span class="r-in"><span><span class="va">betula_pendula_sr</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_eutrees4f</span><span class="op">(</span>species <span class="op">=</span> <span class="st">"Betula pendula"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>downloaded length 0 != reported length 118</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>cannot open URL 'https://springernature.figshare.com/ndownloader/files/36704304': HTTP status was '403 Forbidden'</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in download.file(url = download_url, destfile = dir_zip, quiet = quiet,     mode = "wb"):</span> cannot open URL 'https://springernature.figshare.com/ndownloader/files/36704304'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Cite this dataset using &lt;https://doi.org/10.6084/m9.figshare.c.5525688.v2&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
