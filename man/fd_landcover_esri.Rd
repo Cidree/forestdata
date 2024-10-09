@@ -11,7 +11,7 @@ fd_landcover_esri(utm_code, year, quiet = TRUE)
 
 \item{year}{an integer or vector of integers corresponding to the base year
 of the land cover tile. The option \code{year = 'all'} downloads all
-the available images (2017:2022)}
+the available images (2017:2023)}
 
 \item{quiet}{if \code{TRUE} (the default), suppress status messages, and
 the progress bar}
@@ -24,8 +24,8 @@ Download an UTM tile of the ESRI Land Cover Explorer for a specified year
 }
 \examples{
 \donttest{
-# Download Land Cover for UTM tile 29N year 2022
-lc <- fd_landcover_esri("29N", year = 2020)
+# Download Land Cover for UTM tile 29N year 2023
+lc <- fd_landcover_esri("29N", year = 2023)
 
 # Download Land Cover for UTM time 29N for all years
 lc <- fd_landcover_esri("29N", year = "all")

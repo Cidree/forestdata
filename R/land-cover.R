@@ -242,7 +242,7 @@ get_landcoverexplorer_tbl <- function() {
 #' @param utm_code a character string of length 1 with an UTM code (e.g. "29N")
 #' @param year an integer or vector of integers corresponding to the base year
 #'             of the land cover tile. The option \code{year = 'all'} downloads all
-#'             the available images (2017:2022)
+#'             the available images (2017:2023)
 #' @param quiet if \code{TRUE} (the default), suppress status messages, and
 #'              the progress bar
 #'
@@ -254,8 +254,8 @@ get_landcoverexplorer_tbl <- function() {
 #'
 #' @examples
 #' \donttest{
-#' # Download Land Cover for UTM tile 29N year 2022
-#' lc <- fd_landcover_esri("29N", year = 2020)
+#' # Download Land Cover for UTM tile 29N year 2023
+#' lc <- fd_landcover_esri("29N", year = 2023)
 #'
 #' # Download Land Cover for UTM time 29N for all years
 #' lc <- fd_landcover_esri("29N", year = "all")
@@ -265,7 +265,7 @@ fd_landcover_esri <- function(utm_code,
                               quiet = TRUE) {
 
   # 0. Handle year error
-  if (!(year %in% seq(2017, 2022, 1)) & year != "all") stop("The indicated year is not valid. Please, use a year between 2017 and 2022, or the 'all' function to retrieve all.")
+  if (!(year %in% seq(2017, 2023, 1)) & year != "all") stop("The indicated year is not valid. Please, use a year between 2017 and 2022, or the 'all' function to retrieve all.")
 
   # 1. Get number and letter
   nmbr <- stringr::str_sub(utm_code, 1, 2)

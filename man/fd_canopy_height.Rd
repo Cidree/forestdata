@@ -27,7 +27,7 @@ specified, this argument is ignored)}
 \item{model}{a string specifying the model to download. One of "\code{eth}"
 or "\code{meta}" (see details)}
 
-\item{layer}{a string for the layer to download. The default "\code{chm}"
+\item{layer}{a string for the layer to download (valid only for eth). The default "\code{chm}"
 downloads the Canopy Height Model, while "\code{std}" downloads the standard
 deviation. If you want both layers, use "\code{all}"}
 

@@ -1,4 +1,4 @@
-# Development version
+# 0.2.0
 
 ## New features
 
@@ -6,7 +6,7 @@
 
 -   `fd_pathogens_defid2()`:
 
-    -   It has now `quiet` argument, which defaults to `TRUE`.
+    -   It has now `quiet` argument, which defaults to `FALSE`.
 
 -   `metadata_forestdata`:
 
