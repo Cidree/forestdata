@@ -90,9 +90,9 @@ get_meta_tiles <- function() {
 #' @param layer a string for the layer to download. The default "\code{chm}"
 #'              downloads the Canopy Height Model, while "\code{std}" downloads
 #'              the standard deviation. If you want both layers, use "\code{all}"
-#' @param crop when \code{x} is specified, whether to crop the tiles(s) to the
-#'             object
-#' @param ... additional arguments passed to the \link[terra]{crop} function
+#' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
+#' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @include utils-not-exported.R
 #' @return A \code{SpatRaster}
@@ -115,7 +115,9 @@ fd_canopy_height_eth <- function(x     = NULL,
                                  lon   = NULL,
                                  lat   = NULL,
                                  layer = "chm",
-                                 crop  = FALSE, ...) {
+                                 crop  = FALSE,
+                                 mask  = FALSE,
+                                 quiet = FALSE) {
 
   # 1. If user specify lat and lon
   if (!is.null(lat) & !is.null(lon)) {
@@ -150,14 +152,15 @@ fd_canopy_height_eth <- function(x     = NULL,
   ## 3.1. Get URLs
   ids <- tile_tbl$url
   ## 3.2. Get the combined rasters per year
-  message(stringr::str_glue("{nrow(tile_tbl)} tile(s) were found."))
+  if (!quiet) message(stringr::str_glue("{nrow(tile_tbl)} tile(s) were found."))
   tiles_list <- list()
   for (i in 1:length(ids)) {
-    message(crayon::green(stringr::str_glue("Downloading tile {i}...")))
+    if (!quiet) message(crayon::green(stringr::str_glue("Downloading tile {i}...")))
     tiles_list[[i]] <- fdi_download_raster(
       url   = ids[i],
       start = 38,
-      end   = 80
+      end   = 80,
+      quiet = quiet
     )
   }
   ## DELETE OR CHANGE IN THE FUTURE
@@ -170,7 +173,8 @@ fd_canopy_height_eth <- function(x     = NULL,
   #   )
   # )
   ## 3.3. Crop layers
-  if (crop) tiles_list <- purrr::map(tiles_list, \(x) terra::crop(x, xwgs84, ...))
+  if (crop) tiles_list <- purrr::map(tiles_list, \(x) terra::crop(x, xwgs84))
+  if (mask) tiles_list <- purrr::map(tiles_list, \(x) terra::mask(x, xwgs84))
   ## 3.4. Merge depending if there is chm, std or all
   if (layer == "all") {
     ## Number of tiles
@@ -206,10 +210,8 @@ fd_canopy_height_eth <- function(x     = NULL,
     names(ch_sr) <- layer
   }
 
-  # 5. Manage crop
-  # if (crop) ch_sr <- terra::crop(ch_sr, xwgs84, ...)
-
-  # 6. Return
+  # 5. Return
+  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1038/s41559-023-02206-6>"))
   return(ch_sr)
 
 
@@ -229,9 +231,9 @@ fd_canopy_height_eth <- function(x     = NULL,
 #'          specified, this argument is ignored)
 #' @param lon a number specifying the longitude of the area where we want the tile
 #' @param lat a number specifying the latitude of the area where we want the tile
-#' @param crop when \code{x} is specified, whether to crop the tiles(s) to the
-#'             object
-#' @param ... additional arguments passed to the \link[terra]{crop} function
+#' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
+#' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @include utils-not-exported.R
 #' @keywords internal
@@ -251,7 +253,9 @@ fd_canopy_height_eth <- function(x     = NULL,
 fd_canopy_height_meta <- function(x     = NULL,
                                   lon   = NULL,
                                   lat   = NULL,
-                                  crop  = FALSE, ...) {
+                                  crop  = FALSE,
+                                  mask  = FALSE,
+                                  quiet = FALSE) {
 
   # 0. Install aws.s3 if not installed
   if (!requireNamespace("aws.s3", quietly = TRUE)) stop("Package `aws.s3` is required to access the inventory data. Please, install it.")
@@ -285,10 +289,10 @@ fd_canopy_height_meta <- function(x     = NULL,
   for (i in 1:length(out_file)) {
     ## If it already exists, go next
     if (file.exists(out_file[i])) {
-      message(crayon::green(stringr::str_glue("Tile {tile_vec[i]} cached.")))
+      if (!quiet) message(crayon::green(stringr::str_glue("Tile {tile_vec[i]} cached.")))
       next
     }
-    message(crayon::green(stringr::str_glue("Downloading tile {i}...")))
+    if (!quiet) message(crayon::green(stringr::str_glue("Downloading tile {i}...")))
     aws.s3::save_object(
       object = paste0("forests/v1/alsgedi_global_v6_float/chm/", tile_vec[i], ".tif"),
       bucket = "dataforgood-fb-data",
@@ -301,18 +305,20 @@ fd_canopy_height_meta <- function(x     = NULL,
     ### Read tiles
     r <- purrr::map(out_file, terra::rast)
     ### Crop
-    if (crop) r <- purrr::map(r, \(x) terra::crop(x, sf::st_transform(xwgs84, "EPSG:3857"), ...))
+    if (crop) r <- purrr::map(r, \(x) terra::crop(x, sf::st_transform(xwgs84, "EPSG:3857")))
+    if (mask) r <- purrr::map(r, \(x) terra::mask(x, sf::st_transform(xwgs84, "EPSG:3857")))
     ### Merge
     r <- do.call(terra::merge, r)
   } else {
     ## Read tile
     r <- terra::rast(out_file)
     ### Crop
-    if (crop) r <- terra::crop(r, sf::st_transform(xwgs84, "EPSG:3857"), ...)
+    if (crop) r <- terra::crop(r, sf::st_transform(xwgs84, "EPSG:3857"), mask = mask)
   }
 
   # 3. Rename and return
   names(r) <- "canopy_height"
+  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1016/j.rse.2023.113888>"))
   return(r)
 
 
@@ -335,11 +341,12 @@ fd_canopy_height_meta <- function(x     = NULL,
 #' @param lat a number specifying the latitude of the area where we want the tile
 #' @param model a string specifying the model to download. One of "\code{eth}"
 #' or "\code{meta}" (see details)
-#' @param layer a string for the layer to download. The default "\code{chm}"
+#' @param layer a string for the layer to download (valid only for eth). The default "\code{chm}"
 #' downloads the Canopy Height Model, while "\code{std}" downloads the standard
 #' deviation. If you want both layers, use "\code{all}"
-#' @param crop when \code{x} is specified, whether to crop the tiles(s) to the object
-#' @param ... additional arguments passed to the \link[terra]{crop} function
+#' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
+#' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @include utils-not-exported.R
 #' @return A \code{SpatRaster}
@@ -373,12 +380,14 @@ fd_canopy_height_meta <- function(x     = NULL,
 #' ## Get 1m resolution CHM
 #' meta_model <- fd_canopy_height(lon = -7.27, lat = 42.43, model = "meta")
 #' }
-fd_canopy_height <- function(x = NULL,
+fd_canopy_height <- function(x     = NULL,
                              lon   = NULL,
                              lat   = NULL,
                              model = "eth",
                              layer = "chm",
-                             crop  = FALSE, ...) {
+                             crop  = FALSE,
+                             mask  = FALSE,
+                             quiet = FALSE) {
 
   # 0. Handle errors
   ## 0.1. Handle all NULL
@@ -403,9 +412,9 @@ fd_canopy_height <- function(x = NULL,
 
   # 1. Get data based on model
   if (model == "eth") {
-    fd_canopy_height_eth(x = x, lon = lon, lat = lat, layer = layer, crop = crop, ...)
+    fd_canopy_height_eth(x = x, lon = lon, lat = lat, layer = layer, crop = crop, mask = mask, quiet = quiet)
   } else {
-    fd_canopy_height_meta(x = x, lon = lon, lat = lat, crop = crop, ...)
+    fd_canopy_height_meta(x = x, lon = lon, lat = lat, crop = crop, mask = mask, quiet = quiet)
   }
 
 
