@@ -3,7 +3,7 @@
 \name{get_gch_tbl}
 \alias{get_gch_tbl}
 \title{Global Canopy Height Table
- Get a table with the coordinates and URL of the Global Canopy Height tiles}
+Get a table with the coordinates and URL of the Global Canopy Height tiles}
 \usage{
 get_gch_tbl()
 }
@@ -12,10 +12,10 @@ A \code{tibble}
 }
 \description{
 Global Canopy Height Table
- Get a table with the coordinates and URL of the Global Canopy Height tiles
+Get a table with the coordinates and URL of the Global Canopy Height tiles
 }
 \references{
-<https://gee-community-catalog.org/projects/canopy/>
-<https://www.research-collection.ethz.ch/handle/20.500.11850/609802>
+\url{https://gee-community-catalog.org/projects/canopy/}
+\url{https://www.research-collection.ethz.ch/handle/20.500.11850/609802}
 }
 \keyword{internal}

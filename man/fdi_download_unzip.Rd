@@ -3,7 +3,7 @@
 \name{fdi_download_unzip}
 \alias{fdi_download_unzip}
 \title{(Internal) Downloads data to tempdir
- Download data to tempdir}
+Download data to tempdir}
 \usage{
 fdi_download_unzip(
   download_url,
@@ -30,6 +30,6 @@ Unzipped file
 }
 \description{
 (Internal) Downloads data to tempdir
- Download data to tempdir
+Download data to tempdir
 }
 \keyword{internal}

@@ -11,7 +11,8 @@ fd_canopy_height(
   model = "eth",
   layer = "chm",
   crop = FALSE,
-  ...
+  mask = FALSE,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -30,9 +31,11 @@ or "\code{meta}" (see details)}
 downloads the Canopy Height Model, while "\code{std}" downloads the standard
 deviation. If you want both layers, use "\code{all}"}
 
-\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the object}
+\item{crop}{when \code{x} is specified, whether to crop the tile(s) to the object}
 
-\item{...}{additional arguments passed to the \link[terra]{crop} function}
+\item{mask}{when \code{x} is specified, whether to mask the tile(s) to the object}
+
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A \code{SpatRaster}
@@ -43,13 +46,13 @@ Meta High Resolution 1m Global Canopy Height Map
 }
 \details{
 There are currently two global canopy height models available within this function.
-
-- \strong{eth}: the ETH Global Sentinel-2 10m Canopy Height from the year 2020. Visit
+\itemize{
+\item \strong{eth}: the ETH Global Sentinel-2 10m Canopy Height from the year 2020. Visit
 \url{https://www.research-collection.ethz.ch/handle/20.500.11850/609802} for more
 information
-
-- \strong{meta}: the Meta High Resolution 1m Global Canopy Height. Visit
+\item \strong{meta}: the Meta High Resolution 1m Global Canopy Height. Visit
 \url{https://doi.org/10.1016/j.rse.2023.113888} for more information
+}
 
 Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).

@@ -3,8 +3,8 @@
 \name{get_forest_extent_tbl}
 \alias{get_forest_extent_tbl}
 \title{Forest Extent Table
- Get a table with the year, coordinates, and URL of the Forest Extent files
- from the Global Land Analysis & Discovery (GLAD)}
+Get a table with the year, coordinates, and URL of the Forest Extent files
+from the Global Land Analysis & Discovery (GLAD)}
 \usage{
 get_forest_extent_tbl()
 }
@@ -13,7 +13,7 @@ A \code{tibble}
 }
 \description{
 Forest Extent Table
- Get a table with the year, coordinates, and URL of the Forest Extent files
- from the Global Land Analysis & Discovery (GLAD)
+Get a table with the year, coordinates, and URL of the Forest Extent files
+from the Global Land Analysis & Discovery (GLAD)
 }
 \keyword{internal}

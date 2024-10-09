@@ -28,8 +28,7 @@ specified, this argument is ignored)}
 \item{layer}{a character vector of the layer(s) to use from the Global
 Land Cover. See details}
 
-\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
-object}
+\item{crop}{when \code{x} is specified, whether to crop the tile(s) to the object}
 
 \item{...}{additional arguments passed to the \link[terra]{crop} function}
 }
@@ -42,36 +41,24 @@ Land Service.
 }
 \details{
 There are 14 different layers that can be downloaded:
-
-- \strong{"discrete"}: land cover discrete classification
-
-- \strong{"classification"}: land cover classification probability
-
-- \strong{"bare"}: cover fraction of bare and sparse vegetation
-
-- \strong{"builtup"}: cover fraction of builtup
-
-- \strong{"crops"}: cover fraction of cropland
-
-- \strong{"tree"}: cover fraction of forest
-
-- \strong{"grass"}: cover fraction of herbaceous vegetation
-
-- \strong{"mosslichen"}: cover fraction of moss and lichen
-
-- \strong{"seasonalwater"}: cover fraction of seasonal inland water
-
-- \strong{"shrub"}: cover fraction of shrubland
-
-- \strong{"snow"}: cover fraction of snow and ice
-
-- \strong{"permanentwater"}: cover fraction of permanent inland water
-
-- \strong{"forest"} (default): forest types. (0): unknown; (1): evergreen needle leaf forest;
+\itemize{
+\item \strong{"discrete"}: land cover discrete classification
+\item \strong{"classification"}: land cover classification probability
+\item \strong{"bare"}: cover fraction of bare and sparse vegetation
+\item \strong{"builtup"}: cover fraction of builtup
+\item \strong{"crops"}: cover fraction of cropland
+\item \strong{"tree"}: cover fraction of forest
+\item \strong{"grass"}: cover fraction of herbaceous vegetation
+\item \strong{"mosslichen"}: cover fraction of moss and lichen
+\item \strong{"seasonalwater"}: cover fraction of seasonal inland water
+\item \strong{"shrub"}: cover fraction of shrubland
+\item \strong{"snow"}: cover fraction of snow and ice
+\item \strong{"permanentwater"}: cover fraction of permanent inland water
+\item \strong{"forest"} (default): forest types. (0): unknown; (1): evergreen needle leaf forest;
 (2): evergreen broad leaf forest; (3): deciduous needle leaf; (4): deciduous
 broad leaf; (5): mix of forest types
-
-- \strong{"datadensityindicator"}: input data density
+\item \strong{"datadensityindicator"}: input data density
+}
 }
 \examples{
 \donttest{
@@ -92,7 +79,7 @@ broad leaf; (5): mix of forest types
 }
 \references{
 Buchhorn, M.; Smets, B.; Bertels, L.; De Roo, B.; Lesiv, M.;
-            Tsendbazar, N. - E.; Herold, M.; Fritz, S. Copernicus Global
-            Land Service: Land Cover 100m: collection 3: epoch 2019: Globe
-            2020. DOI 10.5281/zenodo.3939050
+Tsendbazar, N. - E.; Herold, M.; Fritz, S. Copernicus Global
+Land Service: Land Cover 100m: collection 3: epoch 2019: Globe
+2020. DOI 10.5281/zenodo.3939050
 }

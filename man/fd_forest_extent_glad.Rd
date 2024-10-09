@@ -10,6 +10,7 @@ fd_forest_extent_glad(
   lat = NULL,
   year = 2020,
   crop = FALSE,
+  quiet = FALSE,
   ...
 )
 }
@@ -24,8 +25,9 @@ specified, this argument is ignored)}
 
 \item{year}{year of the forest extent data. One of 2000, 2020 or 'all'}
 
-\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
-object}
+\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the object}
+
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 
 \item{...}{additional arguments passed to the \link[terra]{crop} function}
 }
@@ -33,7 +35,9 @@ object}
 \code{SpatRaster} object
 }
 \description{
-Download the Forest Extent raster from the Global Land Analysis & Discovery by
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+This function is deprecated in favour of \link{fd_forest_glad}. Download the Forest
+Extent raster from the Global Land Analysis & Discovery by
 using a vectorial object or a pair of coordinates (latitude, longitude).
 }
 \details{

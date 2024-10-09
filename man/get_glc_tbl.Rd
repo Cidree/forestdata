@@ -3,8 +3,8 @@
 \name{get_glc_tbl}
 \alias{get_glc_tbl}
 \title{Global Land Cover Table
- Get a table with the year, coordinates, and URL of the Global Land Cover
- tiles.}
+Get a table with the year, coordinates, and URL of the Global Land Cover
+tiles.}
 \usage{
 get_glc_tbl()
 }
@@ -13,10 +13,10 @@ A \code{tibble}
 }
 \description{
 Global Land Cover Table
- Get a table with the year, coordinates, and URL of the Global Land Cover
- tiles.
+Get a table with the year, coordinates, and URL of the Global Land Cover
+tiles.
 }
 \references{
-<https://lcviewer.vito.be/download>
+\url{https://lcviewer.vito.be/download}
 }
 \keyword{internal}

@@ -11,7 +11,7 @@ fd_forest_eutrees4f(
   scenario = "rcp45",
   type = "bin",
   distrib = "pot",
-  quiet = TRUE
+  quiet = FALSE
 )
 }
 \arguments{
@@ -34,8 +34,7 @@ One of 'bin', 'prob' or 'std' (see details)}
 \item{distrib}{a character vector of length 1 with the type of distribution.
 One of 'nat', 'pot', 'disp' or 'disp_lu' (see details)}
 
-\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
-the progress bar}
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A single-band or multi-band \code{SpatRaster}
@@ -48,66 +47,59 @@ distribution, and future distribution (2035, 2065, 2095).
 Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
 
-
 The data of EU-Trees4F database represent the distribution of the main woody
 species in Europe at 5 arc-minutes (~ 10 km) spatial resolution, in the
 Lambert Azimuthal Equal Area (EPSG:3035) CRS. The possible models to download
 are the following:
 
 \strong{Model}: type of model used
-
-- clim: climatic ensemble. A ensemble mean model that projects a consensus model
+\itemize{
+\item clim: climatic ensemble. A ensemble mean model that projects a consensus model
 from \code{biomod2} into future conditions using the average of 11 Regional
 Climate Models (RCM).
-
-- sdms: Species Distribution Model (SDM) ensemble. A model that projects the
+\item sdms: Species Distribution Model (SDM) ensemble. A model that projects the
 consensus model for every single RCM, and then it averages the output of
 then 11 SDMs.
+}
 
 \strong{Period}: 30-year time period
-
-- 2005: for current projections. This option ignores the scenario argument.
+\itemize{
+\item 2005: for current projections. This option ignores the scenario argument.
 They are not available for \code{model = 'sdms'} with \code{type = 'std'}.
-
-- 2035: average of 2020-2050
-
-- 2065: average of 2050-2080
-
-- 2095: average of 2080-2110
-
-- all: get the four periods (or three for std type). Note that for some species
+\item 2035: average of 2020-2050
+\item 2065: average of 2050-2080
+\item 2095: average of 2080-2110
+\item all: get the four periods (or three for std type). Note that for some species
 or configurations this might fail, because the raster extent might not match
 in different periods
+}
 
 \strong{Scenario}: climate change scenario
-
-- rcp45: a climate change scenario that assumes moderate emissions reductions
-
-- rcp85: a climate change scenario with high greenhouse gas emissions
+\itemize{
+\item rcp45: a climate change scenario that assumes moderate emissions reductions
+\item rcp85: a climate change scenario with high greenhouse gas emissions
 and limited mitigation efforts
+}
 
 \strong{Type}: type of output layer
-
-- bin: binary distribution map, where 1 represents presence of the tree species,
+\itemize{
+\item bin: binary distribution map, where 1 represents presence of the tree species,
 while 0 represents absence of the tree species, derived from the prob map
-
-- prob: probability distribution map (0-1000). Represents the probability
+\item prob: probability distribution map (0-1000). Represents the probability
 of being the potential distribution of the species
-
-- std: standard deviation of prob map. Only available for \code{model = 'sdms'}.
+\item std: standard deviation of prob map. Only available for \code{model = 'sdms'}.
+}
 
 \strong{Distrib}: type of species distribution
-
-- nat: realized distribution (masked with native range). Only available
+\itemize{
+\item nat: realized distribution (masked with native range). Only available
 with \code{type = 'bin'}
-
-- pot: potential distribution
-
-- disp: natural dispersal model (migclim). Only available
+\item pot: potential distribution
+\item disp: natural dispersal model (migclim). Only available
 with \code{type = 'bin'}
-
-- disp_lu: natural dispersal model clipped by forest areas. Only available
+\item disp_lu: natural dispersal model clipped by forest areas. Only available
 with \code{type = 'bin'}
+}
 }
 \examples{
 \donttest{

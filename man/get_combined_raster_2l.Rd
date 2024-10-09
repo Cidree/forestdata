@@ -3,7 +3,7 @@
 \name{get_combined_raster_2l}
 \alias{get_combined_raster_2l}
 \title{Combines different raster tiles
- (Internal) Helper to combine rasters from Copernicus Global Land Cover.}
+(Internal) Helper to combine rasters from Copernicus Global Land Cover.}
 \usage{
 get_combined_raster_2l(year_i, layer_i, url_table)
 }
@@ -12,6 +12,6 @@ A \code{SpatRaster}
 }
 \description{
 Combines different raster tiles
- (Internal) Helper to combine rasters from Copernicus Global Land Cover.
+(Internal) Helper to combine rasters from Copernicus Global Land Cover.
 }
 \keyword{internal}

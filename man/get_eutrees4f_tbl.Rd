@@ -3,7 +3,7 @@
 \name{get_eutrees4f_tbl}
 \alias{get_eutrees4f_tbl}
 \title{(Internal) Gets the tree species
- Get tree species for EU-Trees4F database}
+Get tree species for EU-Trees4F database}
 \usage{
 get_eutrees4f_tbl()
 }
@@ -12,6 +12,6 @@ a character vector
 }
 \description{
 (Internal) Gets the tree species
- Get tree species for EU-Trees4F database
+Get tree species for EU-Trees4F database
 }
 \keyword{internal}

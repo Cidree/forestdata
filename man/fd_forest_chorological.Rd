@@ -4,7 +4,7 @@
 \alias{fd_forest_chorological}
 \title{Download the Chorological Maps}
 \usage{
-fd_forest_chorological(species, range = "nat", quiet = TRUE)
+fd_forest_chorological(species, range = "nat", quiet = FALSE)
 }
 \arguments{
 \item{species}{a character vector with the Latin name of a tree species
@@ -14,8 +14,7 @@ contained in the Chorological Maps database (see details)}
 of the species, while "\code{syn}" downloads the synanthropic range
 (i.e. the introduced and naturalized area and isolated population since Neolithic)}
 
-\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
-the progress bar}
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 \code{sf} object
@@ -26,7 +25,6 @@ Download the Chorological Maps for the main European Woody Species.
 \details{
 Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
-
 
 The chorological maps provide a general overview of the distribution of
 the main European woody species. The geodatabase was formed by the

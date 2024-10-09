@@ -4,19 +4,16 @@
 \alias{fd_forest_spain_mfe50}
 \title{Forest Cover of Spain}
 \usage{
-fd_forest_spain_mfe50(province, path_metadata = NULL, quiet = TRUE)
+fd_forest_spain_mfe50(province, path_metadata = NULL, quiet = FALSE)
 }
 \arguments{
-\item{province}{a character string of length 1 with the name of a
-Spanish province}
+\item{province}{a character string of length 1 with the name of a Spanish province}
 
-\item{path_metadata}{a character string of length 1 with the path
-to store the metadata of the MFE50. The default
-\code{path_metadata = NULL} does not download the
-metadata}
+\item{path_metadata}{a character string of length 1 with the path to store the
+metadata of the MFE50. The default \code{path_metadata = NULL} does not download
+the metadata}
 
-\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
-the progress bar}
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A \code{sf} object with \code{POLYGON} geometry

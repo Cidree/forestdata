@@ -4,17 +4,24 @@
 \alias{fd_allometry_tallo}
 \title{TALLO database}
 \usage{
-fd_allometry_tallo(country = NULL, spatial = FALSE, metadata_path = NULL)
+fd_allometry_tallo(
+  country = NULL,
+  spatial = FALSE,
+  metadata_path = NULL,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{country}{a character vector with either ISO2 codes, ISO3 codes or
 full country names (not mixed) to filter out the data}
 
-\item{spatial}{logical. Whether to retrieve a `tibble` or a `sf` object}
+\item{spatial}{logical. Whether to retrieve a \code{tibble} or a \code{sf} object}
 
 \item{metadata_path}{a character string of length 1 with the path to store the
 metadata and bibliography. The default \code{path_metadata = NULL}
 does not download the metadata}
+
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 a \code{tibble} or a \code{sf} object

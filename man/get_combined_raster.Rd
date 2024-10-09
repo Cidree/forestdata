@@ -3,15 +3,15 @@
 \name{get_combined_raster}
 \alias{get_combined_raster}
 \title{Combines different raster tiles
- (Internal) Helper to combine rasters from forest extent GLAD}
+(Internal) Helper to combine rasters from forest extent GLAD}
 \usage{
-get_combined_raster(year_i, url_table)
+get_combined_raster(year_i, url_table, area, crop, ...)
 }
 \value{
 A \code{SpatRaster}
 }
 \description{
 Combines different raster tiles
- (Internal) Helper to combine rasters from forest extent GLAD
+(Internal) Helper to combine rasters from forest extent GLAD
 }
 \keyword{internal}

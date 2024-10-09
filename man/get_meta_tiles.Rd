@@ -3,7 +3,7 @@
 \name{get_meta_tiles}
 \alias{get_meta_tiles}
 \title{Meta Global Canopy Height tiles
- Get a vectorial object with the tiles of the dataset}
+Get a vectorial object with the tiles of the dataset}
 \usage{
 get_meta_tiles()
 }
@@ -12,9 +12,9 @@ An \code{sf} object
 }
 \description{
 Meta Global Canopy Height tiles
- Get a vectorial object with the tiles of the dataset
+Get a vectorial object with the tiles of the dataset
 }
 \references{
-<https://registry.opendata.aws/dataforgood-fb-forests/>
+\url{https://registry.opendata.aws/dataforgood-fb-forests/}
 }
 \keyword{internal}

@@ -9,7 +9,7 @@ fd_inventory_spain(
   ifn = 4,
   database = "field",
   path_metadata = NULL,
-  quiet = TRUE
+  quiet = FALSE
 )
 }
 \arguments{
@@ -24,8 +24,7 @@ Spanish province}
 metadata of the selected database. The default \code{path_metadata = NULL}
 does not download the metadata}
 
-\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
-the progress bar}
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A \code{list} with the tables

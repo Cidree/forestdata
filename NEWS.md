@@ -24,6 +24,8 @@
 
     -   `model = "meta"`: it returns the Meta Global Canopy Model with 1 meter of spatial resolution. Thanks to @Wycology in #2.
 
+-   `fd_forest_glad()`: new function that deprecates `fd_forest_extent_glad()`. It includes a new argument `model` to choose forest extent, forest height, or land cover models from GLAD. It also fixes #7.
+
 ## Enhancements
 
 -   Properly name land cover instead of land use to `fd_landcover_copernicus()` and `fd_landcover_esri()` in their documentation.
@@ -34,7 +36,9 @@
 
 -   Remove dependency on `RODBC`, and use `DBI` and `odbc` instead in `fd_inventory_spain()`. Improve error message when data is not available.
 
--   `fd_canopy_height()`: now crops and then merges multiples tiles, so it's much faster when using `crop = TRUE`.
+-   `fd_canopy_height()`: now crops and then merges multiples tiles, so it's much faster when using `crop = TRUE`. It acquires argument `mask`, and losses `...` passed to `terra::crop()` because it fails to mask when used within `crop()`.
+
+-   Now every function have the argument `quiet = FALSE` by default, and retrieves the citation of the dataset.
 
 ## Bugs
 
@@ -43,6 +47,8 @@
 -   `fd_inventory_spain()` was returning metadata with the same name always. Now it will be different depending on the dataset that we download, and it will be checked if it exists before downloading it (according to #3).
 
 -   `fd_landcover_copernicus()` and `fd_canopy_height()` now crop data regardless of the CRS.
+
+-   `fd_forest_extent_glad()`: incorrectly crops to the argument `x` (fixes #7).
 
 # Version 0.1.0
 

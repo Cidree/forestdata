@@ -4,7 +4,14 @@
 \alias{fd_canopy_height_meta}
 \title{Forest Canopy Height}
 \usage{
-fd_canopy_height_meta(x = NULL, lon = NULL, lat = NULL, crop = FALSE, ...)
+fd_canopy_height_meta(
+  x = NULL,
+  lon = NULL,
+  lat = NULL,
+  crop = FALSE,
+  mask = FALSE,
+  quiet = FALSE
+)
 }
 \arguments{
 \item{x}{a \code{sf} or \code{SpatVector} object. It will retrieve the
@@ -15,10 +22,11 @@ specified, this argument is ignored)}
 
 \item{lat}{a number specifying the latitude of the area where we want the tile}
 
-\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
-object}
+\item{crop}{when \code{x} is specified, whether to crop the tile(s) to the object}
 
-\item{...}{additional arguments passed to the \link[terra]{crop} function}
+\item{mask}{when \code{x} is specified, whether to mask the tile(s) to the object}
+
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A \code{SpatRaster}
@@ -36,6 +44,6 @@ fd_canopy_height_meta(lon = -7.27, lat = 42.43)
 }
 }
 \references{
-<https://registry.opendata.aws/dataforgood-fb-forests/>
+\url{https://registry.opendata.aws/dataforgood-fb-forests/}
 }
 \keyword{internal}

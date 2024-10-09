@@ -4,21 +4,19 @@
 \alias{fd_forest_france}
 \title{BD Forêt}
 \usage{
-fd_forest_france(department, path_metadata = NULL, version = 2, quiet = TRUE)
+fd_forest_france(department, path_metadata = NULL, version = 2, quiet = FALSE)
 }
 \arguments{
 \item{department}{a character string of length 1 with the name of a
 French department (see examples)}
 
-\item{path_metadata}{a character string of length 1 with the path
-to store the metadata of the BD Forêt database.
-The default \code{path_metadata = NULL} does
-not download the metadata}
+\item{path_metadata}{a character string of length 1 with the path to store
+the metadata of the BD Forêt database. The default \code{path_metadata = NULL}
+does not download the metadata}
 
 \item{version}{the version number of the BD Forêt data. Either 1 or 2 (see details)}
 
-\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
-the progress bar}
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A \code{sf} object with \code{POLYGON} geometry
@@ -35,41 +33,32 @@ The BD Forêt version 1 was developed by photointerpretation of infrared color
 aerial images with a minimum mapped area of 2.25 hectares. The year of reference
 for each department varies between 1987 and 2002. The version 1 contains the
 following variables:
-
-- DEP: department name
-
-- CYCLE: order number of the departmental revision
-
-- ANREF: year of reference of the data
-
-- TFIFN: code of the departalmental type of vegetation cover. The nomenclature is
-  specific to each department
-
-- LIBELLE: departamental type of vegetation cover. The nomenclature is
-  specific to each department
-
-- LIBELLE2: departamental type of vegetation cover in capital letters.
-  The nomenclature is specific to each department
-
-- TYPN: code of the national type of vegetation cover
-
-- NOMB_TYPN: national type of vegetation cover
+\itemize{
+\item ID: surface object identifier
+\item CODE_TFV: alphanumeric code of the vegetation formation
+\item TFV: vegetation formation type
+\item TFV_G11: type of coverage and predominant composition of the vegetation
+in 11 groups
+\item ESSENCE: description of tree species according to the unique basic
+nomenclature for all departments
+}
 
 The BD Forêt version 2 was developed between 2007 and 2018 by photointerpretation
 of color infrared images from the BD ORTHO. It assigns a vegetation formation
 type to each mapped area larger than 5,000\eqn{m^2}. This version contains the variables:
-
-- ID: surface object identifier
-
-- CODE_TFV: alphanumeric code of the vegetation formation
-
-- TFV: vegetation formation type
-
-- TFV_G11: type of coverage and predominant composition of the vegetation
-           in 11 groups
-
-- ESSENCE: description of tree species according to the unique basic
-           nomenclature for all departments
+\itemize{
+\item DEP: department name
+\item CYCLE: order number of the departmental revision
+\item ANREF: year of reference of the data
+\item TFIFN: code of the departalmental type of vegetation cover. The nomenclature is
+specific to each department
+\item LIBELLE: departamental type of vegetation cover. The nomenclature is
+specific to each department
+\item LIBELLE2: departamental type of vegetation cover in capital letters.
+The nomenclature is specific to each department
+\item TYPN: code of the national type of vegetation cover
+\item NOMB_TYPN: national type of vegetation cover
+}
 
 For more information, download the metadata using the argument
 \code{path_metadata} (information in French).
@@ -77,8 +66,7 @@ For more information, download the metadata using the argument
 \examples{
 \donttest{
 # Download BD Foret V2 for the department of Ardèche
-ardeche_bdforet2_sf <- fd_forest_france(department = "Ardeche") # works (prefered)
-ardeche_bdforet2_sf <- fd_forest_france(department = "ardèche") # also works
+ardeche_bdforet1_sf <- fd_forest_france(department = "Ardeche", version = 1)
 }
 }
 \references{

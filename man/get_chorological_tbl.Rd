@@ -3,7 +3,7 @@
 \name{get_chorological_tbl}
 \alias{get_chorological_tbl}
 \title{Chorological Maps table
- Get a table with the names and references of each species}
+Get a table with the names and references of each species}
 \usage{
 get_chorological_tbl()
 }
@@ -12,6 +12,6 @@ A \code{tibble}
 }
 \description{
 Chorological Maps table
- Get a table with the names and references of each species
+Get a table with the names and references of each species
 }
 \keyword{internal}

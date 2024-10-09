@@ -10,7 +10,8 @@ fd_canopy_height_eth(
   lat = NULL,
   layer = "chm",
   crop = FALSE,
-  ...
+  mask = FALSE,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -26,10 +27,11 @@ specified, this argument is ignored)}
 downloads the Canopy Height Model, while "\code{std}" downloads
 the standard deviation. If you want both layers, use "\code{all}"}
 
-\item{crop}{when \code{x} is specified, whether to crop the tiles(s) to the
-object}
+\item{crop}{when \code{x} is specified, whether to crop the tile(s) to the object}
 
-\item{...}{additional arguments passed to the \link[terra]{crop} function}
+\item{mask}{when \code{x} is specified, whether to mask the tile(s) to the object}
+
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A \code{SpatRaster}
@@ -48,7 +50,7 @@ fd_canopy_height_eth(lon = -7.27, lat = 42.43)
 }
 \references{
 Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk
-             Wegner. "A high-resolution canopy height model of the Earth."
-             arXiv preprint arXiv:2204.08322 (2022).
+Wegner. "A high-resolution canopy height model of the Earth."
+arXiv preprint arXiv:2204.08322 (2022).
 }
 \keyword{internal}

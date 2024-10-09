@@ -17,6 +17,7 @@ utils::globalVariables(
     "Letter",
     "lon",
     "mfe50_provinces",
+    "NAME",
     "NAME_ENGL",
     "Number",
     "province",
