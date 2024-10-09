@@ -215,8 +215,7 @@ get_spain_ifn4_tbl <- function() {
 #' @param path_metadata a character string of length 1 with the path to store the
 #' metadata of the selected database. The default \code{path_metadata = NULL}
 #' does not download the metadata
-#' @param quiet if \code{TRUE} (the default), suppress status messages, and
-#'              the progress bar
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return A \code{list} with the tables
 #' @export
@@ -238,10 +237,10 @@ get_spain_ifn4_tbl <- function() {
 #' cantabria_ifn3_gis_lst <- fd_inventory_spain("cantabria", ifn = 3, database = "gis")
 #' }
 fd_inventory_spain <- function(province,
-                               ifn = 4,
-                               database = "field",
+                               ifn           = 4,
+                               database      = "field",
                                path_metadata = NULL,
-                               quiet = TRUE) {
+                               quiet         = FALSE) {
   # 0. Handle errors
   if (!requireNamespace("DBI", quietly = TRUE)) stop("Package `DBI` is required to access the inventory data. Please, install it.")
   if (!requireNamespace("odbc", quietly = TRUE)) stop("Package `odbc` is required to access the inventory data. Please, install it.")

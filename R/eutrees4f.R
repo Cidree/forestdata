@@ -51,8 +51,7 @@ get_eutrees4f_tbl <- function() {
 #'             One of 'bin', 'prob' or 'std' (see details)
 #' @param distrib a character vector of length 1 with the type of distribution.
 #'                One of 'nat', 'pot', 'disp' or 'disp_lu' (see details)
-#' @param quiet if \code{TRUE} (the default), suppress status messages, and
-#'              the progress bar
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return A single-band or multi-band \code{SpatRaster}
 #' @export
@@ -137,7 +136,7 @@ fd_forest_eutrees4f <- function(species,
                                 scenario = "rcp45",
                                 type     = "bin",
                                 distrib  = "pot",
-                                quiet    = TRUE) {
+                                quiet    = FALSE) {
 
   # 0. Errors if...
   if (model == "clim" & type == "std") stop("There's no std type for model clim.")
@@ -200,8 +199,8 @@ fd_forest_eutrees4f <- function(species,
     rst <- terra::rast(rast.path)
   }
 
-
   # 3. Return the raster
+  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.6084/m9.figshare.c.5525688.v2>"))
   return(rst)
 
 }

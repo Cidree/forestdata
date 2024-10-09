@@ -12,6 +12,7 @@
 #' @param metadata_path a character string of length 1 with the path to store the
 #' metadata and bibliography. The default \code{path_metadata = NULL}
 #' does not download the metadata
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return a \code{tibble} or a \code{sf} object
 #' @export
@@ -33,7 +34,8 @@
 #'
 fd_allometry_tallo <- function(country = NULL,
                                spatial = FALSE,
-                               metadata_path = NULL) {
+                               metadata_path = NULL,
+                               quiet = FALSE) {
 
   # 0. Handle errors
 
@@ -93,6 +95,7 @@ fd_allometry_tallo <- function(country = NULL,
   }
 
   # 3. Return final object
+  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1111/gcb.16302>"))
   return(data_tbl)
 
 }

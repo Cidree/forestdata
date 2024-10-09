@@ -67,8 +67,7 @@ get_chorological_tbl <- function() {
 #' @param range the default "\code{nat}" downloads the probable native range
 #' of the species, while "\code{syn}" downloads the synanthropic range
 #' (i.e. the introduced and naturalized area and isolated population since Neolithic)
-#' @param quiet if \code{TRUE} (the default), suppress status messages, and
-#' the progress bar
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return \code{sf} object
 #' @importFrom utils download.file unzip
@@ -97,7 +96,7 @@ get_chorological_tbl <- function() {
 #'  # Plot the data
 #'  plot(chestnut_nat_sf$geometry)
 #'  }
-fd_forest_chorological <- function(species, range = "nat", quiet = TRUE) {
+fd_forest_chorological <- function(species, range = "nat", quiet = FALSE) {
 
   # 1. Get species table
   choro_tbl <- get_chorological_tbl()
@@ -130,18 +129,19 @@ fd_forest_chorological <- function(species, range = "nat", quiet = TRUE) {
   )
   ## 3.3. Handle when version 5 is not available
   ## Download version 4
-  try(
-    suppressWarnings(
-      file.d <- download.file(
-        url      = stringr::str_glue("{download_url}/4"),
-        destfile = user_species_zip,
-        quiet    = quiet,
-        mode     = "wb"
-      )
-    ),
-    silent = TRUE
-  )
-
+  if (!exists("file.d", mode = "integer")) {
+    try(
+      suppressWarnings(
+        file.d <- download.file(
+          url      = stringr::str_glue("{download_url}/4"),
+          destfile = user_species_zip,
+          quiet    = quiet,
+          mode     = "wb"
+        )
+      ),
+      silent = TRUE
+    )
+  }
   ### Version 3
   if (!exists("file.d", mode = "integer")) {
     try(
@@ -219,8 +219,7 @@ fd_forest_chorological <- function(species, range = "nat", quiet = TRUE) {
     path_shp <- stringr::str_glue("{user_species_shp_unzip}/{selected_file}")
   }
   ## 4.3. Read file
-  if (!quiet) message("Please, cite the data as:
-Caudullo, G., Welk, E., San-Miguel-Ayanz, J., 2017. Chorological maps for the main European woody species. Data in Brief 12, 662-666. DOI: https://doi.org/10.1016/j.dib.2017.05.007")
+  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1016/j.dib.2017.05.007>"))
   sf::read_sf(path_shp)
 
 }

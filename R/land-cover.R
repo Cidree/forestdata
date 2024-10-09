@@ -72,8 +72,7 @@ get_glc_tbl <- function() {
 #' @param year year of the land cover data. One of 2015:2019 or 'all'
 #' @param layer a character vector of the layer(s) to use from the Global
 #'              Land Cover. See details
-#' @param crop when \code{x} is specified, whether to crop the tiles(s) to the
-#'             object
+#' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
 #' @param ... additional arguments passed to the \link[terra]{crop} function
 #'
 #' @return \code{SpatRaster} object
@@ -266,7 +265,7 @@ fd_landcover_esri <- function(utm_code,
                               quiet = TRUE) {
 
   # 0. Handle year error
-  if (!(year %in% seq(2017, 2022, 1)) & year != "all") stop("The indicated year is incorrect. Please, use a year between 2017 and 2022, or the 'all' function to retrieve all.")
+  if (!(year %in% seq(2017, 2022, 1)) & year != "all") stop("The indicated year is not valid. Please, use a year between 2017 and 2022, or the 'all' function to retrieve all.")
 
   # 1. Get number and letter
   nmbr <- stringr::str_sub(utm_code, 1, 2)
