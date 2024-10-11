@@ -41,8 +41,9 @@ Collate:
     'pathogens.R'
 Suggests: 
     aws.s3,
+    DBI,
     giscoR,
-    RODBC,
+    odbc,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 URL: https://cidree.github.io/forestdata/

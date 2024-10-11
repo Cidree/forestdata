@@ -34,6 +34,8 @@
 
 -   Improve documentation, fix mistakes in urls to other functions, add unit tests for all functions, correct wrong `fd_forest_extent_glad()` reference.
 
+-   Remove dependency on `RODBC`, and use `DBI` and `odbc` instead in `fd_inventory_spain()`. Improve error message when data is not available.
+
 -   `fd_canopy_height()`: now crops and then merges multiples tiles, so it's much faster when using `crop = TRUE`. It acquires argument `mask`, and losses `...` passed to `terra::crop()` because it fails to mask when used within `crop()`.
 
 -   Now every function have the argument `quiet = FALSE` by default, and retrieves the citation of the dataset.
