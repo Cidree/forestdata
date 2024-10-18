@@ -98,14 +98,10 @@ does not download the metadata</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download MFE50 for Canary Islands</span></span></span>
 <span class="r-in"><span><span class="va">canarias_ifn4_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"Canarias"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE):</span> <span style="color: #BBBB00;">!</span> ODBC failed with error 00000 from <span style="color: #00BB00;">[unixODBC][Driver Manager]</span>.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Can't open lib 'Microsoft Access Driver (*.mdb, *.accdb)' : file not found</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> From <span style="color: #0000BB;">nanodbc/nanodbc.cpp:1150</span>.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fd_inventory_spain("Canarias"):</span> Microsoft Access Driver not available.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cantabria_ifn3_gis_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"cantabria"</span>, ifn <span class="op">=</span> <span class="fl">3</span>, database <span class="op">=</span> <span class="st">"gis"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE):</span> <span style="color: #BBBB00;">!</span> ODBC failed with error 00000 from <span style="color: #00BB00;">[unixODBC][Driver Manager]</span>.</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BB0000;">✖</span> Can't open lib 'Microsoft Access Driver (*.mdb, *.accdb)' : file not found</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> From <span style="color: #0000BB;">nanodbc/nanodbc.cpp:1150</span>.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fd_inventory_spain("cantabria", ifn = 3, database = "gis"):</span> Microsoft Access Driver not available.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
