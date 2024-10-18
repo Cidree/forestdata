@@ -242,6 +242,7 @@ fd_inventory_spain <- function(province,
                                path_metadata = NULL,
                                quiet         = FALSE) {
   # 0. Handle errors
+<<<<<<< HEAD
   ## 0.1. Package errors
   if (!requireNamespace("DBI", quietly = TRUE)) stop("Package `DBI` is required to access the inventory data. Please, install it.")
   if (!requireNamespace("odbc", quietly = TRUE)) stop("Package `odbc` is required to access the inventory data. Please, install it.")
@@ -249,6 +250,10 @@ fd_inventory_spain <- function(province,
   drivers <- odbc::odbcListDrivers()
   if (!"Microsoft Access Driver (*.mdb, *.accdb)" %in% drivers$name && ifn %in% c(3, 4)) stop("Microsoft Access Driver not available.")
 
+=======
+  if (!requireNamespace("DBI", quietly = TRUE)) stop("Package `DBI` is required to access the inventory data. Please, install it.")
+  if (!requireNamespace("odbc", quietly = TRUE)) stop("Package `odbc` is required to access the inventory data. Please, install it.")
+>>>>>>> parent of 79201e1 (restore RODBC)
   # 1. Filter province
   ## 1.1. Fix province
   province_fix <- province |>
