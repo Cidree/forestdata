@@ -242,18 +242,7 @@ fd_inventory_spain <- function(province,
                                path_metadata = NULL,
                                quiet         = FALSE) {
   # 0. Handle errors
-<<<<<<< HEAD
-  ## 0.1. Package errors
-  if (!requireNamespace("DBI", quietly = TRUE)) stop("Package `DBI` is required to access the inventory data. Please, install it.")
-  if (!requireNamespace("odbc", quietly = TRUE)) stop("Package `odbc` is required to access the inventory data. Please, install it.")
-  ## 0.2. Driver
-  drivers <- odbc::odbcListDrivers()
-  if (!"Microsoft Access Driver (*.mdb, *.accdb)" %in% drivers$name && ifn %in% c(3, 4)) stop("Microsoft Access Driver not available.")
-
-=======
-  if (!requireNamespace("DBI", quietly = TRUE)) stop("Package `DBI` is required to access the inventory data. Please, install it.")
-  if (!requireNamespace("odbc", quietly = TRUE)) stop("Package `odbc` is required to access the inventory data. Please, install it.")
->>>>>>> parent of 79201e1 (restore RODBC)
+  if (!requireNamespace("RODBC", quietly = TRUE)) stop("Package `RODBC` is required to access the inventory data. Please, install it.")
   # 1. Filter province
   ## 1.1. Fix province
   province_fix <- province |>
@@ -329,30 +318,39 @@ fd_inventory_spain <- function(province,
     ## 4.1. File name
     filename <- list.files(dir_unzip, full.names = TRUE, pattern = "\\.accdb$")
     ## 4.2. Connect to DB
-    conn <- odbc::dbConnect(odbc::odbc(),
-                            .connection_string = paste0(
-                              "Driver={Microsoft Access Driver (*.mdb, *.accdb)};",
-                              "Dbq=", filename, ";"
-                            ))
-    ## 4.3. Disconnect on exit
-    on.exit(DBI::dbDisconnect(conn))
-    ## 4.4. Table names
-    tables_vec <- DBI::dbListTables(conn)[!grepl("^MSys", DBI::dbListTables(conn))]
+    conn <- RODBC::odbcConnectAccess2007(filename)
+    ## 4.3. Table names
+    tables_vec <- RODBC::sqlTables(conn) |>
+      dplyr::filter(TABLE_TYPE != "SYSTEM TABLE") |>
+      dplyr::pull(TABLE_NAME)
     ## 4.5. Read data into a list
     data_lst <- purrr::map(
       .x = tables_vec,
-      .f = \(x) DBI::dbReadTable(conn, x) |>
+      .f = \(x) RODBC::sqlFetch(conn, x) |>
         tibble::as_tibble()
     )
     ## 4.6. Rename list
     names(data_lst) <- tables_vec
     ## 4.7. Convert IFN4 PCDatosMap to projected SF (only in field database)
     ## -> IFN3 doesn't have huso column
-    if (ifn == 4 & database == "field") {
+    if (database == "field") {
+      if (ifn == 4) {
+        ## get datum code based on province/ccaa
+        datum <- dplyr::case_when(
+          province %in% c("Navarra", "Lugo", "A Coruna", "Lugo", "Pontevedra",
+                          "Ourense", "Asturias", "Cantabria", "Murcia", "Baleares",
+                          "Pais Vasco", "La Rioja", "Madrid", "Cataluna") ~ 230,
+          province %in% c("Canarias") ~ 326,
+          .default = 258
+        )
+      } else {
+        datum <- 230
+      }
+      ## convert to spatial
       data_lst$PCDatosMap_sf <- sf::st_as_sf(
         x      = data_lst$PCDatosMap,
         coords = c("CoorX", "CoorY"),
-        crs    = paste0("EPSG:", 258, data_lst$PCDatosMap$Huso[1])
+        crs    = paste0("EPSG:", datum, data_lst$PCDatosMap$Huso[1])
       )
     }
     ## 4.7. Return results

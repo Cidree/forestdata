@@ -66,7 +66,7 @@ if (!"Microsoft Access Driver (*.mdb, *.accdb)" %in% drivers$name) {
 
     ## IFN 3
     expect_equal(class(albacete_ifn3), "list")
-    expect_equal(length(albacete_ifn3), 14)
+    expect_equal(length(albacete_ifn3), 15)
 
     expect_equal(class(albacete_ifn3_gis), "list")
     expect_equal(length(albacete_ifn3_gis), 11)
