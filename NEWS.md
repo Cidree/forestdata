@@ -44,7 +44,11 @@
 
 -   `fd_forest_chorological()`: fixes #5. Species *Cedrus atlantica* and *Phoenix theophrasti* are eliminated from the metadata since they have no range data. *Chamaerops humilis* is now well spelled. The function now retrieve an error message when data is not available (fixes #5).
 
--   `fd_inventory_spain()` was returning metadata with the same name always. Now it will be different depending on the dataset that we download, and it will be checked if it exists before downloading it (according to #3).
+-   `fd_inventory_spain()`
+
+    -   It was returning metadata with the same name always. Now it will be different depending on the dataset that we download, and it will be checked if it exists before downloading it (according to #3).
+
+    -   Some provinces in IFN4 were incorrectly georreferenced. Now they are correctly georreferenced based on the *Documentador.*
 
 -   `fd_landcover_copernicus()` and `fd_canopy_height()` now crop data regardless of the CRS.
 
