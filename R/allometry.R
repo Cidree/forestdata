@@ -23,6 +23,7 @@
 #' \url{https://doi.org/10.1111/gcb.16302}
 #'
 #' @examples
+#' \donttest{
 #' ## Download full database as tibble
 #' tallo_tbl <- fd_allometry_tallo()
 #'
@@ -31,7 +32,7 @@
 #'
 #' ## Download data as sf for Czechia and Germany
 #' tallo_cz_ge_sf <- fd_allometry_tallo(country = c("Czechia", "Germany"))
-#'
+#' }
 fd_allometry_tallo <- function(country = NULL,
                                spatial = FALSE,
                                metadata_path = NULL,
