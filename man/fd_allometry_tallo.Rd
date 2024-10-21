@@ -31,6 +31,7 @@ Downloads the TALLO database, a global tree allometry and crown architecture
 database. Over 500,000 data points of individual trees with several measurements
 }
 \examples{
+\donttest{
 ## Download full database as tibble
 tallo_tbl <- fd_allometry_tallo()
 
@@ -39,7 +40,7 @@ tallo_sf <- fd_allometry_tallo(spatial = TRUE)
 
 ## Download data as sf for Czechia and Germany
 tallo_cz_ge_sf <- fd_allometry_tallo(country = c("Czechia", "Germany"))
-
+}
 }
 \references{
 Tallo: A global tree allometry and crown architecture database.
