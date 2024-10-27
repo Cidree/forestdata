@@ -44,5 +44,5 @@ tallo_cz_ge_sf <- fd_allometry_tallo(country = c("Czechia", "Germany"))
 }
 \references{
 Tallo: A global tree allometry and crown architecture database.
-\url{https://doi.org/10.1111/gcb.16302}
+\doi{10.1111/gcb.16302}
 }

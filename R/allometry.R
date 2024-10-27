@@ -20,7 +20,7 @@
 #' @importFrom utils read.csv write.csv
 #'
 #' @references Tallo: A global tree allometry and crown architecture database.
-#' \url{https://doi.org/10.1111/gcb.16302}
+#' \doi{10.1111/gcb.16302}
 #'
 #' @examples
 #' \donttest{

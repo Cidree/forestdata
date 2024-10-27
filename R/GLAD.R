@@ -75,13 +75,13 @@ get_glad_tiles <- function() {
 #' Turubanova S., Zalles V., Li X., Khan A., Stolle F., Harris N., Song X.-P.,
 #' Baggett A., Kommareddy I., Kommareddy A. (2022) The global 2000-2020 land cover
 #' and land use change dataset derived from the Landsat archive: first results.
-#' Frontiers in Remote Sensing \url{https://doi.org/10.3389/frsen.2022.856903}
+#' Frontiers in Remote Sensing \doi{10.3389/frsen.2022.856903}
 #'
 #' P. Potapov, X. Li, A. Hernandez-Serna, A. Tyukavina, M.C. Hansen, A. Kommareddy,
 #' A. Pickens, S. Turubanova, H. Tang, C.E. Silva, J. Armston, R. Dubayah, J. B.
 #' Blair, M. Hofton (2020) Mapping and monitoring global forest canopy height
 #' through integration of GEDI and Landsat data. Remote Sensing of Environment,
-#' 112165.\url{https://doi.org/10.1016/j.rse.2020.112165}
+#' 112165.\doi{10.1016/j.rse.2020.112165}
 #'
 #' @examples
 #' \donttest{
@@ -273,7 +273,7 @@ get_forest_extent_tbl <- function() {
 #' Turubanova S., Zalles V., Li X., Khan A., Stolle F., Harris N., Song X.-P.,
 #' Baggett A., Kommareddy I., Kommareddy A. (2022) The global 2000-2020 land cover
 #' and land use change dataset derived from the Landsat archive: first results.
-#' Frontiers in Remote Sensing \url{https://doi.org/10.3389/frsen.2022.856903}
+#' Frontiers in Remote Sensing \doi{10.3389/frsen.2022.856903}
 #'
 #' @examples
 #' \donttest{

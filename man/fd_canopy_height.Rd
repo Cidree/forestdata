@@ -51,7 +51,7 @@ There are currently two global canopy height models available within this functi
 \url{https://www.research-collection.ethz.ch/handle/20.500.11850/609802} for more
 information
 \item \strong{meta}: the Meta High Resolution 1m Global Canopy Height. Visit
-\url{https://doi.org/10.1016/j.rse.2023.113888} for more information
+\doi{10.1016/j.rse.2023.113888} for more information
 }
 
 Data may be freely used for research, study, or teaching, but be cited

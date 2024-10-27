@@ -60,5 +60,5 @@ Potapov P., Hansen M.C., Pickens A., Hernandez-Serna A., Tyukavina A.,
 Turubanova S., Zalles V., Li X., Khan A., Stolle F., Harris N., Song X.-P.,
 Baggett A., Kommareddy I., Kommareddy A. (2022) The global 2000-2020 land cover
 and land use change dataset derived from the Landsat archive: first results.
-Frontiers in Remote Sensing \url{https://doi.org/10.3389/frsen.2022.856903}
+Frontiers in Remote Sensing \doi{10.3389/frsen.2022.856903}
 }

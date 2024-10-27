@@ -109,7 +109,7 @@ get_meta_tiles <- function() {
 #'
 #' @examples
 #' \donttest{
-#' fd_canopy_height_eth(lon = -7.27, lat = 42.43)
+#' canopy_height <- fd_canopy_height_eth(lon = -7.27, lat = 42.43)
 #' }
 fd_canopy_height_eth <- function(x     = NULL,
                                  lon   = NULL,
@@ -248,7 +248,7 @@ fd_canopy_height_eth <- function(x     = NULL,
 #'
 #' @examples
 #' \donttest{
-#' fd_canopy_height_meta(lon = -7.27, lat = 42.43)
+#' canopy_height <- fd_canopy_height_meta(lon = -7.27, lat = 42.43)
 #' }
 fd_canopy_height_meta <- function(x     = NULL,
                                   lon   = NULL,
@@ -286,6 +286,7 @@ fd_canopy_height_meta <- function(x     = NULL,
   ## 2.1. Save into tempdir
   message(stringr::str_glue("{length(tile_vec)} tile(s) were found."))
   out_file <- paste0(tempdir(), "\\", tile_vec, ".tif")
+  on.exit(unlink(out_file), add = TRUE)
   for (i in 1:length(out_file)) {
     ## If it already exists, go next
     if (file.exists(out_file[i])) {
@@ -360,7 +361,7 @@ fd_canopy_height_meta <- function(x     = NULL,
 #' information
 #'
 #' - \strong{meta}: the Meta High Resolution 1m Global Canopy Height. Visit
-#' \url{https://doi.org/10.1016/j.rse.2023.113888} for more information
+#' \doi{10.1016/j.rse.2023.113888} for more information
 #'
 #' Data may be freely used for research, study, or teaching, but be cited
 #' appropriately (see references below).
