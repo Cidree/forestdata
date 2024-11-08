@@ -48,7 +48,7 @@
 
     -   It was returning metadata with the same name always. Now it will be different depending on the dataset that we download, and it will be checked if it exists before downloading it (according to #3).
 
-    -   Some provinces in IFN4 were incorrectly georreferenced. Now they are correctly georreferenced based on the *Documentador.*
+    -   Some provinces in IFN4 were incorrectly georreferenced. Now they are correctly georreferenced based on the *Documentador.* IFN3 provinces are now also georreferenced
 
 -   `fd_landcover_copernicus()` and `fd_canopy_height()` now crop data regardless of the CRS.
 

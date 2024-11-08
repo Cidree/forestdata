@@ -285,7 +285,7 @@ fd_inventory_spain <- function(province,
     if (!file.exists(metadata_file$filename)) {
       download.file(
         metadata_file$url,
-        destfile = metadata_file$filename,
+        destfile = paste0(path_metadata, "/", metadata_file$filename),
         mode     = "wb",
         quiet    = quiet
       )
@@ -319,6 +319,7 @@ fd_inventory_spain <- function(province,
     filename <- list.files(dir_unzip, full.names = TRUE, pattern = "\\.accdb$")
     ## 4.2. Connect to DB
     conn <- RODBC::odbcConnectAccess2007(filename)
+    on.exit(RODBC::odbcClose(conn))
     ## 4.3. Table names
     tables_vec <- RODBC::sqlTables(conn) |>
       dplyr::filter(TABLE_TYPE != "SYSTEM TABLE") |>
@@ -337,21 +338,67 @@ fd_inventory_spain <- function(province,
       if (ifn == 4) {
         ## get datum code based on province/ccaa
         datum <- dplyr::case_when(
-          province %in% c("Navarra", "Lugo", "A Coruna", "Lugo", "Pontevedra",
+          province_fix %in% c("Navarra", "Lugo", "A Coruna", "Lugo", "Pontevedra",
                           "Ourense", "Asturias", "Cantabria", "Murcia", "Baleares",
                           "Pais Vasco", "La Rioja", "Madrid", "Cataluna") ~ 230,
-          province %in% c("Canarias") ~ 326,
+          province_fix %in% c("Canarias") ~ 326,
           .default = 258
         )
+        ## convert to spatial
+        data_lst$PCDatosMap_sf <- sf::st_as_sf(
+          x      = data_lst$PCDatosMap,
+          coords = c("CoorX", "CoorY"),
+          crs    = paste0("EPSG:", datum, data_lst$PCDatosMap$Huso)
+        )
+
+        ## IFN 3 - SF column
       } else {
-        datum <- 230
+        data_lst$PCDatosMap <- data_lst$PCDatosMap |>
+          dplyr::mutate(
+            Huso = dplyr::case_when(
+              ## Huso 29
+              province_fix %in% c("Lugo", "Ourense", "A Coruna", "Pontevedra") ~ 29,
+              province_fix %in% c("Sevilla", "Badajoz", "Caceres", "Salamanca", "Cadiz",
+                                  "Zamora", "Leon", "Asturias", "Huelva") & CoorX > 5e5 ~ 29,
+              ## Huso 28
+              province_fix %in% c("Santa Cruz De Tenerife", "Las Palmas") ~ 28,
+              ## Huso 31
+              province_fix %in% c("Islas Baleares", "Barcelona", "Girona", "Lleida", "Tarragona") ~ 31,
+              province_fix %in% c("Castellon", "Huesca", "Zaragoza",
+                                  "Teruel", "Alicante") & CoorX < 5e5 ~ 31,
+              .default = 30
+            )
+          )
+        ## convert to spatial
+        ## some provinces have 2 different CRS (they use topographic map sheets)
+        husos <- unique(data_lst$PCDatosMap$Huso)
+        if (length(husos) > 1) {
+          ## they are always 2 different CRS
+          data_huso_1 <- sf::st_as_sf(
+            x      = data_lst$PCDatosMap[data_lst$PCDatosMap$Huso == husos[1], ],
+            coords = c("CoorX", "CoorY"),
+            crs    = paste0("EPSG:230", husos[1])
+          )
+
+          data_huso_2 <- sf::st_as_sf(
+            x      = data_lst$PCDatosMap[data_lst$PCDatosMap$Huso == husos[2], ],
+            coords = c("CoorX", "CoorY"),
+            crs    = paste0("EPSG:230", husos[2])
+          ) |> sf::st_transform(paste0("EPSG:230", husos[1]))
+
+          data_lst$PCDatosMap_sf <- rbind(data_huso_1, data_huso_2)
+
+        } else {
+          ## for only 1 CRS
+          data_lst$PCDatosMap_sf <- sf::st_as_sf(
+            x      = data_lst$PCDatosMap,
+            coords = c("CoorX", "CoorY"),
+            crs    = paste0("EPSG:", datum, data_lst$PCDatosMap$Huso[1])
+          )
+        }
+
       }
-      ## convert to spatial
-      data_lst$PCDatosMap_sf <- sf::st_as_sf(
-        x      = data_lst$PCDatosMap,
-        coords = c("CoorX", "CoorY"),
-        crs    = paste0("EPSG:", datum, data_lst$PCDatosMap$Huso[1])
-      )
+
     }
     ## 4.7. Return results
     return(data_lst)
