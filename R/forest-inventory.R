@@ -348,7 +348,7 @@ fd_inventory_spain <- function(province,
         data_lst$PCDatosMap_sf <- sf::st_as_sf(
           x      = data_lst$PCDatosMap,
           coords = c("CoorX", "CoorY"),
-          crs    = paste0("EPSG:", datum, data_lst$PCDatosMap$Huso)
+          crs    = paste0("EPSG:", datum, data_lst$PCDatosMap$Huso[1])
         )
 
         ## IFN 3 - SF column

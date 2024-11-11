@@ -290,7 +290,7 @@ fd_canopy_height_meta <- function(x     = NULL,
   for (i in 1:length(out_file)) {
     ## If it already exists, go next
     if (file.exists(out_file[i])) {
-      if (!quiet) message(crayon::green(stringr::str_glue("Tile {tile_vec[i]} cached.")))
+      if (!quiet) message(crayon::green(stringr::str_glue("Tile {tile_vec[rhubv2i]} cached.")))
       next
     }
     if (!quiet) message(crayon::green(stringr::str_glue("Downloading tile {i}...")))

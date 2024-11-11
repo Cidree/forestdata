@@ -45,7 +45,7 @@ appropriately (see references below).
 }
 \examples{
 \donttest{
-fd_canopy_height_eth(lon = -7.27, lat = 42.43)
+canopy_height <- fd_canopy_height_eth(lon = -7.27, lat = 42.43)
 }
 }
 \references{
