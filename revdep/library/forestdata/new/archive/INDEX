@@ -1,9 +1,0 @@
-archive                 Construct a new archive
-archive_extract         Extract contents of an archive to a directory
-archive_read            Create a readable connection to a file in an
-                        archive.
-archive_write           Create a writable connection to a file in an
-                        archive.
-archive_write_dir       Add files to a new archive
-file_read               Construct a connections for (possibly
-                        compressed) files.
