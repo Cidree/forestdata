@@ -1,0 +1,13 @@
+fd_canopy_height        Download forest canopy height
+fd_forest_chorological
+                        Download the Chorological Maps
+fd_forest_eutrees4f     Download data from EU-Trees4F Database
+fd_forest_extent_glad   Download Forest Extent
+fd_forest_france        Download BD Forêt data for a French Department
+fd_forest_spain_mfe50   Download forest cover in Spain
+fd_inventory_spain      Download Spanish Forest Inventory
+fd_landcover_copernicus
+                        Download data from the Global Land Cover
+fd_landcover_esri       Download data from the ESRI Land Cover Explorer
+fd_pathogens_defid2     Download the DEFID2 database
+metadata_forestdata     Metadata for 'forestdata' functions

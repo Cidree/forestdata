@@ -1,0 +1,19 @@
+RODBC-package           ODBC Database Connectivity
+odbcClose               ODBC Close Connections
+odbcConnect             ODBC Open Connections
+odbcDataSources         List ODBC Data Sources
+odbcGetInfo             Request Information on an ODBC Connection
+odbcQuery               Low-level ODBC functions
+odbcSetAutoCommit       ODBC Set Auto-Commit Mode
+setSqlTypeInfo          Specify or Query a Mapping of R Types to DBMS
+                        Types
+sqlColumns              Query Column Structure in ODBC Tables
+sqlCopy                 ODBC Copy
+sqlDrop                 Deletion Operations on Tables in ODBC databases
+sqlFetch                Reading Tables from ODBC Databases
+sqlQuery                Query an ODBC Database
+sqlSave                 Write a Data Frame to a Table in an ODBC
+                        Database
+sqlTables               List Tables on an ODBC Connection
+sqlTypeInfo             Request Information about Data Types in an ODBC
+                        Database

@@ -1,0 +1,27 @@
+Package: forestdata
+Type: Package
+Title: Download Forestry Data
+Version: 0.1.0
+Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
+Description: Functions for downloading forestry and land use data for use in spatial analysis. This packages offers a user-friendly solution to quickly obtain datasets such as forest height, forest types, tree species under various climate change scenarios, or land use data among others.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Imports: rvest, sf, stringr, tibble, tidyr, dplyr, purrr, terra,
+        stringi, rlang, archive, RODBC, foreign
+RoxygenNote: 7.3.2
+Depends: R (>= 2.10)
+Collate: 'utils_notExported.R' 'GLAD.R' 'canopy_height.R'
+        'chorological_maps.R' 'data.R' 'eutrees4f.R' 'forest_country.R'
+        'forest_inventory.R' 'global_land_cover.R' 'globals.R'
+        'land_cover_explorer.R' 'pathogens.R'
+Suggests: testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://cidree.github.io/forestdata/
+NeedsCompilation: no
+Packaged: 2024-09-06 15:18:21 UTC; Cidre
+Author: Adrián Cidre González [aut, cre]
+Maintainer: Adrián Cidre González <adrian.cidre@gmail.com>
+Repository: CRAN
+Date/Publication: 2024-09-10 10:10:02 UTC
+Built: R 4.4.2; ; 2024-11-12 13:19:35 UTC; windows
