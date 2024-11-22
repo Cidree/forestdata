@@ -17,6 +17,6 @@ Get a table with the year, coordinates, and URL of the Global Land Cover
 tiles.
 }
 \references{
-\url{https://lcviewer.vito.be/download}
+\url{https://land.copernicus.eu/en/products/global-dynamic-land-cover}
 }
 \keyword{internal}

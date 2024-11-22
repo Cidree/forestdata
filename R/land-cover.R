@@ -9,7 +9,7 @@
 #'
 #' @return A \code{tibble}
 #' @keywords internal
-#' @references <https://lcviewer.vito.be/download>
+#' @references <https://land.copernicus.eu/en/products/global-dynamic-land-cover>
 get_glc_tbl <- function() {
 
   # 1. Vector with possible longitudes
