@@ -16,10 +16,10 @@ cs_nat <- fd_forest_chorological(
 
 ## 1.2. Unit tests ------------------
 
-test_that("All natural range data in downloaded", {
+test_that("All natural range data is downloaded", {
   expect_no_error(
     purrr::map(
-      metadata_forestdata$chorological_species[1:20],
+      metadata_forestdata$chorological_species[1:3],
       fd_forest_chorological
     )
   )

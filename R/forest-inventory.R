@@ -243,7 +243,7 @@ fd_inventory_spain <- function(province,
                                quiet         = FALSE) {
   # 0. Handle errors
   if (!requireNamespace("RODBC", quietly = TRUE)) stop("Package `RODBC` is required to access the inventory data. Please, install it.")
-  if (!"Microsoft Access Driver (*.mdb, *.accdb)" %in% odbc::odbcListDrivers()) {
+  if (!"Microsoft Access Driver (*.mdb, *.accdb)" %in% odbc::odbcListDrivers()$name) {
     stop("<Microsoft Access Driver (*.mdb, *.accdb)> is not available. Please, install it to use this function.")
   }
   # 1. Filter province

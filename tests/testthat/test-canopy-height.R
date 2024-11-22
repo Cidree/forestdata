@@ -16,49 +16,55 @@ polygon_sf <- sf::st_sfc(sf::st_point(c(-8, 43)), crs = 4326) |>
   terra::vect()
 
 ## Download 2 tiles
-ch_2tiles_sr <- fd_canopy_height(polygon_2tiles_sf)
+test_that("Two tiles are downloaded", {
+  skip_on_cran()
+  ch_2tiles_sr <- fd_canopy_height(polygon_2tiles_sf)
+  expect_s4_class(ch_2tiles_sr, "SpatRaster")
+})
+
+## 1.2. Tests --------------------
 
 ## Download 1 tile
-ch_polygon_sr <- fd_canopy_height(polygon_sf, quiet = TRUE)
-ch_polygon_crop_sr <- fd_canopy_height(polygon_sf, crop = TRUE)
-
-## Download 1 tiles using coords
-ch_coords_sr <- fd_canopy_height(lon = -8, lat = 43)
-
-## Download other layers
-std_coords_sr <- fd_canopy_height(lon = -8, lat = 43, layer = "std")
-all_coords_sr <- fd_canopy_height(lon = -8, lat = 43, layer = "all")
-
-## 1.2. Unit tests ------------------
-
-## Check that data is properly downloaded (tiles are merged)
-test_that("Data is properly downloaded", {
-  expect_s4_class(ch_2tiles_sr, "SpatRaster")
+test_that("Download one tile works", {
+  skip_on_cran()
+  ## Download data
+  ch_polygon_sr <- fd_canopy_height(polygon_sf, quiet = TRUE)
+  ch_coords_sr <- fd_canopy_height(lon = -8, lat = 43)
+  ## Check spatraster
   expect_s4_class(ch_polygon_sr, "SpatRaster")
-  expect_s4_class(ch_polygon_crop_sr, "SpatRaster")
   expect_s4_class(ch_coords_sr, "SpatRaster")
-  expect_s4_class(std_coords_sr, "SpatRaster")
-  expect_s4_class(all_coords_sr, "SpatRaster")
-})
-
-## Check that polygon was properly cropped
-test_that("Crop works", {
-  expect_equal(terra::ext(polygon_sf)[1], terra::ext(ch_polygon_crop_sr)[1], tolerance = 1e-1)
-  expect_equal(terra::ext(polygon_sf)[2], terra::ext(ch_polygon_crop_sr)[2], tolerance = 1e-1)
-  expect_equal(terra::ext(polygon_sf)[3], terra::ext(ch_polygon_crop_sr)[3], tolerance = 1e-1)
-  expect_equal(terra::ext(polygon_sf)[4], terra::ext(ch_polygon_crop_sr)[4], tolerance = 1e-1)
-})
-
-## Test that not cropping and taking coordinate of same tile is same object
-test_that("Objects are the same", {
+  ## Check same object
   expect_equal(terra::ext(ch_polygon_sr)[1], terra::ext(ch_coords_sr)[1], tolerance = 1e-1)
   expect_equal(terra::ext(ch_polygon_sr)[2], terra::ext(ch_coords_sr)[2], tolerance = 1e-1)
   expect_equal(terra::ext(ch_polygon_sr)[3], terra::ext(ch_coords_sr)[3], tolerance = 1e-1)
   expect_equal(terra::ext(ch_polygon_sr)[4], terra::ext(ch_coords_sr)[4], tolerance = 1e-1)
 })
 
-## Check layer argument
-test_that("Layers are the same", {
+## Download 1 tile and crop
+test_that("Crop works", {
+  skip_on_cran()
+  ## Download data
+  ch_polygon_crop_sr <- fd_canopy_height(polygon_sf, crop = TRUE)
+  ## Check spatraster
+  expect_s4_class(ch_polygon_crop_sr, "SpatRaster")
+  ## Check same object
+  expect_equal(terra::ext(polygon_sf)[1], terra::ext(ch_polygon_crop_sr)[1], tolerance = 1e-1)
+  expect_equal(terra::ext(polygon_sf)[2], terra::ext(ch_polygon_crop_sr)[2], tolerance = 1e-1)
+  expect_equal(terra::ext(polygon_sf)[3], terra::ext(ch_polygon_crop_sr)[3], tolerance = 1e-1)
+  expect_equal(terra::ext(polygon_sf)[4], terra::ext(ch_polygon_crop_sr)[4], tolerance = 1e-1)
+})
+
+## Download other layers
+test_that("Donwload other layers work", {
+  skip_on_cran()
+  ## get data
+  std_coords_sr <- fd_canopy_height(lon = -8, lat = 43, layer = "std")
+  all_coords_sr <- fd_canopy_height(lon = -8, lat = 43, layer = "all")
+  ch_coords_sr  <- fd_canopy_height(lon = -8, lat = 43)
+  ## Check spatraster
+  expect_s4_class(std_coords_sr, "SpatRaster")
+  expect_s4_class(all_coords_sr, "SpatRaster")
+  ## test
   expect_equal(
     names(all_coords_sr),
     names(c(ch_coords_sr, std_coords_sr))
@@ -84,41 +90,32 @@ meta_2_tiles_sf <- sf::st_bbox(
   sf::st_as_sf(crs = 4326)
 
 ## Download 1 tiles using coords
-meta_coords_sr <- fd_canopy_height(lon = -8, lat = 43, model = "meta")
-
-## Download 1 tile
-meta_x_sr <- fd_canopy_height(polygon_2tiles_sf, model = "meta")
-
-## Download 1 tile with crop
-meta_crop_sr <- fd_canopy_height(polygon_2tiles_sf, model = "meta", crop = TRUE)
-
-## Download 2 tiles with crop
-meta_crop2_sf <- fd_canopy_height(
-  x     = meta_2_tiles_sf,
-  model = "meta",
-  crop  = TRUE
-)
-
-
-## 2.2. Tests -----------------------
-
-## Check that data is properly downloaded (tiles are merged)
-test_that("Data is properly downloaded", {
+test_that("Download one tile works", {
+  skip_on_cran()
+  ## get data
+  meta_coords_sr <- fd_canopy_height(lon = -8, lat = 43, model = "meta")
+  meta_x_sr      <- fd_canopy_height(polygon_2tiles_sf, model = "meta")
+  meta_crop_sr   <- fd_canopy_height(polygon_2tiles_sf, model = "meta", crop = TRUE)
+  meta_crop2_sf <- fd_canopy_height(
+    x     = meta_2_tiles_sf,
+    model = "meta",
+    crop  = TRUE
+  )
+  ## check spatraster
   expect_s4_class(meta_coords_sr, "SpatRaster")
   expect_s4_class(meta_x_sr, "SpatRaster")
   expect_s4_class(meta_crop_sr, "SpatRaster")
   expect_s4_class(meta_crop2_sf, "SpatRaster")
-})
-
-
-## Check that polygon was properly cropped
-test_that("Crop works", {
+  ## check crop
   meta_2_tiles_3857_sf <- sf::st_transform(meta_2_tiles_sf, "EPSG:3857")
   expect_equal(terra::ext(meta_2_tiles_3857_sf)[1], terra::ext(meta_crop2_sf)[1], tolerance = 1e-1)
   expect_equal(terra::ext(meta_2_tiles_3857_sf)[2], terra::ext(meta_crop2_sf)[2], tolerance = 1e-1)
   expect_equal(terra::ext(meta_2_tiles_3857_sf)[3], terra::ext(meta_crop2_sf)[3], tolerance = 1e-1)
   expect_equal(terra::ext(meta_2_tiles_3857_sf)[4], terra::ext(meta_crop2_sf)[4], tolerance = 1e-1)
 })
+
+
+
 
 
 

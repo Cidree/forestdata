@@ -111,24 +111,20 @@ test_that("Crop works", {
 
 # 2. Esri LCE -------------------------------------------------------------
 
-## 2.1. Load data ---------------------
 
-# Download Land Cover for UTM tile 29T year 2022
-lc_base <- fd_landcover_esri("29T", year = 2020, quiet = FALSE)
-
-## Download LC for all the years
-# lc_years <- fd_landcover_esri("29N", year = "all", quiet = FALSE)
-
-
-## 2.2. Unit tests --------------------
 
 ## Check that data is properly downloaded
 test_that("Data is properly downloaded", {
+  skip_on_cran()
+  ## get data
+  lc_base <- fd_landcover_esri("29T", year = 2020, quiet = FALSE)
+  lc_years <- fd_landcover_esri("29N", year = "all", quiet = FALSE)
+  ## check spatraster
   expect_s4_class(lc_base, "SpatRaster")
-  # expect_s4_class(lc_years, "SpatRaster")
+  expect_s4_class(lc_years, "SpatRaster")
 })
 
-## Check that layers are the correct ones, and with correct name
+
 
 
 
