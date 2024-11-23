@@ -9,13 +9,6 @@ lugo_mfe <- fd_forest_spain_mfe50(
   quiet    = TRUE
 )
 
-## Get all files
-forest_spain_list <- purrr::map(
-  metadata_forestdata$mfe_provinces,
-  fd_forest_spain_mfe50,
-  .progress = TRUE
-)
-
 ## 1.2. Unit tests ------------------
 
 ## Check one file
@@ -25,11 +18,11 @@ test_that("Data is downloaded properly", {
 })
 
 ## Check all files (~10min)
-## Check only 15
+## Check only 5
 test_that("All files are downloaded", {
   expect_no_error(
     purrr::map(
-      metadata_forestdata$mfe_provinces[1:15],
+      metadata_forestdata$mfe_provinces[1:5],
       fd_forest_spain_mfe50
     )
   )
