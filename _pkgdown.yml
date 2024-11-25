@@ -51,6 +51,11 @@ navbar:
       href: index.html
     - text: "Reference"
       href: reference/index.html
+    - text: "Articles"
+      href: articles/index.html
+      menu:
+        - text: "Canopy Height Models"
+          href: articles/canopy-height.html
     - text: "News"
       href: news/index.html
   structure:
@@ -60,3 +65,4 @@ navbar:
       icon: fa-github
       href: https://github.com/Cidree/forestdata
       aria-label: GitHub
+

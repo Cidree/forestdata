@@ -1,4 +1,9 @@
-# 0.2.0
+
+# Version 0.2.1 (development)
+
+-   `fd_canopy_height()`: fix an error that was provoking the cached rasters to be deleted in the current session.
+
+# Version 0.2.0
 
 ## New features
 

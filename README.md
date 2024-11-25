@@ -43,7 +43,7 @@ functions, a short description, and the object type of the output.
 
 <div align="center">
 
-<img src="man/figures/functions_gt.png" width="800px"/>
+<img src="man/figures/functions_gt.png" width="800px" alt="Image not found"/>
 
 </div>
 

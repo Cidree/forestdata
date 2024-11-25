@@ -11,3 +11,4 @@ my_notes
 ^revdep$
 ^CRAN-SUBMISSION$
 ^README\.Rmd$
+^vignettes/articles$

@@ -6,3 +6,4 @@
 execute_internal_data.R
 
 docs
+inst/doc
