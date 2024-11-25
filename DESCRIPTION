@@ -45,7 +45,9 @@ Suggests:
     odbc,
     giscoR,
     testthat (>= 3.0.0),
-    rmarkdown
+    rmarkdown,
+    ggplot2,
+    tidyterra
 Config/testthat/edition: 3
 URL: https://cidree.github.io/forestdata/
 Roxygen: list(markdown = TRUE)
