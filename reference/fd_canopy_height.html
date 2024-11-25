@@ -9,7 +9,7 @@ Meta High Resolution 1m Global Canopy Height Map"><meta property="og:image" cont
 
     <a class="navbar-brand me-2" href="../index.html">forestdata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,6 +19,10 @@ Meta High Resolution 1m Global Canopy Height Map"><meta property="og:image" cont
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home"></span></a></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/canopy-height.html">Canopy Height Models</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -126,8 +130,7 @@ lidar. Remote Sensing of Environment, 300, p.113888.</p>
 <span class="r-in"><span><span class="va">eth_model</span> <span class="op">&lt;-</span> <span class="fu">fd_canopy_height</span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">7.27</span>, lat <span class="op">=</span> <span class="fl">42.43</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> 1 tile(s) were found.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Downloading tile 1...</span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>URL 'https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&amp;files=ETH_GlobalCanopyHeight_10m_2020_N42W009_Map.tif': Timeout of 5000 seconds was reached</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in download.file(url = url, destfile = url_path, mode = "wb", quiet = quiet):</span> cannot open URL 'https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&amp;files=ETH_GlobalCanopyHeight_10m_2020_N42W009_Map.tif'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Cite this dataset using &lt;https://doi.org/10.1038/s41559-023-02206-6&gt;</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Get 1m resolution CHM</span></span></span>
 <span class="r-in"><span><span class="va">meta_model</span> <span class="op">&lt;-</span> <span class="fu">fd_canopy_height</span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">7.27</span>, lat <span class="op">=</span> <span class="fl">42.43</span>, model <span class="op">=</span> <span class="st">"meta"</span><span class="op">)</span></span></span>

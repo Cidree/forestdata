@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">forestdata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -17,6 +17,10 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../index.html"><span class="fa fa-home"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/canopy-height.html">Canopy Height Models</a></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -33,10 +37,60 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="version-021-development">Version 0.2.1 (development)<a class="anchor" aria-label="anchor" href="#version-021-development"></a></h2>
+<ul><li>
+<code><a href="../reference/fd_canopy_height.html">fd_canopy_height()</a></code>: fix an error that was provoking the cached rasters to be deleted in the current session.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="version-020">Version 0.2.0<a class="anchor" aria-label="anchor" href="#version-020"></a></h2><p class="text-muted">CRAN release: 2024-11-23</p>
+<div class="section level3">
+<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<ul><li><p><code><a href="../reference/fd_allometry_tallo.html">fd_allometry_tallo()</a></code>: new function to retrieve data from the TALLO database (thanks to @i-c-grant in #1).</p></li>
+<li>
+<p><code><a href="../reference/fd_pathogens_defid2.html">fd_pathogens_defid2()</a></code>:</p>
+<ul><li>It has now <code>quiet</code> argument, which defaults to <code>FALSE</code>.</li>
+</ul></li>
+<li>
+<p><code>metadata_forestdata</code>:</p>
+<ul><li><p>List of chorological species updated</p></li>
+<li><p>New list containing metadata of possible options for <code><a href="../reference/fd_pathogens_defid2.html">fd_pathogens_defid2()</a></code>.</p></li>
+<li><p>New list containing metadata of codes for discrete and forest layers in <code><a href="../reference/fd_landcover_copernicus.html">fd_landcover_copernicus()</a></code>.</p></li>
+</ul></li>
+<li><p><code><a href="../reference/fd_landcover_esri.html">fd_landcover_esri()</a></code>: now includes land cover data for 2023.</p></li>
+<li>
+<p><code><a href="../reference/fd_canopy_height.html">fd_canopy_height()</a></code>: gains a new argument <code>model</code> with two possible options:</p>
+<ul><li><p><code>model = "eth"</code>: default value. It returns the ETH Global Canopy Model with 10 meters of spatial resolution.</p></li>
+<li><p><code>model = "meta"</code>: it returns the Meta Global Canopy Model with 1 meter of spatial resolution. Thanks to @Wycology in #2.</p></li>
+</ul></li>
+<li><p><code><a href="../reference/fd_forest_glad.html">fd_forest_glad()</a></code>: new function that deprecates <code><a href="../reference/fd_forest_extent_glad.html">fd_forest_extent_glad()</a></code>. It includes a new argument <code>model</code> to choose forest extent, forest height, or land cover models from GLAD. It also fixes #7.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="enhancements-0-2-0">Enhancements<a class="anchor" aria-label="anchor" href="#enhancements-0-2-0"></a></h3>
+<ul><li><p>Properly name land cover instead of land use to <code><a href="../reference/fd_landcover_copernicus.html">fd_landcover_copernicus()</a></code> and <code><a href="../reference/fd_landcover_esri.html">fd_landcover_esri()</a></code> in their documentation.</p></li>
+<li><p><code><a href="../reference/fd_forest_eutrees4f.html">fd_forest_eutrees4f()</a></code>: now gives an error with a better message when <code>distrib == "nat" &amp; period != 2005</code>.</p></li>
+<li><p>Improve documentation, fix mistakes in urls to other functions, add unit tests for all functions, correct wrong <code><a href="../reference/fd_forest_extent_glad.html">fd_forest_extent_glad()</a></code> reference.</p></li>
+<li><p>Remove dependency on <code>RODBC</code>, and use <code>DBI</code> and <code>odbc</code> instead in <code><a href="../reference/fd_inventory_spain.html">fd_inventory_spain()</a></code>. Improve error message when data is not available.</p></li>
+<li><p><code><a href="../reference/fd_canopy_height.html">fd_canopy_height()</a></code>: now crops and then merges multiples tiles, so it’s much faster when using <code>crop = TRUE</code>. It acquires argument <code>mask</code>, and losses <code>...</code> passed to <code><a href="https://rspatial.github.io/terra/reference/crop.html" class="external-link">terra::crop()</a></code> because it fails to mask when used within <code><a href="https://rspatial.github.io/terra/reference/crop.html" class="external-link">crop()</a></code>.</p></li>
+<li><p>Now every function have the argument <code>quiet = FALSE</code> by default, and retrieves the citation of the dataset.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bugs-0-2-0">Bugs<a class="anchor" aria-label="anchor" href="#bugs-0-2-0"></a></h3>
+<ul><li><p><code><a href="../reference/fd_forest_chorological.html">fd_forest_chorological()</a></code>: fixes #5. Species <em>Cedrus atlantica</em> and <em>Phoenix theophrasti</em> are eliminated from the metadata since they have no range data. <em>Chamaerops humilis</em> is now well spelled. The function now retrieve an error message when data is not available (fixes #5).</p></li>
+<li>
+<p><code><a href="../reference/fd_inventory_spain.html">fd_inventory_spain()</a></code></p>
+<ul><li><p>It was returning metadata with the same name always. Now it will be different depending on the dataset that we download, and it will be checked if it exists before downloading it (according to #3).</p></li>
+<li><p>Some provinces in IFN4 were incorrectly georreferenced. Now they are correctly georreferenced based on the <em>Documentador.</em> IFN3 provinces are now also georreferenced</p></li>
+</ul></li>
+<li><p><code><a href="../reference/fd_landcover_copernicus.html">fd_landcover_copernicus()</a></code> and <code><a href="../reference/fd_canopy_height.html">fd_canopy_height()</a></code> now crop data regardless of the CRS.</p></li>
+<li><p><code><a href="../reference/fd_forest_extent_glad.html">fd_forest_extent_glad()</a></code>: incorrectly crops to the argument <code>x</code> (fixes #7).</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="version-010">Version 0.1.0<a class="anchor" aria-label="anchor" href="#version-010"></a></h2><p class="text-muted">CRAN release: 2024-09-10</p>
 <ul><li>Initial release.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
