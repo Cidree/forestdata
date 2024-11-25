@@ -286,11 +286,10 @@ fd_canopy_height_meta <- function(x     = NULL,
   ## 2.1. Save into tempdir
   message(stringr::str_glue("{length(tile_vec)} tile(s) were found."))
   out_file <- paste0(tempdir(), "\\", tile_vec, ".tif")
-  on.exit(unlink(out_file), add = TRUE)
   for (i in 1:length(out_file)) {
     ## If it already exists, go next
     if (file.exists(out_file[i])) {
-      if (!quiet) message(crayon::green(stringr::str_glue("Tile {tile_vec[rhubv2i]} cached.")))
+      if (!quiet) message(crayon::green(stringr::str_glue("Tile {tile_vec[i]} cached.")))
       next
     }
     if (!quiet) message(crayon::green(stringr::str_glue("Downloading tile {i}...")))
