@@ -83,7 +83,7 @@ hist(palma_meta_sr, main = "Distribution of heights", xlab = "Height (m)")
 
 Once we have the data, we can generate one map of the canopy height model leveraging the `tidyterra` package:
 
-```{r, fig.width=6, fig.height=6}
+```{r, fig.width=6, fig.height=8}
 ggplot() +
   geom_spatraster(data = palma_meta_sr) +
   scale_fill_whitebox_c(
@@ -106,7 +106,7 @@ ggplot() +
     caption = "@ Adrián Cidre | Data Source: Meta CHM | {forestdata} R package"
   ) +
   theme_void(
-    base_size = 12
+    base_size = 10
   ) +
   theme(
     panel.background  = element_rect(fill = "#8DA7BE", colour = NA),
