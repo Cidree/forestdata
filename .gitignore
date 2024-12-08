@@ -3,7 +3,6 @@
 .RData
 .Ruserdata
 
-execute_internal_data.R
-
+internal-data/
 docs
 inst/doc

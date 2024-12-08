@@ -1,5 +1,33 @@
 
-# Version 0.2.1 (development)
+# Version 0.3.0
+
+## New features
+
+* `fd_forest_glad()` and `fd_canopy_height()`: gain a new argument `merge = FALSE`. If the tiles are not merged, the function will return the result much faster as a `SpatRasterCollection`.
+
+* `fd_forest_extent_glad()`: eliminated. Functionality extended with `fd_forest_glad()`.
+
+* `fd_inventory_spain()`: gains a new argument `process_level`, which can be:
+
+    -   `process_level = 0`: raw data is downloaded
+    
+    -   `process_level = 1`: data is processed at the tree level
+    
+    -   `process_level = 2`: data is processed at the stand level
+    
+
+## Enhancements
+
+* Better functions feedback with `cli` R package
+
+* Make the package lighter eliminating useless internal functions. `purrr`, `rvest`, `rlang`, and `crayon` dependencies are not needed anymore.
+
+## Bugs
+
+* Fix `foresdata` url issues according to #9 and CRAN policies.
+
+
+# Version 0.2.1
 
 -   `fd_canopy_height()`: fix an error that was provoking the cached rasters to be deleted in the current session.
 

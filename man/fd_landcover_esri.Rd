@@ -4,7 +4,7 @@
 \alias{fd_landcover_esri}
 \title{Download data from the ESRI Land Cover Explorer}
 \usage{
-fd_landcover_esri(utm_code, year, quiet = TRUE)
+fd_landcover_esri(utm_code, year, quiet = FALSE)
 }
 \arguments{
 \item{utm_code}{a character string of length 1 with an UTM code (e.g. "29N")}
@@ -13,8 +13,7 @@ fd_landcover_esri(utm_code, year, quiet = TRUE)
 of the land cover tile. The option \code{year = 'all'} downloads all
 the available images (2017:2023)}
 
-\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
-the progress bar}
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 A \code{SpatRaster}

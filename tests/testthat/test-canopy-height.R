@@ -19,7 +19,7 @@ polygon_sf <- sf::st_sfc(sf::st_point(c(-8, 43)), crs = 4326) |>
 test_that("Two tiles are downloaded", {
   skip_on_cran()
   ch_2tiles_sr <- fd_canopy_height(polygon_2tiles_sf)
-  expect_s4_class(ch_2tiles_sr, "SpatRaster")
+  expect_s4_class(ch_2tiles_sr, "SpatRasterCollection")
 })
 
 ## 1.2. Tests --------------------
@@ -28,7 +28,7 @@ test_that("Two tiles are downloaded", {
 test_that("Download one tile works", {
   skip_on_cran()
   ## Download data
-  ch_polygon_sr <- fd_canopy_height(polygon_sf, quiet = TRUE)
+  ch_polygon_sr <- fd_canopy_height(polygon_sf, quiet = TRUE, merge = TRUE)
   ch_coords_sr <- fd_canopy_height(lon = -8, lat = 43)
   ## Check spatraster
   expect_s4_class(ch_polygon_sr, "SpatRaster")
@@ -105,7 +105,7 @@ test_that("Download one tile works", {
   expect_s4_class(meta_coords_sr, "SpatRaster")
   expect_s4_class(meta_x_sr, "SpatRaster")
   expect_s4_class(meta_crop_sr, "SpatRaster")
-  expect_s4_class(meta_crop2_sf, "SpatRaster")
+  expect_s4_class(meta_crop2_sf, "SpatRasterCollection")
   ## check crop
   meta_2_tiles_3857_sf <- sf::st_transform(meta_2_tiles_sf, "EPSG:3857")
   expect_equal(terra::ext(meta_2_tiles_3857_sf)[1], terra::ext(meta_crop2_sf)[1], tolerance = 1e-1)

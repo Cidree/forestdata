@@ -30,7 +30,6 @@ reference:
     - fd_forest_chorological
     - fd_forest_eutrees4f
     - fd_forest_glad
-    - fd_forest_extent_glad
     - fd_forest_spain_mfe50
     - fd_forest_france
   - title: "Forest Inventory data"

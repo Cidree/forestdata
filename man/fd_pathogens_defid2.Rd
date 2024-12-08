@@ -10,7 +10,7 @@ fd_pathogens_defid2(
   symptoms = "all",
   country = "all",
   geometry = "polygon",
-  quiet = TRUE
+  quiet = FALSE
 )
 }
 \arguments{
@@ -29,8 +29,7 @@ default '\code{all}' retrieves every tree}
 \item{geometry}{a string with '\code{polygon}' to retrieve polygon data, or
 '\code{point}' to retrieve point data}
 
-\item{quiet}{if \code{TRUE} (the default), suppress status messages, and
-the progress bar}
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 \code{sf} object with \code{MULTIPOLYGON} or \code{POINT} geometry

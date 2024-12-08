@@ -5,13 +5,7 @@
 \title{(Internal) Downloads data to tempdir
 Download data to tempdir}
 \usage{
-fdi_download_unzip(
-  download_url,
-  dir_unzip,
-  dir_zip,
-  quiet = TRUE,
-  timeout = 1e+05
-)
+fdi_download_unzip(download_url, dir_unzip, dir_zip, timeout = 1e+05)
 }
 \arguments{
 \item{download_url}{Url of data to download}
@@ -19,9 +13,6 @@ fdi_download_unzip(
 \item{dir_unzip}{Path of the unzipped downloaded data}
 
 \item{dir_zip}{Path of the zipped downloaded data}
-
-\item{quiet}{If \code{TRUE} (the default), suppress status messages, and
-the progress bar}
 
 \item{timeout}{Time to stop downloading}
 }

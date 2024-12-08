@@ -11,6 +11,7 @@ fd_canopy_height_eth(
   layer = "chm",
   crop = FALSE,
   mask = FALSE,
+  merge = FALSE,
   quiet = FALSE
 )
 }
@@ -30,6 +31,9 @@ the standard deviation. If you want both layers, use "\code{all}"}
 \item{crop}{when \code{x} is specified, whether to crop the tile(s) to the object}
 
 \item{mask}{when \code{x} is specified, whether to mask the tile(s) to the object}
+
+\item{merge}{if \code{FALSE} (default), it will merge the tiles into one raster.
+If \code{FALSE} a SpatRasterCollection will be returned.}
 
 \item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }

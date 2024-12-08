@@ -59,9 +59,7 @@ test_that("download two tiles without crop", {
     model = "landcover"
   )
   ## check spatraster
-  expect_s4_class(ccaa_landcover_sr, "SpatRaster")
-  ## check tiles are correct ones
-  expect_equal(names(ccaa_landcover_sr), "landcover_2020")
+  expect_s4_class(ccaa_landcover_sr, "SpatRasterCollection")
   ## Check extent of non-cropped
   expect_equal(as.vector(terra::ext(ccaa_landcover_sr)),
                c(xmin = -10, xmax = 0, ymin = 30, ymax = 50))

@@ -12,6 +12,7 @@ fd_forest_glad(
   year = 2020,
   crop = FALSE,
   mask = FALSE,
+  merge = FALSE,
   quiet = FALSE
 )
 }
@@ -31,6 +32,9 @@ argument is ignored)}
 \item{crop}{when \code{x} is specified, whether to crop the tile(s) to the object}
 
 \item{mask}{when \code{x} is specified, whether to mask the tile(s) to the object}
+
+\item{merge}{if \code{FALSE} (default), it will merge the tiles into one raster.
+If \code{FALSE} a SpatRasterCollection will be returned.}
 
 \item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }

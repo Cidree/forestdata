@@ -11,7 +11,8 @@ fd_landcover_copernicus(
   year = 2019,
   layer = "forest",
   crop = FALSE,
-  ...
+  ...,
+  quiet = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ Land Cover. See details}
 \item{crop}{when \code{x} is specified, whether to crop the tile(s) to the object}
 
 \item{...}{additional arguments passed to the \link[terra]{crop} function}
+
+\item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }
 \value{
 \code{SpatRaster} object
