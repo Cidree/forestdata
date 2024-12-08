@@ -1,207 +1,4 @@
 
-## SPAIN ---------------------------
-
-
-
-## get_spain_ifn_metadata_tbl
-
-#' (Internal) Get table with URLs of the IFN metadata
-#'
-#' Get a table with the IFN and database codes, and their metadata download URL
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-get_spain_ifn_metadata_tbl <- function() {
-
-  tibble::tibble(
-    ifnx = c(2, 2, 3, 3, 4, 4),
-    databasex = rep(c("field", "gis"), 3),
-    url = c(
-      "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/servicios/banco-datos-naturaleza/090471228013528a_tcm30-278472.xls",
-      "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/servicios/banco-datos-naturaleza/090471228013528a_tcm30-278472.xls",
-      "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/servicios/banco-datos-naturaleza/documentador_bdcampo_ifn3_tcm30-282240.pdf",
-      "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/servicios/banco-datos-naturaleza/documentador_bdsig_ifn3_tcm30-293905.pdf",
-      "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/ifn/ifn4/documentador_ifn4_campo_tcm30-536595.pdf",
-      "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/temas/inventarios-nacionales/documentador_sig_tcm30-536622.pdf"
-    )
-  ) |>
-    dplyr::mutate(
-      filename = paste0("metadata_ifn", ifnx, "_", databasex, c(".xls", ".xls", rep(".pdf", 4)))
-    )
-
-}
-
-## get_spain_ifn2_tbl
-
-#' (Internal) Get table with Provinces and Urls for the Spanish IFN2
-#'
-#' Get a table with the Provinces of Spain, and the Urls to download data
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @include utils-not-exported.R
-get_spain_ifn2_tbl <- function() {
-
-  # 1. Read urls (there is one per each 25 provinces)
-  url_al <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/ifn2_parcelas_1_25.html"
-  url_lz <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/ifn2_parcelas_26_50.html"
-  url_al_html <- rvest::read_html(url_al)
-  url_lz_html <- rvest::read_html(url_lz)
-
-  # 2. Read province names
-  provinces_al <- url_al_html |>
-    rvest::html_elements(".anchors-list__item") |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("title")
-
-  provinces_lz <- url_lz_html |>
-    rvest::html_elements(".anchors-list__item") |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("title")
-
-  # 3. Read field URLs
-  field_urls <- purrr::map(
-    list(url_al_html, url_lz_html),
-    \(x) x |>
-      rvest::html_elements(".paragraph-item") |>
-      rvest::html_elements(".cmp-text") |>
-      rvest::html_elements("a") |>
-      rvest::html_attr("href")
-  ) |>
-    unlist()
-
-  # 4. Read SIG URLs
-  ## 4.1. Read URLs
-  url_sig_al <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/ifn2_cartografia_1_25.html"
-  url_sig_lz <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/ifn2_cartografia_26_50.html"
-  url_al_sig_html <- rvest::read_html(url_sig_al)
-  url_lz_sig_html <- rvest::read_html(url_sig_lz)
-  ## 4.2. Read SIG
-  sig_urls <- purrr::map(
-    list(url_al_sig_html, url_lz_sig_html),
-    \(x) x |>
-      rvest::html_elements(".paragraph-item") |>
-      rvest::html_elements(".cmp-text") |>
-      rvest::html_elements("li") |>
-      rvest::html_elements(xpath = "//li[contains(text(), 'Parcelas de campo')]") |>
-      rvest::html_elements("a") |>
-      rvest::html_attr("href")
-  ) |>
-    unlist()
-  ## 4.3. Add NULL to empty spots (Asturias, Cantabria, Navarra)
-  sig_urls <- append(sig_urls, NA, after = 30)
-  sig_urls <- append(sig_urls, NA, after = 32)
-  sig_urls <- append(sig_urls, NA, after = 38)
-
-  # 3. Create tibble with provinces and URLs
-  tibble::tibble(
-    province     = c(provinces_al, provinces_lz),
-    url_field_db = field_urls,
-    url_sig_db   = sig_urls
-  ) |>
-    dplyr::mutate(
-      province     = stringr::str_sub(province, start = 4),
-      url_field_db = paste0("https://www.miteco.gob.es", url_field_db),
-      url_sig_db   = paste0("https://www.miteco.gob.es", url_sig_db),
-    )
-
-}
-
-
-
-## get_spain_ifn3_tbl
-
-#' (Internal) Get table with Provinces and Urls for the Spanish IFN3
-#'
-#' Get a table with the Provinces of Spain, and the Urls to download data
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @include utils-not-exported.R
-get_spain_ifn3_tbl <- function() {
-
-  # 1. Read urls (there is one per each 25 provinces)
-  url_al <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/ifn3_base_datos_1_25.html"
-  url_lz <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/ifn3_base_datos_26_50.html"
-  url_al_html <- rvest::read_html(url_al)
-  url_lz_html <- rvest::read_html(url_lz)
-
-  # 2. Read province names
-  provinces_al <- url_al_html |>
-    rvest::html_elements(".anchors-list__item") |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("title")
-
-  provinces_lz <- url_lz_html |>
-    rvest::html_elements(".anchors-list__item") |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("title")
-
-  provinces_df <- data.frame(
-    province = c(provinces_al, provinces_lz)
-  )
-
-  # 3. Separate id and province in 2 columns, and add the urls
-  provinces_df |>
-    tidyr::separate_wider_delim(
-      cols     = province,
-      delim    = " ",
-      names    = c("id", "province"),
-      too_many = "merge"
-    ) |>
-    dplyr::mutate(
-      url_field_db = paste0(
-        "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/servicios/banco-datos-naturaleza/Ifn3p",
-        id, ".zip"
-      ),
-      url_sig_db   = paste0(
-        "https://www.miteco.gob.es/content/dam/miteco/es/biodiversidad/servicios/banco-datos-naturaleza/Sig_",
-        id, ".zip"
-      )
-    )
-
-}
-
-## get_spain_ifn4_tbl
-
-#' (Internal) Get table Provinces and Urls
-#'
-#' Get a table with the Provinces of Spain, and the Urls to download data
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @include utils-not-exported.R
-get_spain_ifn4_tbl <- function() {
-  # 1. Read url
-  url <- "https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional/cuarto_inventario.html"
-  url_html <- rvest::read_html(url)
-  sf_menus <- url_html |>
-    rvest::html_elements(".sf-menu")
-
-  # 2. Get provinces table table
-  ## 2.1. Get provinces names
-  provinces <- sf_menus[1] |>
-    rvest::html_elements("a") |>
-    rvest::html_text2() |>
-    fdi_fix_names()
-  ## 2.2. Get field Database url
-  field_db <- sf_menus[1] |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("href")
-  ## 2.3. Get SIG database url
-  sig_db <- sf_menus[2] |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("href")
-  ## 2.4. Create table with provinces and urls
-  ifn4_tbl <- tibble::tibble(
-    province     = provinces,
-    url_field_db = paste0("https://www.miteco.gob.es", field_db),
-    url_sig_db   = paste0("https://www.miteco.gob.es", sig_db)
-  )
-  ## 2.4. Return
-  return(ifn4_tbl)
-}
-
 
 
 #' Spanish Forest Inventory
@@ -212,6 +9,8 @@ get_spain_ifn4_tbl <- function() {
 #'                 Spanish province
 #' @param ifn number of Spanish Forest Inventory (from 2 to 4)
 #' @param database the name of the database (either 'field' or 'gis')
+#' @param process_level integer. Used when \code{database = 'field'}. Level
+#' of process of raw data.
 #' @param path_metadata a character string of length 1 with the path to store the
 #' metadata of the selected database. The default \code{path_metadata = NULL}
 #' does not download the metadata
@@ -225,7 +24,6 @@ get_spain_ifn4_tbl <- function() {
 #' @details
 #' The IFN2 doesn't have 'gis' data for Asturias, Cantabria and Navarra.
 #'
-#' In the future a function to process the data will be added.
 #'
 #' @references \url{https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional.html}
 #'
@@ -239,12 +37,13 @@ get_spain_ifn4_tbl <- function() {
 fd_inventory_spain <- function(province,
                                ifn           = 4,
                                database      = "field",
+                               process_level = 0,
                                path_metadata = NULL,
                                quiet         = FALSE) {
   # 0. Handle errors
-  if (!requireNamespace("RODBC", quietly = TRUE)) stop("Package `RODBC` is required to access the inventory data. Please, install it.")
+  if (!requireNamespace("RODBC", quietly = TRUE)) cli::cli_abort("Package `RODBC` is required to access the inventory data. Please, install it.")
   if (!"Microsoft Access Driver (*.mdb, *.accdb)" %in% odbc::odbcListDrivers()$name) {
-    stop("<Microsoft Access Driver (*.mdb, *.accdb)> is not available. Please, install it to use this function.")
+    cli::cli_abort("<Microsoft Access Driver (*.mdb, *.accdb)> is not available. Please, install it to use this function.")
   }
   # 1. Filter province
   ## 1.1. Fix province
@@ -255,7 +54,7 @@ fd_inventory_spain <- function(province,
                      "2" = ifn2_tbl,
                      "3" = ifn3_tbl,
                      "4" = ifn4_tbl,
-                     stop("Invalid IFN number. Please, choose a number from 1 to 4")
+                     cli::cli_abort("Invalid IFN number. Please, choose a number from 2 to 4")
   )
 
   selected_province <- ifn_data |>
@@ -267,15 +66,13 @@ fd_inventory_spain <- function(province,
   dir_zip      <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_unzip    <- stringr::str_remove(dir_zip, ".zip")
   ## 2.1. Download and unzip
-  tryCatch({
-    # Call the original function
-    fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet = quiet)
-
-  }, error = function(e) {
-    # Handle any errors by printing a custom message
-    message("Error. The files you are trying to download aren't available now.")
+  if (!quiet) cli::cli_progress_step("Downloading data...", "Downloaded", "Download failed")
+  dwld <- fdi_download_unzip(download_url, dir_unzip, dir_zip)
+  if (!dwld) {
+    cli::cli_process_failed()
+    return(cli::cli_alert_danger("`fd_inventory_spain()` failed to retrieve the data. Service might be currently unavailable"))
   }
-  )
+    if (!quiet) cli::cli_progress_step("Preparing data...", "Prepared")
 
   # 3. Download metadata?
   if (!is.null(path_metadata)) {
@@ -286,12 +83,11 @@ fd_inventory_spain <- function(province,
       )
     ## download only if it doesn't exist
     if (!file.exists(metadata_file$filename)) {
-      download.file(
+      meta_dwld <- fdi_download(
         metadata_file$url,
-        destfile = paste0(path_metadata, "/", metadata_file$filename),
-        mode     = "wb",
-        quiet    = quiet
+        destfile = paste0(path_metadata, "/", metadata_file$filename)
       )
+      if (!meta_dwld & !quiet) cli::cli_alert_danger("`fd_inventory_spain()` failed to retrieve the metadata. Service might be currently unavailable, or province data is not published yet.")
     }
   }
 
@@ -342,8 +138,8 @@ fd_inventory_spain <- function(province,
         ## get datum code based on province/ccaa
         datum <- dplyr::case_when(
           province_fix %in% c("Navarra", "Lugo", "A Coruna", "Lugo", "Pontevedra",
-                          "Ourense", "Asturias", "Cantabria", "Murcia", "Baleares",
-                          "Pais Vasco", "La Rioja", "Madrid", "Cataluna") ~ 230,
+                              "Ourense", "Asturias", "Cantabria", "Murcia", "Baleares",
+                              "Pais Vasco", "La Rioja", "Madrid", "Cataluna") ~ 230,
           province_fix %in% c("Canarias") ~ 326,
           .default = 258
         )
@@ -403,8 +199,14 @@ fd_inventory_spain <- function(province,
       }
 
     }
-    ## 4.7. Return results
-    return(data_lst)
+    ## 4.7. Process level
+    if (!quiet) cli::cli_process_done()
+    if (database == "field" & ifn %in% c(3, 4) & process_level > 0) {
+      process_ifn(data_lst, process_level = process_level, ifn = ifn)
+    } else {
+      return(data_lst)
+    }
+
   }
 
 
