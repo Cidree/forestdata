@@ -1,78 +1,4 @@
 
-# get_gch_tbl
-
-#'  Global Canopy Height Table
-#'  Get a table with the coordinates and URL of the Global Canopy Height tiles
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @references <https://gee-community-catalog.org/projects/canopy/>
-#' <https://www.research-collection.ethz.ch/handle/20.500.11850/609802>
-get_gch_tbl <- function() {
-  # 1. Vector with possible longitudes
-  lon_code <- c(
-    paste0("W", sprintf("%03d", seq(180, 3, by = -3))),
-    paste0("E", sprintf("%03d", seq(0, 177, by = 3)))
-  )
-  # 2. Vector with possible latitudes
-  lat_code <- c(
-    paste0("N", sprintf("%02d", seq(0, 81, by = 3))),
-    paste0("S", sprintf("%02d", seq(3, 60, by = 3)))
-  )
-  # 3. Create the grid
-  grid_urls <- tidyr::expand_grid(
-    lon_code = lon_code,
-    lat_code = lat_code,
-    layer    = c("", "_SD")
-  )
-  # 4. Prepare urls
-  grid_urls <- grid_urls |>
-    dplyr::mutate(
-      lon = stringr::str_sub(lon_code, 2, 4) |> as.numeric(),
-      lon = ifelse(stringr::str_detect(lon_code, "E([0-9]{3})"), lon, -lon),
-      lat = stringr::str_sub(lat_code, 2, 3) |> as.numeric(),
-      lat = ifelse(stringr::str_detect(lat_code, "N([0-9]{2})"), lat, -lat),
-      url = paste0(
-        "https://libdrive.ethz.ch/index.php/s/cO8or7iOe5dT2Rt/download?path=%2F3deg_cogs&files=ETH_GlobalCanopyHeight_10m_2020_",
-        lat_code,
-        lon_code,
-        "_Map",
-        layer,
-        ".tif"
-      )
-    )
-  # 5. Return grid
-  return(grid_urls)
-}
-
-# get_meta_tiles
-
-#'  Meta Global Canopy Height tiles
-#'  Get a vectorial object with the tiles of the dataset
-#'
-#' @return An \code{sf} object
-#' @keywords internal
-#' @references <https://registry.opendata.aws/dataforgood-fb-forests/>
-get_meta_tiles <- function() {
-  # 0. Handle suggested package
-  if (!requireNamespace("aws.s3", quietly = TRUE)) stop("Package `aws.s3` is required to access the Canopy Height Maps. Please, install it.")
-
-  # 1. Get data
-  ## 1.1. Specify the bucket and the prefix
-  bucket <- "dataforgood-fb-data"
-  ## 1.2. Download a specific file
-  s3_file <- "forests/v1/alsgedi_global_v6_float/tiles.geojson"
-  ## 1.3. Save the file in tempdir
-  out_file <- tempfile(fileext = ".geojson")
-  aws.s3::save_object(
-    object = s3_file,
-    bucket = bucket,
-    file   = out_file,
-    region = "us-east-1"
-  )
-  # 2. Read and return object
-  sf::read_sf(out_file)
-}
 
 
 # fd_canopy_height_eth
@@ -92,6 +18,8 @@ get_meta_tiles <- function() {
 #'              the standard deviation. If you want both layers, use "\code{all}"
 #' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
 #' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
+#' @param merge if \code{FALSE} (default), it will merge the tiles into one raster.
+#' If \code{FALSE} a SpatRasterCollection will be returned.
 #' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @include utils-not-exported.R
@@ -117,6 +45,7 @@ fd_canopy_height_eth <- function(x     = NULL,
                                  layer = "chm",
                                  crop  = FALSE,
                                  mask  = FALSE,
+                                 merge = FALSE,
                                  quiet = FALSE) {
 
   # 1. If user specify lat and lon
@@ -152,66 +81,124 @@ fd_canopy_height_eth <- function(x     = NULL,
   ## 3.1. Get URLs
   ids <- tile_tbl$url
   ## 3.2. Get the combined rasters per year
-  if (!quiet) message(stringr::str_glue("{nrow(tile_tbl)} tile(s) were found."))
+  if (!quiet) cli::cli_alert_info("Downloading {nrow(tile_tbl)} tile{?s}...")
   tiles_list <- list()
+  # i <- 0
+  # if (!quiet) cli::cli_progress_step("{i}/{nrow(tile_tbl)} {cli::qty(i)}tile{?s} downloaded.")
+  if (!quiet) download_pb <- cli::cli_progress_bar(
+    "Downloaded tiles",
+    total       = nrow(tile_tbl),
+    type        = "tasks",
+    format_done = "{.alert-success Download completed {.timestamp {cli::pb_elapsed}}}",
+    clear       = FALSE
+  )
   for (i in 1:length(ids)) {
-    if (!quiet) message(crayon::green(stringr::str_glue("Downloading tile {i}...")))
     tiles_list[[i]] <- fdi_download_raster(
       url   = ids[i],
       start = 38,
-      end   = 80,
-      quiet = quiet
+      end   = 80
     )
+    ## stop if the download failed
+    if (is.null(tiles_list[[i]])) {
+      cli::cli_process_failed()
+      return(cli::cli_alert_danger("`fd_canopy_height()` failed to retrieve the data. Service might be currently unavailable"))
+    }
+    if (!quiet) cli::cli_progress_update(id = download_pb)
   }
-  ## DELETE OR CHANGE IN THE FUTURE
-  # tiles_list <- purrr::map(
-  #   .x = ids,
-  #   .f = \(tile_url) fdi_download_raster(
-  #     url   = tile_url,
-  #     start = 38,
-  #     end   = 80
-  #   )
-  # )
+  if (!quiet) cli::cli_process_done(id = download_pb)
   ## 3.3. Crop layers
-  if (crop) tiles_list <- purrr::map(tiles_list, \(x) terra::crop(x, xwgs84))
-  if (mask) tiles_list <- purrr::map(tiles_list, \(x) terra::mask(x, xwgs84))
-  ## 3.4. Merge depending if there is chm, std or all
-  if (layer == "all") {
+  ### eliminate terra bars
+  user.opts <- terra::terraOptions(print = FALSE)
+  terra::terraOptions(progress = 0)
+  on.exit(terra::terraOptions(progressbar = user.opts$progress))
+  ### crop
+  if (crop) tiles_list <- crop_with_feedback(tiles_list, xwgs84, quiet)
+  ## 3.4. Mask layers
+  if (mask) tiles_list <- mask_with_feedback(tiles_list, xwgs84, quiet)
+  ## 3.5. Merge when layer == "all" ---
+  if (merge & layer == "all" & length(tiles_list) > 2) {
+    ## user feedback
+    if (!quiet) cli::cli_alert_info("Merging tiles...")
     ## Number of tiles
     n_tiles <- 1:length(tiles_list)
     ## Filter even tiles (chm)
-    chm_tiles <- tiles_list[[n_tiles[n_tiles %% 2 == 0]]]
+    chm_tiles <- tiles_list[n_tiles[n_tiles %% 2 == 0]]
     ## Filter uneven tiles (std)
-    std_tiles <- tiles_list[[n_tiles[n_tiles %% 2 != 0]]]
-    ## Merge them if there are multiple tiles
-    if (length(tiles_list) > 2) {
-      message(crayon::green("Merging tiles..."))
-      chm_tiles <- do.call(terra::merge, chm_tiles)
-      std_tiles <- do.call(terra::merge, std_tiles)
-    }
-    ## Join in SpatRaster
+    std_tiles <- tiles_list[n_tiles[n_tiles %% 2 != 0]]
+    ## merge
+    chm_tiles <- do.call(terra::merge, chm_tiles)
+    std_tiles <- do.call(terra::merge, std_tiles)
+    ## store them in final raster
     ch_sr <- c(chm_tiles, std_tiles)
-  } else {
-    ## 3.5. Convert to SpatRaster if it's a list
-    ## Merge them if there are multiple tiles
-    if (length(tiles_list) > 1) {
-      message(crayon::green("Merging tiles..."))
-      ch_sr <- do.call(terra::merge, tiles_list)
-    } else {
-      ch_sr <- tiles_list[[1]]
-    }
-
-  }
-
-  # 4. Rename layers
-  if (layer == "all") {
     names(ch_sr) <- c("chm", "std")
+
+
+    ## manage when merge is not asked for ---
+  } else if (!merge & layer == "all" & length(tiles_list) > 2) {
+    ## Number of tiles
+    n_tiles <- 1:length(tiles_list)
+    ## Filter even tiles (chm)
+    chm_tiles <- tiles_list[n_tiles[n_tiles %% 2 == 0]]
+    ## Filter uneven tiles (std)
+    std_tiles <- tiles_list[n_tiles[n_tiles %% 2 != 0]]
+    ## create a sprc
+    ch_sr <- list(chm = terra::sprc(chm_tiles), std = terra::sprc(chm_tiles))
+
+
+    ## manage when merge is not needed ---
+  } else if (layer == "all" & length(tiles_list) == 2) {
+    ch_sr <- c(tiles_list[[1]], tiles_list[[2]])
+    names(ch_sr) <- c("chm", "std")
+
+
+    ## manage when individual layer and multiple tiles ---
+  } else if (merge & layer != "all" & length(tiles_list) > 2) {
+    ## user feedback
+    if (!quiet) cli::cli_alert_info("Merging tiles...")
+    if (!quiet) merge_pb <- cli::cli_progress_bar(
+      "Merging tiles",
+      total       = length(tiles_list) - 1, ,
+      type        = "tasks",
+      format_done = "{.alert-success Merge completed {.timestamp {cli::pb_elapsed}}}",
+      clear       = FALSE
+    )
+    ## merge tiles iteratively
+    ch_sr <- tiles_list[[1]]
+    for (i in 2:length(tiles_list)) {
+      ch_sr <- terra::merge(ch_sr, tiles_list[[i]])
+      if (!quiet) cli::cli_progress_update(id = merge_pb)
+    }
+    ## finnish user feedback
+    # cli::cli_progress_done(id = merge_pb)
+    names(ch_sr) <- layer
+
+
+    ## manage when merge is not asked for ---
+  } else if (!merge & layer != "all" & length(tiles_list) > 1) {
+    ch_sr <- terra::sprc(tiles_list)
+    names(ch_sr) <- layer
+
+
+    ## manage when there are only 2 tiles ---
+  } else if (merge & layer != "all" & length(tiles_list) == 2) {
+    if (!quiet) cli::cli_progress_step(
+      "Merge tiles",
+      msg_done = "Merge completed",
+      spinner  = TRUE
+    )
+    ch_sr <- terra::merge(tiles_list[[1]], tiles_list[[2]])
+    names(ch_sr) <- layer
+    if (!quiet) cli::cli_progress_done()
+
+
+    ## final case: when there's only 1 layer ---
   } else {
+    ch_sr <- tiles_list[[1]]
     names(ch_sr) <- layer
   }
 
-  # 5. Return
-  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1038/s41559-023-02206-6>"))
+  # 4. Return
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1038/s41559-023-02206-6')}")
   return(ch_sr)
 
 
@@ -233,11 +220,13 @@ fd_canopy_height_eth <- function(x     = NULL,
 #' @param lat a number specifying the latitude of the area where we want the tile
 #' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
 #' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
+#' @param merge if \code{FALSE} (default), it will merge the tiles into one raster.
+#' If \code{FALSE} a SpatRasterCollection will be returned.
 #' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @include utils-not-exported.R
 #' @keywords internal
-#' @return A \code{SpatRaster}
+#' @return A \code{SpatRaster} or \code{SpatRasterCollection}
 #' @export
 #'
 #' @details
@@ -255,10 +244,11 @@ fd_canopy_height_meta <- function(x     = NULL,
                                   lat   = NULL,
                                   crop  = FALSE,
                                   mask  = FALSE,
+                                  merge = FALSE,
                                   quiet = FALSE) {
 
   # 0. Install aws.s3 if not installed
-  if (!requireNamespace("aws.s3", quietly = TRUE)) stop("Package `aws.s3` is required to access the inventory data. Please, install it.")
+  if (!requireNamespace("aws.s3", quietly = TRUE)) cli::cli_abort("Package `aws.s3` is required to access the inventory data. Please, install it.")
 
   # 1. If user specify lat and lon
   if (!is.null(lat) & !is.null(lon)) {
@@ -284,42 +274,84 @@ fd_canopy_height_meta <- function(x     = NULL,
 
   # 2. Download tile(s)
   ## 2.1. Save into tempdir
-  message(stringr::str_glue("{length(tile_vec)} tile(s) were found."))
   out_file <- paste0(tempdir(), "\\", tile_vec, ".tif")
+  ## user feedback
+  if (!quiet) cli::cli_alert_info("Downloading {length(tile_vec)} tile{?s}...")
+  if (!quiet) download_pb <- cli::cli_progress_bar(
+    "Downloaded tiles",
+    total       = length(tile_vec),
+    type        = "tasks",
+    format_done = "{.alert-success Download completed {.timestamp {cli::pb_elapsed}}}",
+    clear       = FALSE
+  )
+  ## do download
   for (i in 1:length(out_file)) {
-    ## If it already exists, go next
-    if (file.exists(out_file[i])) {
-      if (!quiet) message(crayon::green(stringr::str_glue("Tile {tile_vec[i]} cached.")))
-      next
+    ## download if it doesn't exist
+    if (!file.exists(out_file[i])) {
+      try({
+        aws.s3::save_object(
+          object = paste0("forests/v1/alsgedi_global_v6_float/chm/", tile_vec[i], ".tif"),
+          bucket = "dataforgood-fb-data",
+          file   = out_file[i],
+          region = "us-east-1"
+        )
+      }, silent = TRUE)
     }
-    if (!quiet) message(crayon::green(stringr::str_glue("Downloading tile {i}...")))
-    aws.s3::save_object(
-      object = paste0("forests/v1/alsgedi_global_v6_float/chm/", tile_vec[i], ".tif"),
-      bucket = "dataforgood-fb-data",
-      file   = out_file[i],
-      region = "us-east-1"
-    )
+    ## stop if the download failed
+    if (!file.exists(out_file[i])) {
+      cli::cli_process_failed()
+      return(cli::cli_alert_danger("`fd_canopy_height()` failed to retrieve the data. Service might be currently unavailable"))
+    }
+    ## close user feedback
+    if (!quiet) cli::cli_progress_update(id = download_pb)
   }
-  ## 2.2. Merge and crop
-  if (length(out_file) > 1) {
-    ### Read tiles
-    r <- purrr::map(out_file, terra::rast)
-    ### Crop
-    if (crop) r <- purrr::map(r, \(x) terra::crop(x, sf::st_transform(xwgs84, "EPSG:3857")))
-    if (mask) r <- purrr::map(r, \(x) terra::mask(x, sf::st_transform(xwgs84, "EPSG:3857")))
-    ### Merge
-    r <- do.call(terra::merge, r)
+  ## close user feedback
+  if (!quiet) cli::cli_process_done(id = download_pb)
+  ## read raster(s)
+  r <- lapply(out_file, terra::rast)
+
+  # 3. Crop
+  if (crop) r <- crop_with_feedback(r, sf::st_transform(xwgs84, crs = "EPSG:3857"), quiet)
+
+  # 4. Mask
+  if (mask) r <- mask_with_feedback(r, sf::st_transform(xwgs84, crs = "EPSG:3857"), quiet)
+
+  # 5. Merge
+  ## manage merge = TRUE and multiple tiles ---
+  if (merge & length(tile_vec) > 1) {
+    ## user feedback
+    if (!quiet) cli::cli_alert_info("Merging {length(tile_vec)} tile{?s}...")
+    if (!quiet) merge_pb <- cli::cli_progress_bar(
+      "Merged tiles",
+      total       = length(tile_vec) - 1,
+      type        = "tasks",
+      format_done = "{.alert-success Merge completed {.timestamp {cli::pb_elapsed}}}",
+      clear       = FALSE
+    )
+    ## do merge
+    r_final <- r[[1]]
+    for (i in 2:length(tile_vec)) {
+      r_final <- terra::merge(r_final, r[[i]])
+      if (!quiet) cli::cli_progress_update(id = merge_pb)
+    }
+    ## close user feedback
+    cli::cli_process_done(id = merge_pb)
+
+
+    ## manage merge = FALSE and multiple tiles ---
+  } else if (!merge & length(tile_vec) > 1) {
+    r_final <- terra::sprc(r)
+
+
+    ## manage a single tile ---
   } else {
-    ## Read tile
-    r <- terra::rast(out_file)
-    ### Crop
-    if (crop) r <- terra::crop(r, sf::st_transform(xwgs84, "EPSG:3857"), mask = mask)
+    r_final <- r[[1]]
   }
 
-  # 3. Rename and return
-  names(r) <- "canopy_height"
-  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1016/j.rse.2023.113888>"))
-  return(r)
+  # 6. Rename and return
+  names(r_final) <- "canopy_height"
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1016/j.rse.2023.113888')}")
+  return(r_final)
 
 
 }
@@ -346,10 +378,12 @@ fd_canopy_height_meta <- function(x     = NULL,
 #' deviation. If you want both layers, use "\code{all}"
 #' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
 #' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
+#' @param merge if \code{FALSE} (default), it will merge the tiles into one raster.
+#' If \code{FALSE} a SpatRasterCollection will be returned.
 #' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @include utils-not-exported.R
-#' @return A \code{SpatRaster}
+#' @return A \code{SpatRaster} or \code{SpatRasterCollection}
 #' @export
 #'
 #' @details
@@ -387,34 +421,36 @@ fd_canopy_height <- function(x     = NULL,
                              layer = "chm",
                              crop  = FALSE,
                              mask  = FALSE,
+                             merge = FALSE,
                              quiet = FALSE) {
 
   # 0. Handle errors
   ## 0.1. Handle all NULL
-  if (is.null(x) & is.null(lon) & is.null(lat)) stop("No coordinates or object were specified")
+  if (is.null(x) & is.null(lon) & is.null(lat)) cli::cli_abort("No coordinates or object were specified")
   ## 0.2. Handle non-existing coordinates
   if (!is.null(lon) & !is.null(lat)) {
-    if (lon > 180 | lon < -180) stop("Invalid longitude coordinate value")
-    if (lat > 80 | lat < -80) stop("Invalid latitude coordinate value")
+    if (lon > 180 | lon < -180) cli::cli_abort("Invalid longitude coordinate value")
+    if (lat > 80 | lat < -80) cli::cli_abort("Invalid latitude coordinate value")
   } else {
     if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
   }
   ## 0.3. Handle incompatible arguments
   if (!is.null(lon) & !is.null(lat) & !is.null(x)) {
-    stop("Both coordinates (`lon` and `lat`) and object (`x`) were specified. Specify only one of them.")
+    cli::cli_abort("Both coordinates (`lon` and `lat`) and object (`x`) were specified. Specify only one of them.")
   }
   ## 0.4. Handle incompatible arguments (crop = TRUE & coords)
-  if (crop & !is.null(lon) & !is.null(lat)) {
-    stop("`crop = TRUE` is only available when `x` is specified.")
+  if ((crop | mask | merge) & !is.null(lon) & !is.null(lat)) {
+    v <- if (crop) "crop" else if (mask) "mask" else if (merge) "merge"
+    cli::cli_abort("`{v} = TRUE` is only available when `x` is specified.")
   }
   ## 0.5. Handle model names
-  if (!model %in% c("eth", "meta")) stop("model argument is not valid. Please, use either <eth> or <meta>.")
+  if (!model %in% c("eth", "meta")) cli::cli_abort("model argument is not valid. Please, use either <eth> or <meta>.")
 
   # 1. Get data based on model
   if (model == "eth") {
-    fd_canopy_height_eth(x = x, lon = lon, lat = lat, layer = layer, crop = crop, mask = mask, quiet = quiet)
+    fd_canopy_height_eth(x = x, lon = lon, lat = lat, layer = layer, crop = crop, mask = mask, merge = merge, quiet = quiet)
   } else {
-    fd_canopy_height_meta(x = x, lon = lon, lat = lat, crop = crop, mask = mask, quiet = quiet)
+    fd_canopy_height_meta(x = x, lon = lon, lat = lat, crop = crop, mask = mask, merge = merge, quiet = quiet)
   }
 
 
