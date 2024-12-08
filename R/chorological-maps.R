@@ -1,56 +1,4 @@
-# get_chorological_tbl
 
-#'  Chorological Maps table
-#'  Get a table with the names and references of each species
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#'
-get_chorological_tbl <- function() {
-
-  ## Get website html
-  cm_html <- rvest::read_html("https://forest.jrc.ec.europa.eu/en/european-atlas/atlas-data-and-metadata/")
-
-  ## Get the species list
-  species_vec <- cm_html |>
-    rvest::html_elements("div") |>
-    rvest::html_elements(".row") |>
-    rvest::html_elements(".chp-latin") |>
-    rvest::html_text2() |>
-    stringr::str_trim() |>
-    stringr::str_remove_all("\\u2514\\u2500 ")
-
-  ## Get the species links
-  urls_vec <- cm_html |>
-    rvest::html_elements("div") |>
-    rvest::html_elements(".row") |>
-    rvest::html_elements(".chp-cho") |>
-    rvest::html_element("a") |>
-    rvest::html_attr("href")
-
-  ## Create a dataset
-  ## - Fix typo error in website of umilis -> humilis
-  ## - Eliminate species with no polygon data
-  choro_tbl <- tibble::tibble(
-    Species = species_vec,
-    DOI     = urls_vec
-  ) |>
-    tidyr::drop_na() |>
-    dplyr::mutate(Species = ifelse(Species == "Chamaerops umilis", "Chamaerops humilis", Species)) |>
-    dplyr::filter(
-      !Species %in% c("Cedrus atlantica", "Phoenix theophrasti")
-    )
-
-  ## Add codes
-  choro_tbl <- choro_tbl |>
-    dplyr::mutate(code = DOI |>
-                    stringr::str_split("\\.")|>
-                    purrr::map(purrr::pluck, 5)) |>
-    dplyr::mutate(code = as.character(code))
-
-  ## Return table
-  return(choro_tbl)
-}
 
 
 # fd_forest_chorological
@@ -99,11 +47,11 @@ get_chorological_tbl <- function() {
 fd_forest_chorological <- function(species, range = "nat", quiet = FALSE) {
 
   # 1. Get species table
-  choro_tbl <- get_chorological_tbl()
+  choro_tbl <- chorological_tbl
 
   # 2. Filter user species name
   ## 2.1. Stop if species is incorrect
-  if (!species %in% choro_tbl$Species) stop("The species name is not supported.")
+  if (!species %in% choro_tbl$Species) cli::cli_abort("The species name is not supported.")
   ## 2.2. Filter species
   user_species_tbl <- choro_tbl |>
     dplyr::filter(Species == species)
@@ -115,73 +63,47 @@ fd_forest_chorological <- function(species, range = "nat", quiet = FALSE) {
   user_species_unzip <- stringr::str_glue("{tempdir()}/{user_species_tbl$code}")
   if (file.exists(user_species_zip)) file.remove(user_species_zip)
   if (file.exists(user_species_unzip)) unlink(user_species_unzip, recursive = TRUE, force = TRUE)
+  if (!quiet) cli::cli_progress_step("Downloading data...", msg_done = "Downloaded", "Download failed")
   ## 3.2. Download version 5
-  try(
-    suppressWarnings(
-      file.d <- download.file(
-        url      = stringr::str_glue("{download_url}/5"),
-        destfile = user_species_zip,
-        quiet    = quiet,
-        mode     = "wb"
-      )
-    ),
-    silent = TRUE
+  file.d <- fdi_download(
+    download_url = stringr::str_glue("{download_url}/5"),
+    destfile     = user_species_zip
   )
   ## 3.3. Handle when version 5 is not available
   ## Download version 4
-  if (!exists("file.d", mode = "integer")) {
-    try(
-      suppressWarnings(
-        file.d <- download.file(
-          url      = stringr::str_glue("{download_url}/4"),
-          destfile = user_species_zip,
-          quiet    = quiet,
-          mode     = "wb"
-        )
-      ),
-      silent = TRUE
+  if (!file.d) {
+    file.d <- fdi_download(
+      download_url = stringr::str_glue("{download_url}/4"),
+      destfile     = user_species_zip
     )
   }
   ### Version 3
-  if (!exists("file.d", mode = "integer")) {
-    try(
-      suppressWarnings(
-        file.d <- download.file(
-          url      = stringr::str_glue("{download_url}/3"),
-          destfile = user_species_zip,
-          quiet    = quiet,
-          mode     = "wb"
-        )
-      ),
-      silent = TRUE
+  if (!file.d) {
+    file.d <- fdi_download(
+      download_url = stringr::str_glue("{download_url}/3"),
+      destfile     = user_species_zip
     )
   }
   ### Version 2
-  if (!exists("file.d", mode = "integer")) {
-    try(
-      suppressWarnings(
-        file.d <- download.file(
-          url      = stringr::str_glue("{download_url}/2"),
-          destfile = user_species_zip,
-          quiet    = quiet,
-          mode     = "wb"
-        )
-      ),
-      silent = TRUE
+  if (!file.d) {
+    file.d <- fdi_download(
+      download_url = stringr::str_glue("{download_url}/2"),
+      destfile     = user_species_zip
     )
   }
   ### Version 1
-  if (!exists("file.d", mode = "integer")) {
-    suppressWarnings(
-      file.d <- download.file(
-        url      = stringr::str_glue("{download_url}/1"),
-        destfile = user_species_zip,
-        quiet    = quiet,
-        mode     = "wb"
-      )
+  if (!file.d) {
+    file.d <- fdi_download(
+      download_url = stringr::str_glue("{download_url}/1"),
+      destfile     = user_species_zip
     )
   }
-  ## 3.4. Unzip
+  ## Check for success
+  if (!file.d) {
+    cli::cli_process_failed()
+    return(cli::cli_alert_danger("`fd_forest_chorological()` failed to retrieve the data. Service might be currently unavailable"))
+  }
+    ## 3.4. Unzip
   unzip(
     zipfile = user_species_zip,
     exdir   = user_species_unzip
@@ -206,7 +128,7 @@ fd_forest_chorological <- function(species, range = "nat", quiet = FALSE) {
     files_filtered <- files[!grepl("syn|pnt", files)]
     ## sort decreasing and take first one (the one with clip if exists)
     selected_file <- sort(files_filtered, decreasing = TRUE)[1]
-    if (is.na(selected_file)) stop(stringr::str_glue("There's no range = `{range}` for {species}"))
+    if (is.na(selected_file)) cli::cli_abort("There's no range = `{range}` for {species}")
     path_shp <- stringr::str_glue("{user_species_shp_unzip}/{selected_file}")
   } else if (range == "syn") {
     ## check files which contain "syn" and end with ".shp
@@ -215,11 +137,12 @@ fd_forest_chorological <- function(species, range = "nat", quiet = FALSE) {
     files_filtered <- files[!grepl("pnt", files)]
     ## sort decreasing and take first one (the one with clip if exists)
     selected_file <- sort(files_filtered, decreasing = TRUE)[1]
-    if (is.na(selected_file)) stop(stringr::str_glue("There's no range = `{range}` for {species}"))
+    if (is.na(selected_file)) cli::cli_abort("There's no range = `{range}` for {species}")
     path_shp <- stringr::str_glue("{user_species_shp_unzip}/{selected_file}")
   }
   ## 4.3. Read file
-  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1016/j.dib.2017.05.007>"))
+  if (!quiet) cli::cli_process_done()
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1016/j.dib.2017.05.007')}")
   sf::read_sf(path_shp)
 
 }

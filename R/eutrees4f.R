@@ -1,32 +1,3 @@
-# get_eutrees4f_tbl
-
-#'  (Internal) Gets the tree species
-#'  Get tree species for EU-Trees4F database
-#'
-#' @return a character vector
-#' @keywords internal
-get_eutrees4f_tbl <- function() {
-  # 1. Download file
-  ## 1.1. Url and file destination
-  download_url <- "https://springernature.figshare.com/ndownloader/files/36704304"
-  dir_unzip    <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
-  dir_zip      <- stringr::str_glue("{dir_unzip}.zip")
-  ## 1.2. Download
-  fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet = TRUE)
-
-  # 2. Get tree species names
-  ## 2.1. List files in a folder
-  eutrees_files <- list.files(path = stringr::str_glue("{dir_unzip}/ens_clim/bin"))
-  ## 2.2. Extract species
-  eutrees_trees <- eutrees_files |>
-    stringr::str_split("_") |>
-    purrr::map(\(x) paste(x[1:2], collapse = " ")) |>
-    as.character() |>
-    unique()
-  ## 2.3. Return results
-  return(eutrees_trees)
-}
-
 
 # fd_forest_eutrees4f
 
@@ -139,12 +110,12 @@ fd_forest_eutrees4f <- function(species,
                                 quiet    = FALSE) {
 
   # 0. Errors if...
-  if (model == "clim" & type == "std") stop("There's no std type for model clim.")
-  if (type == "prob" & distrib != "pot") stop("You must use distrib = 'pot' for type = 'prob'.")
-  if (type == "std" & distrib != "pot") stop("You must use distrib = 'pot' for type = 'std'.")
-  if (type == "std" & period == 2005) stop("There's no current map (2005) for type = 'std'. Please, choose 2035, 2065 or 2095.")
-  if (distrib %in% c("nat", "disp", "dip_lu") & type != "bin") stop("The distribution chosen is only available in binary output. Please use `type = 'bin'`")
-  if (distrib == "nat" & period != 2005) stop("Natural distribution is only available for 2005")
+  if (model == "clim" & type == "std") cli::cli_abort("There's no std type for model clim.")
+  if (type == "prob" & distrib != "pot") cli::cli_abort("You must use distrib = 'pot' for type = 'prob'.")
+  if (type == "std" & distrib != "pot") cli::cli_abort("You must use distrib = 'pot' for type = 'std'.")
+  if (type == "std" & period == 2005) cli::cli_abort("There's no current map (2005) for type = 'std'. Please, choose 2035, 2065 or 2095.")
+  if (distrib %in% c("nat", "disp", "dip_lu") & type != "bin") cli::cli_abort("The distribution chosen is only available in binary output. Please use `type = 'bin'`")
+  if (distrib == "nat" & period != 2005) cli::cli_abort("Natural distribution is only available for 2005")
 
   # 1. Download file
   ## 1.1. Url and file destination
@@ -152,10 +123,15 @@ fd_forest_eutrees4f <- function(species,
   dir_unzip    <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_zip      <- stringr::str_glue("{dir_unzip}.zip")
   ## 1.2. Download
-  fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet)
+  if (!file.exists(dir_unzip) & !quiet) cli::cli_progress_step("Downloading data...", "Downloaded", "Download failed")
+  dwld <- fdi_download_unzip(download_url, dir_unzip, dir_zip)
+  if (!dwld) {
+    cli::cli_process_failed()
+    return(cli::cli_alert_danger("`fd_forest_eutrees4f()` failed to retrieve the data. Service might be currently unavailable"))
+  }
+    if (!quiet) cli::cli_progress_step("Preparing data...", msg_done = "Prepared")
   ## 1.3. Get the tree species
-  tree_species <- get_eutrees4f_tbl()
-  if (!species %in% tree_species) stop("The chosen species is not supported. Please, check `forestdata::eutrees4f_trees` for a list of available species")
+  if (!species %in% eutrees4f_tbl) cli::cli_abort("The chosen species is not supported. Please, check `forestdata::eutrees4f_trees` for a list of available species")
 
   # 2. Create file name
   ## 2.1. Fix species name
@@ -177,16 +153,17 @@ fd_forest_eutrees4f <- function(species,
     }
 
   } else {
-    stop("Incorrect model or period. The valid models are 'clim' or 'sdms', and periods 2005, 2035, 2065 or 2095.")
+    cli::cli_abort("Incorrect model or period. The valid models are 'clim' or 'sdms', and periods 2005, 2035, 2065 or 2095.")
   }
   ## 2.3. Full path to file
   if (period == "all") {
     ## File paths
-    rast.path <- purrr::map(rast.name, \(x) list.files(
+    rast.path <- lapply(rast.name, function(x) list.files(
       path       = stringr::str_glue("{dir_unzip}/ens_{model}/{type}"),
       pattern    = x,
       full.names = TRUE
-    )) |> as.character()
+    )) |> unlist()
+
     ## Read into R and rename
     rst <- terra::rast(rast.path)
     names(rst) <- c("cur2005", "fut2035", "fut2065", "fut2095")
@@ -200,7 +177,8 @@ fd_forest_eutrees4f <- function(species,
   }
 
   # 3. Return the raster
-  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.6084/m9.figshare.c.5525688.v2>"))
+  if (!quiet) cli::cli_process_done()
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.6084/m9.figshare.c.5525688.v2')}")
   return(rst)
 
 }

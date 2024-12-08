@@ -1,108 +1,4 @@
 
-# SPAIN -------------------------------------------------------------
-
-## get_mfe50_ccaa_tbl
-
-#' (Internal) Get table CCAA/MFE50
-#'
-#' Get a table with the Autonomous Communities of Spain, and the urls
-#' to each of them.
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @include utils-not-exported.R
-get_mfe50_ccaa_tbl <- function() {
-  # 1. Read url
-  url <- "https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50_descargas_ccaa.html"
-  url_html <- rvest::read_html(url)
-
-  # 2. Get CCAA table
-  ## 2.1. Get CCAA names
-  ccaa_vec <- url_html |>
-    rvest::html_element(".image-mapping") |>
-    rvest::html_elements("area") |>
-    rvest::html_attr("title")
-  ## 2.2. Get CCAA url
-  ccaa_url_vec <- url_html |>
-    rvest::html_element(".image-mapping") |>
-    rvest::html_elements("area") |>
-    rvest::html_attr("href")
-  ## 2.3. Create table and remove NA (Ceuta and Melilla)
-  ccaa_tbl <- data.frame(
-    ccaa = ccaa_vec,
-    url  = ccaa_url_vec
-  ) |> na.omit()
-  ## 2.4. Return
-  return(ccaa_tbl)
-}
-
-## create_mfe50_table
-
-#' (Internal) Create MFE50 provinces table for one CCAA
-#'
-#' Creates a table with the province name and the url of the
-#' vectorial data.
-#'
-#' @param url The url to the spatial data
-#'
-#' @return A \code{data.frame}
-#' @keywords internal
-create_mfe50_table <- function(url) {
-
-  # 1. Get provinces vector
-  provinces_vec <- rvest::read_html(url) |>
-    rvest::html_elements(".data-table") |>
-    rvest::html_elements("tr") |>
-    rvest::html_element("td") |>
-    rvest::html_text()
-    provinces_vec <- provinces_vec[-c(1,2)]
-
-  # 2. Get url for provinces
-  url_provinces_vec <- rvest::read_html(url) |>
-    rvest::html_elements(".data-table") |>
-    rvest::html_elements("tr") |>
-    rvest::html_elements("td") |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("href")
-
-  # 3. Create table
-  data.frame(
-    province = provinces_vec,
-    url      = url_provinces_vec
-  )
-}
-
-## get_mfe50_provinces_tbl
-
-#' (Internal) Creates the MFE50 provinces table
-#'
-#' Creates a table with the province names, and the url to each province's
-#' vectorial data (full table with all provinces)
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @importFrom rlang .data
-get_mfe50_provinces_tbl <- function() {
-
-  # 1. Get CCAA table
-  ccaa_tbl <- get_mfe50_ccaa_tbl()
-
-  # 2. Get urls for each province
-  provinces_lst <- purrr::map(ccaa_tbl$url, create_mfe50_table)
-
-  # 3. Convert list to tibble
-  provinces_tbl <- provinces_lst |>
-    purrr::list_rbind() |>
-    tibble::as_tibble() |>
-    dplyr::mutate(
-      province = fdi_fix_names(name = province)
-    )
-
-  # 4. Return
-  return(provinces_tbl)
-
-}
-
 
 ## fd_forest_spain_mfe50
 
@@ -156,8 +52,13 @@ fd_forest_spain_mfe50 <- function(province,
   dir_unzip    <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_zip      <- stringr::str_glue("{dir_unzip}.zip")
   ## 2.1. Download and unzip
-  fdi_download_unzip(download_url, dir_unzip, dir_zip, quiet = quiet)
-
+  if (!quiet) cli::cli_progress_step("Downloading data...", "Downloaded", "Download failed")
+  dwld <- fdi_download_unzip(download_url, dir_unzip, dir_zip)
+  if (!dwld) {
+    cli::cli_process_failed()
+    return(cli::cli_alert_danger("`fd_forest_spain_mfe50()` failed to retrieve the data. Service might be currently unavailable"))
+  }
+    if (!quiet) cli::cli_progress_step("Preparing data...", "Prepared")
   # 3. Read vectorial data
   ## 3.1. Get file name
   dir_shp <- list.files(
@@ -180,61 +81,13 @@ fd_forest_spain_mfe50 <- function(province,
     )
   }
   ## 4.2. Return data
-  if (!quiet) message(crayon::cyan("Visit <https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html> for more information on the dataset"))
+  if (!quiet) cli::cli_process_done()
+  if (!quiet) cli::cli_alert_success("Visit {cli::col_br_cyan('https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html')} for more information")
   return(province_shp)
 
 }
 
 
-# FRANCE ---------------------------------------------------
-
-#' (Internal) Creates the BD Forêt table
-#'
-#' Creates a table with the France department names, the url to download
-#' the data, and the version
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @importFrom rlang .data
-get_bdforet_tbl <- function() {
-  # 1. Read url
-  url <- "https://geoservices.ign.fr/bdforet"
-  url_html <- rvest::read_html(url)
-
-  # 2. Get the departments vector
-  ## -> as for 2024-07-17 there's an error on Department 67.
-  ## -> Instead of being <p>, it's <a>
-  departments <- url_html |>
-    rvest::html_elements(".field--item") |>
-    rvest::html_elements("p") |>
-    rvest::html_elements(xpath = "//p[contains(text(), 'partement ')]") |>
-    rvest::html_text2() |>
-    ## Clean names
-    stringr::str_split(" - ") |>
-    purrr::map(\(x) purrr::pluck(x, 2)) |>
-    as.character() |>
-    stringr::str_remove(" :") |>
-    fdi_fix_names()
-  ## -> Temporary fix
-  departments <- append(departments, "Bas-Rhin", after = 67)
-
-  # 3. Get url vector
-  ## -> Eliminate first element: a GPKG in the begining
-  download_url <- url_html |>
-    rvest::html_elements(".field .field--name-field-texte") |>
-    rvest::html_elements(".field--item") |>
-    rvest::html_elements("ul") |>
-    rvest::html_elements("li") |>
-    rvest::html_elements("a") |>
-    rvest::html_attr("href")
-
-  # 4. Create data frame
-  tibble::tibble(
-    Department   = departments,
-    url          = download_url[-1],
-    Version      = c(rep(2, length(departments)/2), rep(1, length(departments)/2))
-  )
-}
 
 
 ## fd_forest_france
@@ -322,8 +175,8 @@ fd_forest_france <- function(department,
   ## 0.1. Fix name
   department_fix <- fdi_fix_names(department)
   ## 0.2. Department name valid?
-  if (!department_fix %in% bdforet_tbl$Department) stop("The department name is not valid. Check <metadata_forestdata$bdforet_tbl_departments> for the department names")
-  if (!version %in% c(1 , 2)) stop("The valid versions are 1 or 2")
+  if (!department_fix %in% bdforet_tbl$Department) cli::cli_abort("The department name is not valid. Check <metadata_forestdata$bdforet_tbl_departments> for the department names")
+  if (!version %in% c(1 , 2)) cli::cli_abort("The valid versions are 1 or 2")
 
   # 1. Get download url
   download_url <- bdforet_tbl |>
@@ -339,26 +192,26 @@ fd_forest_france <- function(department,
   dir_zip   <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   dir_unzip <- stringr::str_remove(dir_zip, ".7z$")
   ## 2.2. Download and unzip (download.file very slow for .7z, find alternative)
-  fdi_download_7zip(download_url, dir_unzip, dir_zip, quiet = quiet)
-
+  if (!quiet) cli::cli_progress_step("Downloading data...", "Downloaded")
+  dwld <- fdi_download_7zip(download_url, dir_unzip, dir_zip)
+  if (!dwld) return(cli::cli_alert_danger("`fd_forest_france` failed to retrieve the data. Service might be currently unavailable"))
+  if (!quiet) cli::cli_progress_step("Preparing data...", "Prepared")
   # 3. Get metadata?
   if (!is.null(path_metadata)) {
     if (version == 1) {
       url_metadata <- "https://geoservices.ign.fr/sites/default/files/2021-06/DC_BDForet_1-0.pdf"
-      download.file(
-        url      = url_metadata,
-        destfile = stringr::str_glue("{path_metadata}/{basename(url_metadata)}"),
-        mode     = "wb",
-        quiet    = quiet
+      dwld <- fdi_download(
+        download_url = url_metadata,
+        destfile     = stringr::str_glue("{path_metadata}/{basename(url_metadata)}")
       )
+      if (!dwld) return(cli::cli_alert_danger("`fd_forest_france` failed to retrieve the metadata. Service might be currently unavailable"))
     } else if (version == 2) {
       url_metadata <- "https://geoservices.ign.fr/sites/default/files/2021-06/DC_BDForet_2-0.pdf"
-      download.file(
-        url      = url_metadata,
-        destfile = stringr::str_glue("{path_metadata}/{basename(url_metadata)}"),
-        mode     = "wb",
-        quiet    = quiet
+      dwld <- fdi_download(
+        download_url = url_metadata,
+        destfile     = stringr::str_glue("{path_metadata}/{basename(url_metadata)}")
       )
+      if (!dwld) return(cli::cli_alert_danger("`fd_forest_france()` failed to retrieve the metadata. Service might be currently unavailable"))
     }
   }
 
@@ -371,8 +224,10 @@ fd_forest_france <- function(department,
     full.names = TRUE
   )
   ## 4.2. Read into R
-  if (!quiet) message(crayon::cyan("Visit <https://geoservices.ign.fr/bdforet> for more information on the dataset"))
-  sf::read_sf(vegetation_file)
+  dat <- sf::read_sf(vegetation_file)
+  if (!quiet) cli::cli_process_done()
+  if (!quiet) cli::cli_alert_success("Visit {cli::col_br_cyan('https://geoservices.ign.fr/bdforet')} for more information on the dataset")
+  return(dat)
 
 }
 

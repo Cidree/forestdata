@@ -17,8 +17,7 @@
 #' '\code{all}' retrieves every country
 #' @param geometry a string with '\code{polygon}' to retrieve polygon data, or
 #' '\code{point}' to retrieve point data
-#' @param quiet if \code{TRUE} (the default), suppress status messages, and
-#' the progress bar
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return \code{sf} object with \code{MULTIPOLYGON} or \code{POINT} geometry
 #'
@@ -64,26 +63,21 @@ fd_pathogens_defid2 <- function(agent = "all",
                                 symptoms = "all",
                                 country = "all",
                                 geometry = "polygon",
-                                quiet    = TRUE) {
+                                quiet    = FALSE) {
 
   # 1. Download file
   ## 1.1. File url
-  url <- "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/FOREST/DISTURBANCES/DEFID2/VER1-0/defid2.gpkg"
-  file_path <- stringr::str_glue("{tempdir()}/{basename(url)}")
+  download_url <- "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/FOREST/DISTURBANCES/DEFID2/VER1-0/defid2.gpkg"
+  file_path <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
   ## 1.2. Download file if doesn't exist
-  if (!file.exists(file_path)) {
-    ## Check for user's timeout
-    old_timeout <- getOption("timeout")
-    on.exit(options(timeout = old_timeout))
-    ## Download file
-    options(timeout = 10000)
-    download.file(
-      url      = url,
-      destfile = stringr::str_glue("{tempdir()}/{basename(url)}"),
-      quiet    = quiet,
-      mode     = "wb"
-    )
+  if (!quiet) cli::cli_progress_step("Downloading data...", "Downloaded", "Download failed")
+  dwld <- fdi_download(download_url, file_path)
+  if (!dwld) {
+    cli::cli_process_failed()
+    return(cli::cli_alert_danger("`fd_pathogens_defid2()` failed to retrieve the data. Service might be currently unavailable"))
   }
+    if (!quiet) cli::cli_progress_step("Preparing data...", "Prepared")
+
   # 2. Prepare query
   ## 2.1. Agents
   if (any(agent != "all")) {
@@ -133,18 +127,19 @@ fd_pathogens_defid2 <- function(agent = "all",
 
   # 3. Read into R
   if (geometry == "polygon") {
-    sf::read_sf(
+    data_sf <- sf::read_sf(
       dsn   = file_path,
       query = stringr::str_glue("SELECT * FROM exact_polygons {tmp.query};")
     )
   } else if (geometry == "point") {
-    sf::read_sf(
+    data_sf <- sf::read_sf(
       dsn   = file_path,
       query = stringr::str_glue("SELECT * FROM exact_points {tmp.query};")
     )
   } else {
-    stop("Invalid geometry. Please select polygon or point.")
+    cli::cli_abort("Invalid geometry. Please select polygon or point.")
   }
-
+  if (!quiet) cli::cli_process_done()
+  return(data_sf)
 }
 

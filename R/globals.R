@@ -29,5 +29,14 @@ utils::globalVariables(
     "Version",
     "Year",
     "year",
-    "."
+    ".",
+    "species_name", "small_density", "small_h_dm", "NumPies", "Hm",
+    "big_h_dm", "small_density_ha", "big_density_ha", "Estadillo",
+    "Fcc", "agent_name", "h_dm", "nArbol", "OrdenIf4", "OrdenIf3",
+    "d_mm", "Ht", "Hcopa", "OrdenIf2", "tree_id", "data_lst",
+    "Dn1", "Dn2", "Ordenif3", "Diametro1", "Diametro2", "NumOrden",
+    "Altura", "h_m", "Provincia", "province_fix", "geometry",
+    "dclass", "n", "h_mean", "n_ha", "g_ha",
+
+    ".cumtrees", ".do", ".nmax", "d", "h", "nt"
   ))

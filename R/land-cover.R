@@ -1,60 +1,5 @@
 
-## GLOBAL LAND COVER  COPERNICUS ----------
 
-# get_glc_tbl
-
-#'  Global Land Cover Table
-#'  Get a table with the year, coordinates, and URL of the Global Land Cover
-#'  tiles.
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @references <https://land.copernicus.eu/en/products/global-dynamic-land-cover>
-get_glc_tbl <- function() {
-
-  # 1. Vector with possible longitudes
-  lon_code <- c(
-    paste0("W", sprintf("%03d", seq(180, 20, by = -20))),
-    paste0("E", sprintf("%03d", seq(0, 160, by = 20)))
-  )
-  # 2. Vector with possible latitudes
-  lat_code <- c(
-    paste0("N", sprintf("%02d", seq(0, 80, by = 20))),
-    paste0("S", sprintf("%02d", seq(20, 40, by = 20)))
-  )
-  # 3. Vector with possible years
-  years_url <- c("2015-base", "2016-conso", "2017-conso", "2018-conso", "2019-nrt")
-  # 4. Vector with possible land covers
-  layers <- c("Discrete-Classification-map", "Classification-proba",
-              "Bare-CoverFraction-layer", "BuiltUp-CoverFraction-layer", "Crops-CoverFraction-layer",
-              "Tree-CoverFraction-layer", "Grass-CoverFraction-layer", "MossLichen-CoverFraction-layer",
-              "SeasonalWater-CoverFraction-layer", "Shrub-CoverFraction-layer", "Snow-CoverFraction-layer",
-              "PermanentWater-CoverFraction-layer", "Forest-Type-layer", "DataDensityIndicator")
-  # 5. Create the grid
-  grid_urls <- expand.grid(
-    lon_code  = lon_code,
-    lat_code  = lat_code,
-    years_url = years_url,
-    layers    = layers
-  )
-  # 6. Prepare grid and urls
-  grid_urls <- grid_urls |>
-    tibble::as_tibble() |>
-    dplyr::mutate(
-      year = stringr::str_extract(years_url, "([0-9]{4})") |> as.numeric()
-    ) |>
-    dplyr::mutate(
-      lonlat     = paste0(lon_code, lat_code),
-      lon        = stringr::str_sub(lon_code, 2, 4) |> as.numeric(),
-      lon        = ifelse(stringr::str_detect(lon_code, "E([0-9]{3})"), lon, -lon),
-      lat        = stringr::str_sub(lat_code, 2, 3) |> as.numeric(),
-      lat        = ifelse(stringr::str_detect(lat_code, "N([0-9]{2})"), lat, -lat),
-      url        = stringr::str_glue("https://s3-eu-west-1.amazonaws.com/vito.landcover.global/v3.0.1/{year}/{lonlat}/{lonlat}_PROBAV_LC100_global_v3.0.1_{years_url}_{layers}_EPSG-4326.tif"),
-      layer_shrt = stringr::str_split(layers, "-"),
-      layer_shrt = purrr::map_chr(layer_shrt, 1) |> stringr::str_to_lower()
-      )
-  return(grid_urls)
-}
 
 
 # fd_landcover_copernicus
@@ -74,6 +19,7 @@ get_glc_tbl <- function() {
 #'              Land Cover. See details
 #' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
 #' @param ... additional arguments passed to the \link[terra]{crop} function
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return \code{SpatRaster} object
 #' @export
@@ -141,18 +87,19 @@ fd_landcover_copernicus <- function(x,
                                     lat   = NULL,
                                     year  = 2019,
                                     layer = "forest",
-                                    crop  = FALSE, ...) {
+                                    crop  = FALSE, ...,
+                                    quiet = FALSE) {
 
   # 0. Handle errors
-  if (!year %in% 2015:2019 & year != "all") stop("Invalid year")
+  if (!year %in% 2015:2019 & year != "all") cli::cli_abort("Invalid year")
   if (!is.null(lon) & !is.null(lat)) {
-    if (lon > 180 | lon < -180) stop("Invalid longitude coordinate value")
-    if (lat > 80 | lat < -60) stop("Invalid latitude coordinate value")
+    if (lon > 180 | lon < -180) cli::cli_abort("Invalid longitude coordinate value")
+    if (lat > 80 | lat < -60) cli::cli_abort("Invalid latitude coordinate value")
   } else {
     if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
   }
   sel_year <- year
-  if (!all(layer %in% unique(get_glc_tbl()$layer_shrt))) stop("Invalid layer name(s)")
+  if (!all(layer %in% unique(glc_tbl$layer_shrt))) cli::cli_abort("Invalid layer name(s)")
 
   # 1. If user specify lat and lon
   if (!is.null(lat) & !is.null(lon)) {
@@ -188,8 +135,32 @@ fd_landcover_copernicus <- function(x,
   ids <- expand.grid(year = id_year, layer = id_lyr)
   ids$layer_names <- paste0(ids$layer, "_", ids$year)
   ## 3.2. Get the combined rasters per year
-  message(stringr::str_glue("{nrow(tile_tbl)} tile(s) were found."))
-  combined_sr <- purrr::map2(ids$year, ids$layer, get_combined_raster_2l, url_table = tile_tbl)
+  ## user feedback
+  if (!quiet) cli::cli_alert_info("{nrow(tile_tbl)} tile(s) were found. {nrow(tile_tbl) / length(id_year)} tile(s) per year.")
+  download_pb <- cli::cli_progress_bar(
+    "Dowloaded years",
+    total       = nrow(ids),
+    type        = "tasks",
+    format_done = "{.alert-success Download completed {.timestamp {cli::pb_elapsed}}}",
+    clear       = FALSE
+  )
+  ## get data
+  combined_sr <- list()
+  for (i in 1:nrow(ids)) {
+    combined_sr[[i]] <- get_combined_raster_2l(
+      year_i    = ids$year[i],
+      layer_i   = ids$layer[i],
+      url_table = tile_tbl
+    )
+    ## check for success
+    if (is.null(combined_sr[[i]])) {
+      cli::cli_process_failed()
+      return(cli::cli_alert_danger("`fd_landcover_copernicus()` failed to retrieve the data. Service might be currently unavailable"))
+    }
+
+    if (!quiet) cli::cli_progress_update(id = download_pb)
+  }
+  if (!quiet) cli::cli_process_done(id = download_pb)
   ## 3.3. Convert to SpatRaster if it's a list
   glad_sr <- terra::rast(combined_sr)
   ## 3.4. Rename layers
@@ -205,32 +176,7 @@ fd_landcover_copernicus <- function(x,
 
 
 
-## LAND COVER EXPLORER Esri ------------
 
-
-## get_landcoverexplorer_tbl
-
-#' (Internal) Get codes table of Land Cover Explorer
-#'
-#' Get a table with the Land Cover explorer codes and urls
-#'
-#' @return A \code{tibble}
-#' @keywords internal
-#' @include utils-not-exported.R
-get_landcoverexplorer_tbl <- function() {
-
-  # 1. Possible options
-  years   <- 2017:2023
-  letters <- LETTERS[-c(1, 2, 9, 15, 25:26)]
-  nmbrs   <- 1:60
-  nmbrs   <- sprintf("%02d", nmbrs)
-
-  # 2. Table with options
-  expand.grid(Year = years, Number = nmbrs, Letter = letters) |>
-    dplyr::mutate(download_url =
-                    stringr::str_glue("https://lulctimeseries.blob.core.windows.net/lulctimeseriesv003/lc{Year}/{Number}{Letter}_{Year}0101-{Year + 1}0101.tif")
-    )
-}
 
 
 ## fd_landcover_esri
@@ -243,8 +189,7 @@ get_landcoverexplorer_tbl <- function() {
 #' @param year an integer or vector of integers corresponding to the base year
 #'             of the land cover tile. The option \code{year = 'all'} downloads all
 #'             the available images (2017:2023)
-#' @param quiet if \code{TRUE} (the default), suppress status messages, and
-#'              the progress bar
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return A \code{SpatRaster}
 #' @export
@@ -262,10 +207,10 @@ get_landcoverexplorer_tbl <- function() {
 #' }
 fd_landcover_esri <- function(utm_code,
                               year,
-                              quiet = TRUE) {
+                              quiet = FALSE) {
 
   # 0. Handle year error
-  if (!(year %in% seq(2017, 2023, 1)) & year != "all") stop("The indicated year is not valid. Please, use a year between 2017 and 2022, or the 'all' function to retrieve all.")
+  if (!(year %in% seq(2017, 2023, 1)) & year != "all") cli::cli_abort("The indicated year is not valid. Please, use a year between 2017 and 2022, or the 'all' function to retrieve all.")
 
   # 1. Get number and letter
   nmbr <- stringr::str_sub(utm_code, 1, 2)
@@ -283,27 +228,35 @@ fd_landcover_esri <- function(utm_code,
   }
 
   # 3. Handle error
-  if (length(download_url) == 0) stop("The UTM Code doesn't exist, is incorrect or fell into the sea. Please, use two numbers and one letter (e.g. 05T)")
+  if (length(download_url) == 0) cli::cli_abort("The UTM Code doesn't exist, is incorrect or fell into the sea. Please, use two numbers and one letter (e.g. 05T)")
 
   # 4. Download
   ## 4.1. Tiff file
   tif_path <- paste0(tempdir(), "/", basename(download_url))
-  ## Check for user's timeout
-  old_timeout <- getOption("timeout")
-  on.exit(options(timeout = old_timeout))
-  ## Download file
-  options(timeout = 10000)
-  purrr::map2(
-    download_url,
-    tif_path,
-    \(x, y) download.file(
-      url      = x,
-      destfile = y,
-      mode     = "wb",
-      quiet    = quiet
-    )
+  ## User feedback
+  if (!quiet) cli::cli_alert_info("Downloading data...")
+  download_pb <- cli::cli_progress_bar(
+    "Dowloaded tiles",
+    total       = length(tif_path),
+    type        = "tasks",
+    format_done = "{.alert-success Download completed {.timestamp {cli::pb_elapsed}}}",
+    clear       = FALSE
   )
+  ## Download tiles
+  for (i in 1:length(tif_path)) {
+    dwld <- fdi_download(
+      download_url = download_url[i],
+      destfile     = tif_path[i]
+    )
+    ## check for success
+    if (!dwld) {
+      cli::cli_process_failed()
+      return(cli::cli_alert_danger("`fd_landcover_esri()` failed to retrieve the data. Service might be currently unavailable"))
+    }
 
+    if (!quiet) cli::cli_progress_update(id = download_pb)
+  }
+  if (!quiet) cli::cli_process_done(id = download_pb)
   # 5. Read into R
   ## 5.1. Read file
   lc_sr <- terra::rast(tif_path)

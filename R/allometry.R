@@ -34,17 +34,22 @@
 #' tallo_cz_ge_sf <- fd_allometry_tallo(country = c("Czechia", "Germany"))
 #' }
 fd_allometry_tallo <- function(country = NULL,
-                               spatial = FALSE,
-                               metadata_path = NULL,
-                               quiet = FALSE) {
-
-  # 0. Handle errors
+                                spatial = FALSE,
+                                metadata_path = NULL,
+                                quiet = FALSE) {
 
 
   # 1. Read data
   ## 1.1. Tallo database
-  data_tbl <- read.csv("https://zenodo.org/records/6637599/files/Tallo.csv?download=1") |>
-    tibble::as_tibble()
+  if (!quiet) cli::cli_progress_step("Downloading data...", msg_done = "Downloaded", "Download failed")
+  data_tbl <- try(read.csv("https://zenodo.org/records/6637599/files/Tallo.csv?download=1") |>
+    tibble::as_tibble(), silent = TRUE) |> suppressWarnings()
+  if (!exists("data_tbl")) {
+    cli::cli_process_failed()
+    return(cli::cli_alert_danger("`fd_allometry_tallo()` failed to retrieve the data. Service might be currently unavailable"))
+  }
+
+  if (!quiet) cli::cli_progress_step("Preparing data...", msg_done = "Prepared")
   ## 1.2. Metadata and bibliography
   if (!is.null(metadata_path)) {
 
@@ -63,7 +68,7 @@ fd_allometry_tallo <- function(country = NULL,
   ## 2.1. Convert to spatial if selected
   if (spatial | !is.null(country)) {
     ## message if spatial = FALSE, and country are selected
-    if (!spatial & !is.null(country)) message("You selected a country, so the function will use `spatial = TRUE` automatically")
+    if (!spatial & !is.null(country)) cli::cli_alert_info("You selected a country, so the function will use `spatial = TRUE` automatically")
     data_tbl <- sf::st_as_sf(
       data_tbl,
       coords = c("longitude", "latitude"),
@@ -72,19 +77,19 @@ fd_allometry_tallo <- function(country = NULL,
     ## If spatial filter applied
     if (!is.null(country)) {
       ## check if giscoR is installed
-      if (!requireNamespace("giscoR", quietly = TRUE)) stop("Package `giscoR` is needed for filtering by country/continent. Please, install it.")
+      if (!requireNamespace("giscoR", quietly = TRUE)) cli::cli_abort("Package `giscoR` is needed for filtering by country/continent. Please, install it.")
       ## filter countries depending on ISO2, ISO3 or full name
       countries_sf <-
         switch(as.character(nchar(country[1])),
 
-                "2" = giscoR::gisco_get_countries() |>
-                  dplyr::filter(CNTR_ID %in% toupper(country)),
+               "2" = giscoR::gisco_get_countries() |>
+                 dplyr::filter(CNTR_ID %in% toupper(country)),
 
-                "3" = giscoR::gisco_get_countries() |>
-                  dplyr::filter(ISO3_CODE %in% toupper(country)),
+               "3" = giscoR::gisco_get_countries() |>
+                 dplyr::filter(ISO3_CODE %in% toupper(country)),
 
-                giscoR::gisco_get_countries() |>
-                  dplyr::filter(NAME_ENGL %in% stringr::str_to_title(country))
+               giscoR::gisco_get_countries() |>
+                 dplyr::filter(NAME_ENGL %in% stringr::str_to_title(country))
         )
       ## filter points belonging to the selected countries
       data_tbl <- sf::st_filter(
@@ -96,7 +101,8 @@ fd_allometry_tallo <- function(country = NULL,
   }
 
   # 3. Return final object
-  if (!quiet) message(crayon::cyan("Cite this dataset using <https://doi.org/10.1111/gcb.16302>"))
+  if (!quiet) cli::cli_process_done()
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1111/gcb.16302')}")
   return(data_tbl)
 
 }
