@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">forestdata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.900</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,6 +47,7 @@
 <span>  <span class="va">province</span>,</span>
 <span>  ifn <span class="op">=</span> <span class="fl">4</span>,</span>
 <span>  database <span class="op">=</span> <span class="st">"field"</span>,</span>
+<span>  process_level <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  path_metadata <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -69,6 +70,11 @@ Spanish province</p></dd>
 <dd><p>the name of the database (either 'field' or 'gis')</p></dd>
 
 
+<dt id="arg-process-level">process_level<a class="anchor" aria-label="anchor" href="#arg-process-level"></a></dt>
+<dd><p>integer. Used when <code>database = 'field'</code>. Level
+of process of raw data.</p></dd>
+
+
 <dt id="arg-path-metadata">path_metadata<a class="anchor" aria-label="anchor" href="#arg-path-metadata"></a></dt>
 <dd><p>a character string of length 1 with the path to store the
 metadata of the selected database. The default <code>path_metadata = NULL</code>
@@ -86,7 +92,6 @@ does not download the metadata</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The IFN2 doesn't have 'gis' data for Asturias, Cantabria and Navarra.</p>
-<p>In the future a function to process the data will be added.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -102,10 +107,12 @@ does not download the metadata</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="co"># Download MFE50 for Canary Islands</span></span></span>
 <span class="r-in"><span><span class="va">canarias_ifn4_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"Canarias"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fd_inventory_spain("Canarias"):</span> &lt;Microsoft Access Driver (*.mdb, *.accdb)&gt; is not available. Please, install it to use this function.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fd_inventory_spain("Canarias"):</span> &lt;Microsoft Access Driver (*.mdb, *.accdb)&gt; is not available. Please,</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> install it to use this function.</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">cantabria_ifn3_gis_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"cantabria"</span>, ifn <span class="op">=</span> <span class="fl">3</span>, database <span class="op">=</span> <span class="st">"gis"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fd_inventory_spain("cantabria", ifn = 3, database = "gis"):</span> &lt;Microsoft Access Driver (*.mdb, *.accdb)&gt; is not available. Please, install it to use this function.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fd_inventory_spain("cantabria", ifn = 3, database = "gis"):</span> &lt;Microsoft Access Driver (*.mdb, *.accdb)&gt; is not available. Please,</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> install it to use this function.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

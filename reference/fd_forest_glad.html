@@ -9,7 +9,7 @@ land cover at ~30m spatial resolution"><meta property="og:image" content="https:
 
     <a class="navbar-brand me-2" href="../index.html">forestdata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.900</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +54,7 @@ land cover at ~30m spatial resolution</p>
 <span>  year <span class="op">=</span> <span class="fl">2020</span>,</span>
 <span>  crop <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  mask <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  merge <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -90,6 +91,11 @@ argument is ignored)</p></dd>
 
 <dt id="arg-mask">mask<a class="anchor" aria-label="anchor" href="#arg-mask"></a></dt>
 <dd><p>when <code>x</code> is specified, whether to mask the tile(s) to the object</p></dd>
+
+
+<dt id="arg-merge">merge<a class="anchor" aria-label="anchor" href="#arg-merge"></a></dt>
+<dd><p>if <code>FALSE</code> (default), it will merge the tiles into one raster.
+If <code>FALSE</code> a SpatRasterCollection will be returned.</p></dd>
 
 
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
@@ -139,8 +145,8 @@ through integration of GEDI and Landsat data. Remote Sensing of Environment,
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span> <span class="co"># Get tile for Galicia (Spain)</span></span></span>
 <span class="r-in"><span> <span class="va">galicia_forest_extent</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_glad</span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">7.8</span>, lat <span class="op">=</span> <span class="fl">42.7</span>, year <span class="op">=</span> <span class="fl">2020</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 tile(s) were found. A total of 1.5 GB of data will be read into R. This may take a while.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Cite this dataset using &lt;https://doi.org/10.1016/j.rse.2020.112165&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> 1 tile(s) were found. A total of 1.5 GB of data will be read into R. This may take a while.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Cite this dataset using <span style="color: #55FFFF;">https://doi.org/10.1016/j.rse.2020.112165</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

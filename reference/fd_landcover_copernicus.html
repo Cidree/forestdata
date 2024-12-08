@@ -9,7 +9,7 @@ Land Service."><meta property="og:image" content="https://cidree.github.io/fores
 
     <a class="navbar-brand me-2" href="../index.html">forestdata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.900</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +53,8 @@ Land Service.</p>
 <span>  year <span class="op">=</span> <span class="fl">2019</span>,</span>
 <span>  layer <span class="op">=</span> <span class="st">"forest"</span>,</span>
 <span>  crop <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">...</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -90,6 +91,10 @@ Land Cover. See details</p></dd>
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>additional arguments passed to the <a href="https://rspatial.github.io/terra/reference/crop.html" class="external-link">crop</a> function</p></dd>
+
+
+<dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
+<dd><p>if <code>TRUE</code>, suppress any message or progress bar</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -132,7 +137,7 @@ Land Service: Land Cover 100m: collection 3: epoch 2019: Globe
 <span class="r-in"><span>  lon  <span class="op">=</span> <span class="op">-</span><span class="fl">7.8</span>,</span></span>
 <span class="r-in"><span>  year <span class="op">=</span> <span class="fl">2019</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 tile(s) were found.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> 1 tile(s) were found. 1 tile(s) per year.</span>
 <span class="r-in"><span> <span class="co"># Get forest and discrete classification tiles for all years</span></span></span>
 <span class="r-in"><span> <span class="va">galicia_forest_extent</span> <span class="op">&lt;-</span> <span class="fu">fd_landcover_copernicus</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  lat  <span class="op">=</span> <span class="fl">42.7</span>,</span></span>
@@ -140,7 +145,13 @@ Land Service: Land Cover 100m: collection 3: epoch 2019: Globe
 <span class="r-in"><span>  year <span class="op">=</span> <span class="st">"all"</span>,</span></span>
 <span class="r-in"><span>  layer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"forest"</span>, <span class="st">"discrete"</span><span class="op">)</span></span></span>
 <span class="r-in"><span> <span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 10 tile(s) were found.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> 10 tile(s) were found. 2 tile(s) per year.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ⠙ 1/10 ETA: 14s | Dowloaded years </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ⠹ 3/10 ETA: 10s | Dowloaded years </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ⠸ 6/10 ETA:  6s | Dowloaded years </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> ⠼ 8/10 ETA:  3s | Dowloaded years </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Download completed <span style="color: #B2B2B2;">[13.1s]</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

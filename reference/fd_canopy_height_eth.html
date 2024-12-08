@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">forestdata</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1.900</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,7 @@
 <span>  layer <span class="op">=</span> <span class="st">"chm"</span>,</span>
 <span>  crop <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  mask <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  merge <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -86,6 +87,11 @@ the standard deviation. If you want both layers, use "<code>all</code>"</p></dd>
 <dd><p>when <code>x</code> is specified, whether to mask the tile(s) to the object</p></dd>
 
 
+<dt id="arg-merge">merge<a class="anchor" aria-label="anchor" href="#arg-merge"></a></dt>
+<dd><p>if <code>FALSE</code> (default), it will merge the tiles into one raster.
+If <code>FALSE</code> a SpatRasterCollection will be returned.</p></dd>
+
+
 <dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
 <dd><p>if <code>TRUE</code>, suppress any message or progress bar</p></dd>
 
@@ -110,9 +116,8 @@ arXiv preprint arXiv:2204.08322 (2022).</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="va">canopy_height</span> <span class="op">&lt;-</span> <span class="fu">fd_canopy_height_eth</span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">7.27</span>, lat <span class="op">=</span> <span class="fl">42.43</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> 1 tile(s) were found.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">Downloading tile 1...</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">Cite this dataset using &lt;https://doi.org/10.1038/s41559-023-02206-6&gt;</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Downloading 1 tile...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Cite this dataset using <span style="color: #55FFFF;">https://doi.org/10.1038/s41559-023-02206-6</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
