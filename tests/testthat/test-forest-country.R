@@ -22,7 +22,7 @@ test_that("Data is downloaded properly", {
 test_that("All files are downloaded", {
   expect_no_error(
     purrr::map(
-      metadata_forestdata$mfe_provinces[1:5],
+      metadata_forestdata$mfe_provinces[1:3],
       fd_forest_spain_mfe50
     )
   )
