@@ -28,7 +28,7 @@
 #' @references \url{https://www.miteco.gob.es/es/biodiversidad/temas/inventarios-nacionales/inventario-forestal-nacional.html}
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # Download MFE50 for Canary Islands
 #' canarias_ifn4_lst <- fd_inventory_spain("Canarias")
 #'
