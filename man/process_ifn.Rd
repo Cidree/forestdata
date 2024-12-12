@@ -5,7 +5,7 @@
 \title{Process a list returned by fd_iventory_spain
 (Internal) Helper process IFN3 or IFN4 data}
 \usage{
-process_ifn(data, process_level = 1, ifn = 4)
+process_ifn(data, process_level = 1, ifn = 4, province_fix)
 }
 \value{
 An \code{sf} object

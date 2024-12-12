@@ -36,7 +36,7 @@ utils::globalVariables(
     "d_mm", "Ht", "Hcopa", "OrdenIf2", "tree_id", "data_lst",
     "Dn1", "Dn2", "Ordenif3", "Diametro1", "Diametro2", "NumOrden",
     "Altura", "h_m", "Provincia", "province_fix", "geometry",
-    "dclass", "n", "h_mean", "n_ha", "g_ha",
+    "dclass", "n", "h_mean", "n_ha", "g_ha", "CoorX",
 
     ".cumtrees", ".do", ".nmax", "d", "h", "nt"
   ))

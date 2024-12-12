@@ -40,7 +40,7 @@ Download the tables and SIG data from the Spanish Forest Inventory
 The IFN2 doesn't have 'gis' data for Asturias, Cantabria and Navarra.
 }
 \examples{
-\donttest{
+\dontrun{
 # Download MFE50 for Canary Islands
 canarias_ifn4_lst <- fd_inventory_spain("Canarias")
 
