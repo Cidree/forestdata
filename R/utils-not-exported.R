@@ -322,7 +322,8 @@ process_pmayores <- function(data) {
     ## Remove NA
     dplyr::filter(
       !is.na(d_mm),
-      h_m > 0
+      h_m > 0,
+      d_mm >= 75
     ) |>
     ## Get diametric classes
     dplyr::mutate(
@@ -331,7 +332,7 @@ process_pmayores <- function(data) {
     ## Calculate number of trees per plot and species
     dplyr::summarise(
       # Ht  = mean(Ht, na.rm = TRUE),
-      n   = n(),
+      n   = dplyr::n(),
       .by = c(plot, species_name, dclass, h_m)
     ) |>
     ## Calculate average height
@@ -412,7 +413,7 @@ nest_ifn_tree <- function(data, codes, agents, which = "current", ifn = 4, proce
     ## PROCESS PREVIOUS IFN
     ## PROCESS PREVIOUS IFN 4
     if (ifn == 4) {
-      first_level <- data_lst$PCMayores3 |>
+      first_level <- data$PCMayores3 |>
         dplyr::mutate(d_mm = (Dn1 + Dn2) / 2) |>
         merge(codes, by.x = "Especie", by.y = "species_code") |>
         merge(agents, by.x = "Agente", by.y = "agent_code") |>
@@ -430,7 +431,7 @@ nest_ifn_tree <- function(data, codes, agents, which = "current", ifn = 4, proce
 
     } else {
       ## PROCESS PREVIOUS IFN 3
-      first_level <- data_lst$PCMayores2 |>
+      first_level <- data$PCMayores2 |>
         dplyr::mutate(d_mm = (Diametro1 + Diametro2) / 2) |>
         merge(codes, by.x = "Especie", by.y = "species_code") |>
         dplyr::select(
@@ -515,7 +516,7 @@ nest_ifn_regeneration <- function(data, codes, process_level = 1) {
 #'
 #' @return An \code{sf} object
 #' @keywords internal
-process_ifn <- function(data, process_level = 1, ifn = 4) {
+process_ifn <- function(data, process_level = 1, ifn = 4, province_fix) {
   ## process individually
   data_sf          <- data$PCDatosMap_sf |>
     dplyr::select(province = Provincia, plot = Estadillo) |>
@@ -524,13 +525,17 @@ process_ifn <- function(data, process_level = 1, ifn = 4) {
   tree_tbl         <- nest_ifn_tree(data, ifn_codes_tbl, ifn_agent_tbl, which = "current", ifn = ifn, process_level = process_level)
   tree_ifn3_tbl    <- nest_ifn_tree(data, ifn_codes_tbl, ifn_agent_tbl,  which = "prev", ifn = ifn, process_level = process_level)
   regeneration_tbl <- nest_ifn_regeneration(data, ifn_codes_tbl, process_level = process_level)
-
+  ## rename previous ifn
+  if (ifn == 4) names(tree_ifn3_tbl) <- c("plot", "tree_ifn3") else names(tree_ifn3_tbl) <- c("plot", "tree_ifn2")
   ## merge all together
-  dplyr::left_join(data_sf, tree_tbl) |>
-    dplyr::left_join(tree_ifn3_tbl) |>
-    dplyr::left_join(shrub_tbl) |>
-    dplyr::left_join(regeneration_tbl) |>
-    dplyr::relocate(geometry, .after = 7)
+  suppressMessages({
+    dplyr::left_join(data_sf, tree_tbl) |>
+      dplyr::left_join(tree_ifn3_tbl) |>
+      dplyr::left_join(shrub_tbl) |>
+      dplyr::left_join(regeneration_tbl) |>
+      dplyr::relocate(geometry, .after = 7)
+  })
+
 }
 
 

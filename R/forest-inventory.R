@@ -72,7 +72,7 @@ fd_inventory_spain <- function(province,
     cli::cli_process_failed()
     return(cli::cli_alert_danger("`fd_inventory_spain()` failed to retrieve the data. Service might be currently unavailable"))
   }
-    if (!quiet) cli::cli_progress_step("Preparing data...", "Prepared")
+  if (!quiet) cli::cli_progress_step("Preparing data...", "Prepared")
 
   # 3. Download metadata?
   if (!is.null(path_metadata)) {
@@ -200,12 +200,14 @@ fd_inventory_spain <- function(province,
 
     }
     ## 4.7. Process level
-    if (!quiet) cli::cli_process_done()
     if (database == "field" & ifn %in% c(3, 4) & process_level > 0) {
-      process_ifn(data_lst, process_level = process_level, ifn = ifn)
+      final_data <- process_ifn(data_lst, process_level = process_level, ifn = ifn, province_fix)
+
     } else {
-      return(data_lst)
+      final_data <- data_lst
     }
+    if (!quiet) cli::cli_process_done()
+    return(final_data)
 
   }
 
