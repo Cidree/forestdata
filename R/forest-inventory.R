@@ -115,7 +115,7 @@ fd_inventory_spain <- function(province,
     }
   } else {
     ## 4.1. File name
-    filename <- list.files(dir_unzip, full.names = TRUE, pattern = "\\.accdb$")
+    filename <- list.files(dir_unzip, full.names = TRUE, pattern = "\\.accdb$|\\.mdb$")
     ## 4.2. Connect to DB
     conn <- RODBC::odbcConnectAccess2007(filename)
     on.exit(RODBC::odbcClose(conn))
@@ -144,8 +144,10 @@ fd_inventory_spain <- function(province,
           .default = 258
         )
         ## convert to spatial
+        na_data <- data_lst$PCDatosMap |> dplyr::filter(is.na(CoorX))
+        if (nrow(na_data) > 0) cli::cli_alert_warning("Plot(s) {paste0(na_data$Estadillo, collapse = ',')} do not have coordinates, and are eliminate from `PCDatosMap_sf` table")
         data_lst$PCDatosMap_sf <- sf::st_as_sf(
-          x      = data_lst$PCDatosMap,
+          x      = data_lst$PCDatosMap |> dplyr::filter(!is.na(CoorX)),
           coords = c("CoorX", "CoorY"),
           crs    = paste0("EPSG:", datum, data_lst$PCDatosMap$Huso[1])
         )

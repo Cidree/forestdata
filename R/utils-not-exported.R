@@ -418,7 +418,7 @@ nest_ifn_tree <- function(data, codes, agents, which = "current", ifn = 4, proce
         merge(codes, by.x = "Especie", by.y = "species_code") |>
         merge(agents, by.x = "Agente", by.y = "agent_code") |>
         dplyr::select(
-          plot = Estadillo, tree_id = nArbol, ifn3_order = Ordenif3,
+          plot = Estadillo, tree_id = nArbol, ifn3_order = 6,
           species_name, d_mm, h_m = Ht, agent_name
         )
 
