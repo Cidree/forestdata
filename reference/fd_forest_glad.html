@@ -145,8 +145,7 @@ through integration of GEDI and Landsat data. Remote Sensing of Environment,
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span> <span class="co"># Get tile for Galicia (Spain)</span></span></span>
 <span class="r-in"><span> <span class="va">galicia_forest_extent</span> <span class="op">&lt;-</span> <span class="fu">fd_forest_glad</span><span class="op">(</span>lon <span class="op">=</span> <span class="op">-</span><span class="fl">7.8</span>, lat <span class="op">=</span> <span class="fl">42.7</span>, year <span class="op">=</span> <span class="fl">2020</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> 1 tile(s) were found. A total of 1.5 GB of data will be read into R. This may take a while.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Cite this dataset using <span style="color: #55FFFF;">https://doi.org/10.1016/j.rse.2020.112165</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in fd_forest_glad(lon = -7.8, lat = 42.7, year = 2020):</span> object 'glad_tiles_sf' not found</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
