@@ -29,10 +29,13 @@
 #'
 #' @examples
 #' \dontrun{
-#' # Download MFE50 for Canary Islands
-#' canarias_ifn4_lst <- fd_inventory_spain("Canarias")
-#'
-#' cantabria_ifn3_gis_lst <- fd_inventory_spain("cantabria", ifn = 3, database = "gis")
+#' library(odbc)
+#' if ("Microsoft Access Driver (*.mdb, *.accdb)" %in% odbc::odbcListDrivers()$name) {
+#'   # Download MFE50 for Canary Islands
+#'   canarias_ifn4_lst <- fd_inventory_spain("Canarias")
+#' } else {
+#'   message("Skipping example as <Microsoft Access Driver (*.mdb, *.accdb)> is not available.")
+#' }
 #' }
 fd_inventory_spain <- function(province,
                                ifn           = 4,

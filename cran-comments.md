@@ -3,7 +3,7 @@
 
 * local Windows 11 Pro 22H2, 64 bit, R 4.4.2
 
-* R Under development (unstable) (2024-12-10 r87437 ucrt)
+* R Under development (unstable) x86_64-w64-mingw32
 
 * R-devel on Ubuntu 22.05.5 LTS, with `rhub::rhub_check()`
 
@@ -21,6 +21,15 @@
 ```
 
 As stated in [R-hub issue #503](https://github.com/r-hub/rhub/issues/503), this could be a bug/crash in MiKTeX and can likely be ignored.
+
+* R Under development (unstable) x86_64-w64-mingw32:
+
+```
+* checking CRAN incoming feasibility ... NOTE
+Maintainer: 'Adrián Cidre González <adrian.cidre@gmail.com>'
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+```
 
 * Rest of testing environments:
 
