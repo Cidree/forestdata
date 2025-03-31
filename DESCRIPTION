@@ -23,7 +23,7 @@ Imports:
     glue
 RoxygenNote: 7.3.2
 Depends: 
-    R (>= 2.10)
+    R (>= 4.1.0)
 Collate: 
     'utils-not-exported.R'
     'GLAD.R'
