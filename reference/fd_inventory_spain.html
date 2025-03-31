@@ -105,10 +105,13 @@ does not download the metadata</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co"># Download MFE50 for Canary Islands</span></span></span>
-<span class="r-in"><span><span class="va">canarias_ifn4_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"Canarias"</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">cantabria_ifn3_gis_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"cantabria"</span>, ifn <span class="op">=</span> <span class="fl">3</span>, database <span class="op">=</span> <span class="st">"gis"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://odbc.r-dbi.org" class="external-link">odbc</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="st">"Microsoft Access Driver (*.mdb, *.accdb)"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu">odbc</span><span class="fu">::</span><span class="fu"><a href="https://odbc.r-dbi.org/reference/odbcListDrivers.html" class="external-link">odbcListDrivers</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">name</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Download MFE50 for Canary Islands</span></span></span>
+<span class="r-in"><span>  <span class="va">canarias_ifn4_lst</span> <span class="op">&lt;-</span> <span class="fu">fd_inventory_spain</span><span class="op">(</span><span class="st">"Canarias"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="st">"Skipping example as &lt;Microsoft Access Driver (*.mdb, *.accdb)&gt; is not available."</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
