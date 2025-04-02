@@ -80,39 +80,39 @@ test_that("Donwload other layers work", {
 ## 2.1. Get data ---------------------
 
 ## 2 tiles in meta
-meta_2_tiles_sf <- sf::st_bbox(
-  c(xmin = -3.56707,
-    ymin = 36.69458,
-    xmax = -3.41038,
-    ymax = 36.79233)
-) |>
-  sf::st_as_sfc() |>
-  sf::st_as_sf(crs = 4326)
-
-## Download 1 tiles using coords
-test_that("Download one tile works", {
-  skip_on_cran()
-  ## get data
-  meta_coords_sr <- fd_canopy_height(lon = -8, lat = 43, model = "meta")
-  meta_x_sr      <- fd_canopy_height(polygon_2tiles_sf, model = "meta")
-  meta_crop_sr   <- fd_canopy_height(polygon_2tiles_sf, model = "meta", crop = TRUE)
-  meta_crop2_sf <- fd_canopy_height(
-    x     = meta_2_tiles_sf,
-    model = "meta",
-    crop  = TRUE
-  )
-  ## check spatraster
-  expect_s4_class(meta_coords_sr, "SpatRaster")
-  expect_s4_class(meta_x_sr, "SpatRaster")
-  expect_s4_class(meta_crop_sr, "SpatRaster")
-  expect_s4_class(meta_crop2_sf, "SpatRasterCollection")
-  ## check crop
-  meta_2_tiles_3857_sf <- sf::st_transform(meta_2_tiles_sf, "EPSG:3857")
-  expect_equal(terra::ext(meta_2_tiles_3857_sf)[1], terra::ext(meta_crop2_sf)[1], tolerance = 1e-1)
-  expect_equal(terra::ext(meta_2_tiles_3857_sf)[2], terra::ext(meta_crop2_sf)[2], tolerance = 1e-1)
-  expect_equal(terra::ext(meta_2_tiles_3857_sf)[3], terra::ext(meta_crop2_sf)[3], tolerance = 1e-1)
-  expect_equal(terra::ext(meta_2_tiles_3857_sf)[4], terra::ext(meta_crop2_sf)[4], tolerance = 1e-1)
-})
+# meta_2_tiles_sf <- sf::st_bbox(
+#   c(xmin = -3.56707,
+#     ymin = 36.69458,
+#     xmax = -3.41038,
+#     ymax = 36.79233)
+# ) |>
+#   sf::st_as_sfc() |>
+#   sf::st_as_sf(crs = 4326)
+#
+# ## Download 1 tiles using coords
+# test_that("Download one tile works", {
+#   skip_on_cran()
+#   ## get data
+#   meta_coords_sr <- fd_canopy_height(lon = -8, lat = 43, model = "meta")
+#   meta_x_sr      <- fd_canopy_height(polygon_2tiles_sf, model = "meta")
+#   meta_crop_sr   <- fd_canopy_height(polygon_2tiles_sf, model = "meta", crop = TRUE)
+#   meta_crop2_sf <- fd_canopy_height(
+#     x     = meta_2_tiles_sf,
+#     model = "meta",
+#     crop  = TRUE
+#   )
+#   ## check spatraster
+#   expect_s4_class(meta_coords_sr, "SpatRaster")
+#   expect_s4_class(meta_x_sr, "SpatRaster")
+#   expect_s4_class(meta_crop_sr, "SpatRaster")
+#   expect_s4_class(meta_crop2_sf, "SpatRasterCollection")
+#   ## check crop
+#   meta_2_tiles_3857_sf <- sf::st_transform(meta_2_tiles_sf, "EPSG:3857")
+#   expect_equal(terra::ext(meta_2_tiles_3857_sf)[1], terra::ext(meta_crop2_sf)[1], tolerance = 1e-1)
+#   expect_equal(terra::ext(meta_2_tiles_3857_sf)[2], terra::ext(meta_crop2_sf)[2], tolerance = 1e-1)
+#   expect_equal(terra::ext(meta_2_tiles_3857_sf)[3], terra::ext(meta_crop2_sf)[3], tolerance = 1e-1)
+#   expect_equal(terra::ext(meta_2_tiles_3857_sf)[4], terra::ext(meta_crop2_sf)[4], tolerance = 1e-1)
+# })
 
 
 

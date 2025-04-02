@@ -47,11 +47,6 @@ Download the ETH Global Sentinel-2 10m Canopy Height (2020)
 Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
 }
-\examples{
-\donttest{
-canopy_height <- fd_canopy_height_eth(lon = -7.27, lat = 42.43)
-}
-}
 \references{
 Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk
 Wegner. "A high-resolution canopy height model of the Earth."

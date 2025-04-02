@@ -42,11 +42,6 @@ Download the High Resolution 1m Global Canopy Height Map
 Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
 }
-\examples{
-\donttest{
-canopy_height <- fd_canopy_height_meta(lon = -7.27, lat = 42.43)
-}
-}
 \references{
 \url{https://registry.opendata.aws/dataforgood-fb-forests/}
 }

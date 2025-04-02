@@ -62,12 +62,10 @@ Data may be freely used for research, study, or teaching, but be cited
 appropriately (see references below).
 }
 \examples{
-\donttest{
+\dontrun{
 ## Get 10m resolution CHM
 eth_model <- fd_canopy_height(lon = -7.27, lat = 42.43)
 
-## Get 1m resolution CHM
-meta_model <- fd_canopy_height(lon = -7.27, lat = 42.43, model = "meta")
 }
 }
 \references{

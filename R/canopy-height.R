@@ -25,7 +25,6 @@
 #' @include utils-not-exported.R
 #' @return A \code{SpatRaster}
 #' @keywords internal
-#' @export
 #'
 #' @details
 #' Data may be freely used for research, study, or teaching, but be cited
@@ -35,10 +34,6 @@
 #'              Wegner. "A high-resolution canopy height model of the Earth."
 #'              arXiv preprint arXiv:2204.08322 (2022).
 #'
-#' @examples
-#' \donttest{
-#' canopy_height <- fd_canopy_height_eth(lon = -7.27, lat = 42.43)
-#' }
 fd_canopy_height_eth <- function(x     = NULL,
                                  lon   = NULL,
                                  lat   = NULL,
@@ -227,7 +222,6 @@ fd_canopy_height_eth <- function(x     = NULL,
 #' @include utils-not-exported.R
 #' @keywords internal
 #' @return A \code{SpatRaster} or \code{SpatRasterCollection}
-#' @export
 #'
 #' @details
 #' Data may be freely used for research, study, or teaching, but be cited
@@ -235,10 +229,6 @@ fd_canopy_height_eth <- function(x     = NULL,
 #'
 #' @references <https://registry.opendata.aws/dataforgood-fb-forests/>
 #'
-#' @examples
-#' \donttest{
-#' canopy_height <- fd_canopy_height_meta(lon = -7.27, lat = 42.43)
-#' }
 fd_canopy_height_meta <- function(x     = NULL,
                                   lon   = NULL,
                                   lat   = NULL,
@@ -407,12 +397,10 @@ fd_canopy_height_meta <- function(x     = NULL,
 #' lidar. Remote Sensing of Environment, 300, p.113888.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' ## Get 10m resolution CHM
 #' eth_model <- fd_canopy_height(lon = -7.27, lat = 42.43)
 #'
-#' ## Get 1m resolution CHM
-#' meta_model <- fd_canopy_height(lon = -7.27, lat = 42.43, model = "meta")
 #' }
 fd_canopy_height <- function(x     = NULL,
                              lon   = NULL,
