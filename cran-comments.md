@@ -3,7 +3,7 @@
 
 * local Windows 11 Pro 22H2, 64 bit, R 4.4.2
 
-* R Under development (unstable) x86_64-w64-mingw32
+* R Under development (unstable) x86_64-w64-mingw32 R 4.5.0 beta
 
 * R-devel on Ubuntu 22.05.5 LTS, with `rhub::rhub_check()`
 
@@ -12,15 +12,13 @@
 ## R CMD check results
 
 * local Windows 11 Pro 22H2: 
+
 ```
- checking for non-standard things in the check directory ... NOTE
-  Found the following files/directories:
-    ''NULL''
+checking for future file timestamps ... NOTE
+  unable to verify current time
 
 0 errors ✔ | 0 warnings ✔ | 1 note ✖
 ```
-
-As stated in [R-hub issue #503](https://github.com/r-hub/rhub/issues/503), this could be a bug/crash in MiKTeX and can likely be ignored.
 
 * R Under development (unstable) x86_64-w64-mingw32:
 
