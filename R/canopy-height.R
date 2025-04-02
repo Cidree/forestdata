@@ -401,6 +401,8 @@ fd_canopy_height_meta <- function(x     = NULL,
 #' ## Get 10m resolution CHM
 #' eth_model <- fd_canopy_height(lon = -7.27, lat = 42.43)
 #'
+#' ## Get 1m resolution CHM
+#' meta_model <- fd_canopy_height(lon = -7.27, lat = 42.43, model = "meta")
 #' }
 fd_canopy_height <- function(x     = NULL,
                              lon   = NULL,
