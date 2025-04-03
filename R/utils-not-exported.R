@@ -294,14 +294,15 @@ nest_ifn_shrub <- function(data, codes, agents, ifn = 4) {
       merge(codes, by.x = "Especie", by.y = "species_code") |>
       merge(agents, by.x = "Agente", by.y = "agent_code") |>
       dplyr::select(
-        plot = Estadillo, species_name, fcover = Fcc, h_dm = Hm, agent_name
+        province = Provincia, plot = Estadillo, species_name, fcover = Fcc, h_dm = Hm, agent_name
       ) |>
       tidyr::nest(shrub_data = species_name:agent_name)
   } else if (ifn == 3) {
     data$PCMatorral |>
+      dplyr::mutate(Provincia = data$PCDatosMap_sf$Provincia[1]) |>
       merge(codes, by.x = "Especie", by.y = "species_code") |>
       dplyr::select(
-        plot = Estadillo, species_name, fcover = Fcc, h_dm = Hm
+        province = Provincia, plot = Estadillo, species_name, fcover = Fcc, h_dm = Hm
       ) |>
       tidyr::nest(shrub_data = species_name:h_dm)
   }
@@ -333,13 +334,13 @@ process_pmayores <- function(data) {
     dplyr::summarise(
       # Ht  = mean(Ht, na.rm = TRUE),
       n   = dplyr::n(),
-      .by = c(plot, species_name, dclass, h_m)
+      .by = c(province, plot, species_name, dclass, h_m)
     ) |>
     ## Calculate average height
     dplyr::summarise(
       h_mean = weighted.mean(h_m, n),
       n      = sum(n),
-      .by    = c(plot, species_name, dclass)
+      .by    = c(province, plot, species_name, dclass)
     ) |>
     ## Calculate trees/ha
     ## Concentric plots are used
@@ -355,14 +356,14 @@ process_pmayores <- function(data) {
     ## Dominant height by plot and species
     dplyr::mutate(
       h0  = fdi_dominant_height(dclass, h_mean, n_ha, which = "assman"),
-      .by = c(plot, species_name)
+      .by = c(province, plot, species_name)
     ) |>
     ## Basal area
     dplyr::mutate(
       g_ha  = fdi_basal_area(dclass, n_ha)
       # Especie = parse_number(Especie)
     ) |>
-    dplyr::select(plot:h_mean, n_plot = n, n_ha:g_ha) |>
+    dplyr::select(province:h_mean, n_plot = n, n_ha:g_ha) |>
     tidyr::nest(tree_data = species_name:g_ha)
 
 }
@@ -379,25 +380,26 @@ process_pmayores <- function(data) {
 nest_ifn_tree <- function(data, codes, agents, which = "current", ifn = 4, process_level = 1) {
   ## PROCESS CURRENT IFN
   if (which == "current") {
-    data <- data$PCMayores
-    data["d_mm"] <- (data$Dn1 + data$Dn2) / 2
+    data_mayores <- data$PCMayores
+    data_mayores["d_mm"] <- (data_mayores$Dn1 + data_mayores$Dn2) / 2
     if (ifn == 4) {
       ## PROCESS CURRENT IFN 4
-      first_level <- data |>
+      first_level <- data_mayores |>
         merge(codes, by.x = "Especie", by.y = "species_code") |>
         merge(agents, by.x = "Agente", by.y = "agent_code") |>
         dplyr::select(
-          plot = Estadillo, tree_id = nArbol, ifn4_order = OrdenIf4, ifn3_order = OrdenIf3,
+          province = Provincia, plot = Estadillo, tree_id = nArbol, ifn4_order = OrdenIf4, ifn3_order = OrdenIf3,
           species_name, d_mm, h_m = Ht, hcrown_m = Hcopa, agent_name
         )
 
     } else {
       ## PROCESS CURRENT IFN 3
-      first_level <- data |>
+      first_level <- data_mayores |>
+        dplyr::mutate(Provincia = data$PCDatosMap_sf$Provincia[1]) |>
         merge(codes, by.x = "Especie", by.y = "species_code") |>
         merge(agents, by.x = "Agente", by.y = "agent_code") |>
         dplyr::select(
-          plot = Estadillo, tree_id = nArbol, ifn3_order = OrdenIf3, ifn2_order = OrdenIf2,
+          province = Provincia, plot = Estadillo, tree_id = nArbol, ifn3_order = OrdenIf3, ifn2_order = OrdenIf2,
           species_name, d_mm, h_m = Ht, agent_name
         )
     }
@@ -418,7 +420,7 @@ nest_ifn_tree <- function(data, codes, agents, which = "current", ifn = 4, proce
         merge(codes, by.x = "Especie", by.y = "species_code") |>
         merge(agents, by.x = "Agente", by.y = "agent_code") |>
         dplyr::select(
-          plot = Estadillo, tree_id = nArbol, ifn3_order = 6,
+          province = Provincia, plot = Estadillo, tree_id = nArbol, ifn3_order = 6,
           species_name, d_mm, h_m = Ht, agent_name
         )
 
@@ -430,14 +432,36 @@ nest_ifn_tree <- function(data, codes, agents, which = "current", ifn = 4, proce
       }
 
     } else {
+      ## Madrid, Segovia, Cáceres and Soria store Altura as character.
+      if (is.character(data$PCMayores2$Altura))
+        data$PCMayores2$Altura <- as.numeric(gsub("[^0-9.]", "", data$PCMayores2$Altura))
       ## PROCESS PREVIOUS IFN 3
-      first_level <- data$PCMayores2 |>
-        dplyr::mutate(d_mm = (Diametro1 + Diametro2) / 2) |>
-        merge(codes, by.x = "Especie", by.y = "species_code") |>
-        dplyr::select(
-          plot = Estadillo, tree_id = NumOrden,
-          species_name, d_mm, h_m = Altura
-        )
+      first_level <- tryCatch({
+        data$PCMayores2 |>
+          dplyr::mutate(Provincia = data$PCDatosMap_sf$Provincia[1]) |>
+          dplyr::mutate(d_mm = (Diametro1 + Diametro2) / 2) |>
+          merge(codes, by.x = "Especie", by.y = "species_code") |>
+          dplyr::select(
+            province = Provincia, plot = Estadillo, tree_id = NumOrden,
+            species_name, d_mm, h_m = Altura
+          )
+      },
+      ## manage error when tibble is empty
+      ## - Islas Baleares IFN3
+      error = function(e) {
+        data$PCMayores2 |>
+          dplyr::mutate(Provincia = data$PCDatosMap_sf$Provincia[1]) |>
+          dplyr::select(
+            province = Provincia, plot = Estadillo, tree_id = NumOrden
+          ) |>
+          dplyr::mutate(
+            province = as.integer(),
+            plot     = as.integer()
+          )
+      })
+
+      if (nrow(first_level) == 0) return(first_level)
+
 
       ## MANAGE PROCESS LEVEL FOR PREVIOUS IFN 3
       if (process_level == 1) {
@@ -463,6 +487,7 @@ nest_ifn_tree <- function(data, codes, agents, which = "current", ifn = 4, proce
 nest_ifn_regeneration <- function(data, codes, process_level = 1) {
   if (process_level == 1) {
     data$PCRegenera |>
+      dplyr::mutate(Provincia = data$PCDatosMap_sf$Provincia[1]) |>
       merge(codes, by.x = "Especie", by.y = "species_code") |>
       dplyr::mutate(
         small_density = dplyr::case_when(
@@ -477,12 +502,13 @@ nest_ifn_regeneration <- function(data, codes, process_level = 1) {
         )
       ) |>
       dplyr::select(
-        plot = Estadillo, species_name, small_density, small_h_dm,
+        province = Provincia, plot = Estadillo, species_name, small_density, small_h_dm,
         big_density = NumPies, big_h_dm = Hm
       ) |>
       tidyr::nest(regeneration_data = species_name:big_h_dm)
   } else if (process_level == 2) {
     data$PCRegenera |>
+      dplyr::mutate(Provincia = data$PCDatosMap_sf$Provincia[1]) |>
       merge(codes, by.x = "Especie", by.y = "species_code") |>
       dplyr::mutate(
         small_density_ha = dplyr::case_when(
@@ -498,7 +524,7 @@ nest_ifn_regeneration <- function(data, codes, process_level = 1) {
         big_density_ha = NumPies * 10000 / (pi * 5^2)
       ) |>
       dplyr::select(
-        plot = Estadillo, species_name, small_density_ha, small_h_dm,
+        province = Provincia, plot = Estadillo, species_name, small_density_ha, small_h_dm,
         big_density_ha, big_h_dm = Hm
       ) |>
       tidyr::nest(regeneration_data = species_name:big_h_dm)
@@ -517,16 +543,17 @@ nest_ifn_regeneration <- function(data, codes, process_level = 1) {
 #' @return An \code{sf} object
 #' @keywords internal
 process_ifn <- function(data, process_level = 1, ifn = 4, province_fix) {
+  ## add province column to data in ifn3
+  # if (ifn == 3) data$PCDatosMap_sf$Provincia <-
   ## process individually
   data_sf          <- data$PCDatosMap_sf |>
-    dplyr::select(province = Provincia, plot = Estadillo) |>
-    dplyr::mutate(province = province_fix)
+    dplyr::select(province = Provincia, plot = Estadillo)
   shrub_tbl        <- nest_ifn_shrub(data, ifn_codes_tbl, ifn_agent_tbl, ifn = ifn)
   tree_tbl         <- nest_ifn_tree(data, ifn_codes_tbl, ifn_agent_tbl, which = "current", ifn = ifn, process_level = process_level)
   tree_ifn3_tbl    <- nest_ifn_tree(data, ifn_codes_tbl, ifn_agent_tbl,  which = "prev", ifn = ifn, process_level = process_level)
   regeneration_tbl <- nest_ifn_regeneration(data, ifn_codes_tbl, process_level = process_level)
   ## rename previous ifn
-  if (ifn == 4) names(tree_ifn3_tbl) <- c("plot", "tree_ifn3") else names(tree_ifn3_tbl) <- c("plot", "tree_ifn2")
+  if (ifn == 4) names(tree_ifn3_tbl) <- c("province", "plot", "tree_ifn3") else names(tree_ifn3_tbl) <- c("province", "plot", "tree_ifn2")
   ## merge all together
   suppressMessages({
     dplyr::left_join(data_sf, tree_tbl) |>

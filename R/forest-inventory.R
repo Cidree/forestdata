@@ -148,7 +148,7 @@ fd_inventory_spain <- function(province,
         )
         ## convert to spatial
         na_data <- data_lst$PCDatosMap |> dplyr::filter(is.na(CoorX))
-        if (nrow(na_data) > 0) cli::cli_alert_warning("Plot(s) {paste0(na_data$Estadillo, collapse = ',')} do not have coordinates, and are eliminate from `PCDatosMap_sf` table")
+        if (nrow(na_data) > 0) cli::cli_alert_warning("Plot(s) {paste0(na_data$Estadillo, collapse = ',')} do not have coordinates, and are eliminated from `PCDatosMap_sf` table")
         data_lst$PCDatosMap_sf <- sf::st_as_sf(
           x      = data_lst$PCDatosMap |> dplyr::filter(!is.na(CoorX)),
           coords = c("CoorX", "CoorY"),
