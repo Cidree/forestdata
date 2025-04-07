@@ -207,7 +207,8 @@ fd_inventory_spain <- function(province,
     ## 4.7. Process level
     if (database == "field" & ifn %in% c(3, 4) & process_level > 0) {
       final_data <- process_ifn(data_lst, process_level = process_level, ifn = ifn, province_fix)
-
+      n_empty <- sum(sf::st_is_empty(final_data))
+      if (n_empty > 0) cli::cli_alert_warning("{n_empty} geometries are empty. That means that those plots have field data, but no data about the location of the plot.")
     } else {
       final_data <- data_lst
     }

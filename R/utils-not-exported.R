@@ -556,10 +556,10 @@ process_ifn <- function(data, process_level = 1, ifn = 4, province_fix) {
   if (ifn == 4) names(tree_ifn3_tbl) <- c("province", "plot", "tree_ifn3") else names(tree_ifn3_tbl) <- c("province", "plot", "tree_ifn2")
   ## merge all together
   suppressMessages({
-    dplyr::left_join(data_sf, tree_tbl) |>
-      dplyr::left_join(tree_ifn3_tbl) |>
-      dplyr::left_join(shrub_tbl) |>
-      dplyr::left_join(regeneration_tbl) |>
+    dplyr::full_join(data_sf, tree_tbl) |>
+      dplyr::full_join(tree_ifn3_tbl) |>
+      dplyr::full_join(shrub_tbl) |>
+      dplyr::full_join(regeneration_tbl) |>
       dplyr::relocate(geometry, .after = 7)
   })
 
