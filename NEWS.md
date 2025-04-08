@@ -5,6 +5,9 @@
 
 * `fd_inventory_spain()`: returned wrong results with `process_level = 1` or `process_level = 2` combined with `ifn = 4` for regions that contain more than 1 province inside the same `province` argument. For instance, `province = "Canarias"` includes 2 provinces (35 and 38), but previously it was treated as one.
 
+## Enhancements
+
+* `fd_inventory_spain()`: some plots have tree data on the field but no coordinates recorded. Before this version, this data was ignored. Now, a row with empty geometry and warning were added.
 
 # Version 0.3.0
 

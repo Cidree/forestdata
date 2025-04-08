@@ -560,7 +560,7 @@ process_ifn <- function(data, process_level = 1, ifn = 4, province_fix) {
       dplyr::full_join(tree_ifn3_tbl) |>
       dplyr::full_join(shrub_tbl) |>
       dplyr::full_join(regeneration_tbl) |>
-      dplyr::relocate(geometry, .after = 7)
+      dplyr::relocate(geometry, .after = dplyr::last_col())
   })
 
 }
