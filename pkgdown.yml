@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   articles/canopy-height: canopy-height.html
-last_built: 2025-04-07T13:08Z
+last_built: 2025-04-08T11:06Z
 urls:
   reference: https://cidree.github.io/forestdata/reference
   article: https://cidree.github.io/forestdata/articles
