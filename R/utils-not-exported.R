@@ -508,8 +508,8 @@ nest_ifn_regeneration <- function(data, codes, process_level = 1) {
       tidyr::nest(regeneration_data = species_name:big_h_dm)
   } else if (process_level == 2) {
     data$PCRegenera |>
-      dplyr::mutate(Provincia = data$PCDatosMap_sf$Provincia[1]) |>
       merge(codes, by.x = "Especie", by.y = "species_code") |>
+      as_tibble() |>
       dplyr::mutate(
         small_density_ha = dplyr::case_when(
           Densidad == 1 ~ "127-509 trees",
