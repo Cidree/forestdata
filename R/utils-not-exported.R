@@ -509,7 +509,6 @@ nest_ifn_regeneration <- function(data, codes, process_level = 1) {
   } else if (process_level == 2) {
     data$PCRegenera |>
       merge(codes, by.x = "Especie", by.y = "species_code") |>
-      as_tibble() |>
       dplyr::mutate(
         small_density_ha = dplyr::case_when(
           Densidad == 1 ~ "127-509 trees",

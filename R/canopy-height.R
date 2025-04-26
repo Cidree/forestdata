@@ -193,7 +193,7 @@ fd_canopy_height_eth <- function(x     = NULL,
   }
 
   # 4. Return
-  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1038/s41559-023-02206-6')}")
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.1038/s41559-023-02206-6}")
   return(ch_sr)
 
 
@@ -340,7 +340,7 @@ fd_canopy_height_meta <- function(x     = NULL,
 
   # 6. Rename and return
   names(r_final) <- "canopy_height"
-  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1016/j.rse.2023.113888')}")
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.1016/j.rse.2023.113888}")
   return(r_final)
 
 

@@ -102,7 +102,7 @@ fd_allometry_tallo <- function(country = NULL,
 
   # 3. Return final object
   if (!quiet) cli::cli_process_done()
-  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1111/gcb.16302')}")
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.1111/gcb.16302}")
   return(data_tbl)
 
 }

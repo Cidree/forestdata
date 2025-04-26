@@ -142,7 +142,7 @@ fd_forest_chorological <- function(species, range = "nat", quiet = FALSE) {
   }
   ## 4.3. Read file
   if (!quiet) cli::cli_process_done()
-  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1016/j.dib.2017.05.007')}")
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.1016/j.dib.2017.05.007}")
   sf::read_sf(path_shp)
 
 }

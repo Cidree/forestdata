@@ -82,7 +82,7 @@ fd_forest_spain_mfe50 <- function(province,
   }
   ## 4.2. Return data
   if (!quiet) cli::cli_process_done()
-  if (!quiet) cli::cli_alert_success("Visit {cli::col_br_cyan('https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html')} for more information")
+  if (!quiet) cli::cli_alert_success("Visit {.url https://www.miteco.gob.es/es/biodiversidad/servicios/banco-datos-naturaleza/informacion-disponible/mfe50.html} for more information")
   return(province_shp)
 
 }
@@ -226,7 +226,7 @@ fd_forest_france <- function(department,
   ## 4.2. Read into R
   dat <- sf::read_sf(vegetation_file)
   if (!quiet) cli::cli_process_done()
-  if (!quiet) cli::cli_alert_success("Visit {cli::col_br_cyan('https://geoservices.ign.fr/bdforet')} for more information on the dataset")
+  if (!quiet) cli::cli_alert_success("Visit {.url https://geoservices.ign.fr/bdforet} for more information on the dataset")
   return(dat)
 
 }

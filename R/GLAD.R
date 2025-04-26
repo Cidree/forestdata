@@ -223,10 +223,10 @@ fd_forest_glad <- function(x     = NULL,
   # 4. Return
   if (!quiet) {
     switch(model,
-           "extent"           = cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1016/j.rse.2020.112165')}"),
-           "height"           = cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.1016/j.rse.2020.112165')}"),
-           "landcover"        = cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.3389/frsen.2022.856903')}"),
-           "landcover-change" = cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.3389/frsen.2022.856903')}")
+           "extent"           = cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.1016/j.rse.2020.112165}"),
+           "height"           = cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.1016/j.rse.2020.112165}"),
+           "landcover"        = cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.3389/frsen.2022.856903}"),
+           "landcover-change" = cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.3389/frsen.2022.856903}")
     )
   }
 
