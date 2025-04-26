@@ -178,7 +178,7 @@ fd_forest_eutrees4f <- function(species,
 
   # 3. Return the raster
   if (!quiet) cli::cli_process_done()
-  if (!quiet) cli::cli_alert_success("Cite this dataset using {cli::col_br_cyan('https://doi.org/10.6084/m9.figshare.c.5525688.v2')}")
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.6084/m9.figshare.c.5525688.v2}")
   return(rst)
 
 }
@@ -187,5 +187,78 @@ fd_forest_eutrees4f <- function(species,
 
 
 
+#' EU Forest Species database
+#'
+#' Downloads the EU Forest Species database, an European database of more than
+#' 500,000 forest tree species occurrences
+#'
+#' @param species a character vector with the name of one or more tree species
+#' @param country a character vector with either ISO2 codes, ISO3 codes or
+#' full country names (not mixed) to filter out the data
+#' @param spatial logical. Whether to retrieve a `tibble` or a `sf` object
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
+#'
+#' @return a \code{tibble} or a \code{sf} object
+#' @export
+#'
+#' @importFrom utils read.csv
+#'
+#' @references A high resolution pan-European tree occurrence dataset
+#' \doi{10.6084/m9.figshare.c.3288407.v1}
+#'
+#'
+#' @seealso \link{metadata_forestdata} eutrees4f_species for a list of possible species
+#'
+#' @examples
+#' \donttest{
+#' ## Download full database as tibble
+#' euforest_tbl <- fd_occ_euforest()
+#'
+#' ## Download full database as spatial
+#' euforest_sf <- fd_occ_euforest(spatial = TRUE)
+#'
+#' ## Download data for Abies alba for Czechia and Germany
+#' euforest_cz_ge_sf <- fd_occ_euforest(species = "Abies alba", country = c("Czechia", "Germany"))
+#' }
+fd_occ_euforest <- function(species = NULL, country = NULL, spatial = FALSE, quiet = FALSE) {
 
+  # 1. Download file
+  ## 1.1. Url and file destination
+  if (!quiet) cli::cli_progress_step("Downloading data...", msg_done = "Downloaded", "Download failed")
+  download_url <- "https://figshare.com/ndownloader/files/6662535"
+  destfile <- stringr::str_glue("{tempdir()}/EU-Forest-species.csv")
+  ## 1.2. Download if it doesn't exist
+  if (!file.exists(destfile)) download.file(download_url, destfile, mode = "wb")
 
+  # 2. Read and prepare
+  if (!quiet) cli::cli_progress_step("Preparing data...", msg_done = "Prepared")
+  ## 2.1. Read the data
+  data_tbl <- read.csv(destfile)
+  names(data_tbl) <- tolower(names(data_tbl))
+  ## 2.2. Filters
+  if (!is.null(species)) data_tbl <- data_tbl[data_tbl$species.name %in% species, ]
+  if (!is.null(country)) {
+    sel_countries <- switch(as.character(nchar(country[1])),
+                            "2" = countrycode::codelist$iso.name.en[countrycode::codelist$iso2c %in% toupper(country)],
+                            "3" = countrycode::codelist$iso.name.en[countrycode::codelist$iso3c %in% toupper(country)],
+                            stringr::str_to_title(country)
+    )
+    data_tbl <- data_tbl[data_tbl$country %in% sel_countries, ]
+  }
+  ## 2.3. Convert to spatial?
+  if (spatial) {
+    data_tbl <- sf::st_as_sf(
+      data_tbl,
+      coords = c("x", "y"),
+      crs    = "EPSG:3035"
+    )
+  } else {
+    data_tbl <- tibble::as_tibble(data_tbl)
+  }
+
+  # 3. Return the raster
+  if (!quiet) cli::cli_process_done()
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.6084/m9.figshare.c.3288407.v1}")
+  return(data_tbl)
+
+}
