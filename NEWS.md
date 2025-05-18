@@ -1,5 +1,9 @@
 
-# Development version
+# Version 0.3.1
+
+## New features
+
+* `fd_occ_euforest()`: new function to access the [EU-Forest dataset](https://doi.org/10.6084/m9.figshare.c.3288407.v1) with more than 500,000 forest tree species occurrences in Europe.
 
 ## Bugs
 

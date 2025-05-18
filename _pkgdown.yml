@@ -17,9 +17,10 @@ authors:
     href: https://adrian-cidre.com/
 
 reference:
-  - title: "Allometry"
+  - title: "Allometry/Occurrences"
     contents:
     - fd_allometry_tallo
+    - fd_occ_euforest
   - title: "Land Cover data"
     contents:
     - fd_landcover_copernicus

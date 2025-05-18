@@ -1,7 +1,7 @@
 Package: forestdata
 Type: Package
 Title: Download Forestry Data
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: person("Adrián", "Cidre González", email = "adrian.cidre@gmail.com", role = c("aut", "cre"))
 Description: Functions for downloading forestry and land use data for use in spatial analysis. This packages offers a user-friendly solution to quickly obtain datasets such as forest height, forest types, tree species under various climate change scenarios, or land use data among others.
 License: GPL (>= 3)
@@ -20,7 +20,8 @@ Imports:
     foreign,
     lifecycle,
     cli,
-    glue
+    glue,
+    countrycode
 RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.1.0)
