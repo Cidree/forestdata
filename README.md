@@ -16,6 +16,9 @@ v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/li
 [![Project Status: Active – The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
+[![Last Month
+Downloads](https://cranlogs.r-pkg.org/badges/last-month/forestdata?color=green)](https://CRAN.R-project.org/package=forestdata)
 <!-- badges: end -->
 
 `forestdata` is an R package for downloading forestry and land use data.
