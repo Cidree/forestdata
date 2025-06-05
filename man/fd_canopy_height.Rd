@@ -76,7 +76,7 @@ meta_model <- fd_canopy_height(lon = -7.27, lat = 42.43, model = "meta")
 \references{
 Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk Wegner.
 "A high-resolution canopy height model of the Earth." arXiv preprint
-\url{https://arXiv:2204.08322} (2022).
+\url{https://arxiv.org/abs/2204.08322} (2022).
 
 Tolan, J., Yang, H.I., Nosarzewski, B., Couairon, G., Vo, H.V., Brandt, J., Spore, J., Majumdar, S., Haziza, D., Vamaraju, J. and Moutakanni, T.,
 2024. Very high resolution canopy height maps from RGB imagery using self-supervised vision transformer and convolutional decoder trained on aerial
