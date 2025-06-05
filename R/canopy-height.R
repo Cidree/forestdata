@@ -261,6 +261,8 @@ fd_canopy_height_meta <- function(x     = NULL,
       sf::st_filter(xwgs84) |>
       dplyr::pull("tile")
   }
+  ### stop if no tiles have been found
+  if (length(tile_vec) == 0) cli::cli_abort("No tiles have been found in the selected area.")
 
   # 2. Download tile(s)
   ## 2.1. Save into tempdir
@@ -349,6 +351,154 @@ fd_canopy_height_meta <- function(x     = NULL,
 
 
 
+
+# fd_canopy_height_amazon
+
+#'  Forest Canopy Height
+#'
+#'  Download the High Resolution 5m for the Amazon Forest
+#'
+#' @param x a \code{sf} or \code{SpatVector} object. It will retrieve the
+#'          necessary tiles to cover the area (if \code{lat} and \code{lon} are
+#'          specified, this argument is ignored)
+#' @param lon a number specifying the longitude of the area where we want the tile
+#' @param lat a number specifying the latitude of the area where we want the tile
+#' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
+#' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
+#' @param merge if \code{FALSE} (default), it will merge the tiles into one raster.
+#' If \code{FALSE} a SpatRasterCollection will be returned.
+#' @param quiet if \code{TRUE}, suppress any message or progress bar
+#'
+#' @include utils-not-exported.R
+#' @keywords internal
+#' @return A \code{SpatRaster} or \code{SpatRasterCollection}
+#'
+#' @details
+#' Data may be freely used for research, study, or teaching, but be cited
+#' appropriately (see references below).
+#'
+#' @references <https://arxiv.org/abs/2501.10600>
+#'
+fd_canopy_height_amazon <- function(x     = NULL,
+                                    lon   = NULL,
+                                    lat   = NULL,
+                                    crop  = FALSE,
+                                    mask  = FALSE,
+                                    merge = FALSE,
+                                    quiet = FALSE) {
+
+  # 0. Install aws.s3 if not installed
+  if (!requireNamespace("aws.s3", quietly = TRUE)) cli::cli_abort("Package `aws.s3` is required to access the inventory data. Please, install it.")
+
+  # 1. If user specify lat and lon
+  if (!is.null(lat) & !is.null(lon)) {
+    ## 1.1. Get tile
+    user_point_sf <- sf::st_as_sf(
+      x      = data.frame(lon = lon, lat = lat),
+      coords = c("lon", "lat"),
+      crs    = "EPSG:4326"
+    )
+    ## 1.2. Filter file
+    tile_vec <- amazon_tiles_sf |>
+      sf::st_filter(user_point_sf) |>
+      dplyr::pull("id")
+  } else {
+    ## 1.3. Get tiles for x
+    ### 1.3.1. Transform to lat/lon
+    xwgs84 <- sf::st_transform(x, crs = "EPSG:4326")
+    ### 1.3.2 Filter tiles(s)
+    tile_vec <- amazon_tiles_sf |>
+      sf::st_filter(xwgs84) |>
+      dplyr::pull("id")
+  }
+  ### stop if no tiles have been found
+  if (length(tile_vec) == 0) cli::cli_abort("No tiles have been found in the selected area.")
+
+  # 2. Download tile(s)
+  ## 2.1. Save into tempdir
+  out_file <- paste0(tempdir(), "\\", tile_vec)
+  ## user feedback
+  if (!quiet) cli::cli_alert_info("Downloading {length(tile_vec)} tile{?s}...")
+  if (!quiet) download_pb <- cli::cli_progress_bar(
+    "Downloaded tiles",
+    total       = length(tile_vec),
+    type        = "tasks",
+    format_done = "{.alert-success Download completed {.timestamp {cli::pb_elapsed}}}",
+    clear       = FALSE
+  )
+  ## do download
+  for (i in 1:length(out_file)) {
+    ## download if it doesn't exist
+    if (!file.exists(out_file[i])) {
+      try({
+        aws.s3::save_object(
+          object = paste0("v1/", tile_vec[i]),
+          bucket = "ctrees-amazon-canopy-height",
+          file   = out_file[i],
+          region = "us-west-2"
+        )
+      }, silent = TRUE)
+    }
+    ## stop if the download failed
+    if (!file.exists(out_file[i])) {
+      cli::cli_process_failed()
+      return(cli::cli_alert_danger("`fd_canopy_height()` failed to retrieve the data. Service might be currently unavailable"))
+    }
+    ## close user feedback
+    if (!quiet) cli::cli_progress_update(id = download_pb)
+  }
+  ## close user feedback
+  if (!quiet) cli::cli_process_done(id = download_pb)
+  ## read raster(s)
+  r <- lapply(out_file, terra::rast)
+
+  # 3. Crop
+  if (crop) r <- crop_with_feedback(r, sf::st_transform(xwgs84, crs = "EPSG:3857"), quiet)
+
+  # 4. Mask
+  if (mask) r <- mask_with_feedback(r, sf::st_transform(xwgs84, crs = "EPSG:3857"), quiet)
+
+  # 5. Merge
+  ## manage merge = TRUE and multiple tiles ---
+  if (merge & length(tile_vec) > 1) {
+    ## user feedback
+    if (!quiet) cli::cli_alert_info("Merging {length(tile_vec)} tile{?s}...")
+    if (!quiet) merge_pb <- cli::cli_progress_bar(
+      "Merged tiles",
+      total       = length(tile_vec) - 1,
+      type        = "tasks",
+      format_done = "{.alert-success Merge completed {.timestamp {cli::pb_elapsed}}}",
+      clear       = FALSE
+    )
+    ## do merge
+    r_final <- r[[1]]
+    for (i in 2:length(tile_vec)) {
+      r_final <- terra::merge(r_final, r[[i]])
+      if (!quiet) cli::cli_progress_update(id = merge_pb)
+    }
+    ## close user feedback
+    cli::cli_process_done(id = merge_pb)
+
+
+    ## manage merge = FALSE and multiple tiles ---
+  } else if (!merge & length(tile_vec) > 1) {
+    r_final <- terra::sprc(r)
+
+
+    ## manage a single tile ---
+  } else {
+    r_final <- r[[1]]
+  }
+
+  # 6. Rename and return
+  names(r_final) <- "amazon_chm"
+  if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.48550/arXiv.2501.10600}")
+  return(r_final)
+
+
+}
+
+
 # fd_canopy_height
 
 #' Forest Canopy Height
@@ -386,15 +536,27 @@ fd_canopy_height_meta <- function(x     = NULL,
 #' - \strong{meta}: the Meta High Resolution 1m Global Canopy Height. Visit
 #' \doi{10.1016/j.rse.2023.113888} for more information
 #'
+#' - \strong{amazon}: the high resolution tree height for the Amazon Forest using
+#' Plnet NICFI Images and LiDAR-Informed U-Net model. Visit \url{https://arxiv.org/abs/2501.10600}
+#' for more information
+#'
 #' Data may be freely used for research, study, or teaching, but be cited
 #' appropriately (see references below).
 #'
 #' @references Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk Wegner.
-#' "A high-resolution canopy height model of the Earth." arXiv preprint arXiv:2204.08322 (2022).
+#' "A high-resolution canopy height model of the Earth." arXiv preprint
+#' \url{https://arXiv:2204.08322} (2022).
 #'
 #' Tolan, J., Yang, H.I., Nosarzewski, B., Couairon, G., Vo, H.V., Brandt, J., Spore, J., Majumdar, S., Haziza, D., Vamaraju, J. and Moutakanni, T.,
 #' 2024. Very high resolution canopy height maps from RGB imagery using self-supervised vision transformer and convolutional decoder trained on aerial
 #' lidar. Remote Sensing of Environment, 300, p.113888.
+#'
+#' Wagner, F. H., Dalagnol, R., Carter, G., Hirye, M. C. M., Gill, S., Sagang Takougoum,
+#' L. B., Favrichon, S., Keller, M., Ometto, J. P. H. B., Alves, L., Creze, C.,
+#' George-Chacon, S. P., Li, S., Liu, Z., Mullissa, A., Yang, Y., Santos, E. G.,
+#' Worden, S. R., Brandt, M., Ciais, P., Hagen, S. C., & Saatchi, S. (2025). High
+#' resolution tree height mapping of the Amazon Forest using Planet NICFI images and
+#' LiDAR-informed U-Net model. arXiv. \url{https://arxiv.org/abs/2501.10600}
 #'
 #' @examples
 #' \dontrun{
@@ -434,13 +596,15 @@ fd_canopy_height <- function(x     = NULL,
     cli::cli_abort("`{v} = TRUE` is only available when `x` is specified.")
   }
   ## 0.5. Handle model names
-  if (!model %in% c("eth", "meta")) cli::cli_abort("model argument is not valid. Please, use either <eth> or <meta>.")
+  if (!model %in% c("eth", "meta", "amazon")) cli::cli_abort("model argument is not valid. Please, use either <eth> or <meta>.")
 
   # 1. Get data based on model
   if (model == "eth") {
     fd_canopy_height_eth(x = x, lon = lon, lat = lat, layer = layer, crop = crop, mask = mask, merge = merge, quiet = quiet)
-  } else {
+  } else if (model == "meta") {
     fd_canopy_height_meta(x = x, lon = lon, lat = lat, crop = crop, mask = mask, merge = merge, quiet = quiet)
+  } else if (model == "amazon") {
+    fd_canopy_height_amazon(x = x, lon = lon, lat = lat, crop = crop, mask = mask, merge = merge, quiet = quiet)
   }
 
 

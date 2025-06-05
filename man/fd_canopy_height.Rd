@@ -56,6 +56,9 @@ There are currently two global canopy height models available within this functi
 information
 \item \strong{meta}: the Meta High Resolution 1m Global Canopy Height. Visit
 \doi{10.1016/j.rse.2023.113888} for more information
+\item \strong{amazon}: the high resolution tree height for the Amazon Forest using
+Plnet NICFI Images and LiDAR-Informed U-Net model. Visit \url{https://arxiv.org/abs/2501.10600}
+for more information
 }
 
 Data may be freely used for research, study, or teaching, but be cited
@@ -72,9 +75,17 @@ meta_model <- fd_canopy_height(lon = -7.27, lat = 42.43, model = "meta")
 }
 \references{
 Lang, Nico, Walter Jetz, Konrad Schindler, and Jan Dirk Wegner.
-"A high-resolution canopy height model of the Earth." arXiv preprint arXiv:2204.08322 (2022).
+"A high-resolution canopy height model of the Earth." arXiv preprint
+\url{https://arXiv:2204.08322} (2022).
 
 Tolan, J., Yang, H.I., Nosarzewski, B., Couairon, G., Vo, H.V., Brandt, J., Spore, J., Majumdar, S., Haziza, D., Vamaraju, J. and Moutakanni, T.,
 2024. Very high resolution canopy height maps from RGB imagery using self-supervised vision transformer and convolutional decoder trained on aerial
 lidar. Remote Sensing of Environment, 300, p.113888.
+
+Wagner, F. H., Dalagnol, R., Carter, G., Hirye, M. C. M., Gill, S., Sagang Takougoum,
+L. B., Favrichon, S., Keller, M., Ometto, J. P. H. B., Alves, L., Creze, C.,
+George-Chacon, S. P., Li, S., Liu, Z., Mullissa, A., Yang, Y., Santos, E. G.,
+Worden, S. R., Brandt, M., Ciais, P., Hagen, S. C., & Saatchi, S. (2025). High
+resolution tree height mapping of the Amazon Forest using Planet NICFI images and
+LiDAR-informed U-Net model. arXiv. \url{https://arxiv.org/abs/2501.10600}
 }
