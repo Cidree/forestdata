@@ -11,7 +11,7 @@ fd_landcover_esri(utm_code, year, quiet = FALSE)
 
 \item{year}{an integer or vector of integers corresponding to the base year
 of the land cover tile. The option \code{year = 'all'} downloads all
-the available images (2017:2023)}
+the available images (2017:2024)}
 
 \item{quiet}{if \code{TRUE}, suppress any message or progress bar}
 }

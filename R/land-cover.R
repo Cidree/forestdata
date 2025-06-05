@@ -188,7 +188,7 @@ fd_landcover_copernicus <- function(x,
 #' @param utm_code a character string of length 1 with an UTM code (e.g. "29N")
 #' @param year an integer or vector of integers corresponding to the base year
 #'             of the land cover tile. The option \code{year = 'all'} downloads all
-#'             the available images (2017:2023)
+#'             the available images (2017:2024)
 #' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'
 #' @return A \code{SpatRaster}
@@ -210,7 +210,7 @@ fd_landcover_esri <- function(utm_code,
                               quiet = FALSE) {
 
   # 0. Handle year error
-  if (!(year %in% seq(2017, 2023, 1)) & year != "all") cli::cli_abort("The indicated year is not valid. Please, use a year between 2017 and 2022, or the 'all' function to retrieve all.")
+  if (!(year %in% seq(2017, 2024, 1)) & year != "all") cli::cli_abort("The indicated year is not valid. Please, use a year between 2017 and 2024, or the 'all' function to retrieve all.")
 
   # 1. Get number and letter
   nmbr <- stringr::str_sub(utm_code, 1, 2)
