@@ -490,6 +490,9 @@ fd_canopy_height_amazon <- function(x     = NULL,
     r_final <- r[[1]]
   }
 
+  ## apply scaling factor
+  r_final <- r_final / 2.5
+
   # 6. Rename and return
   names(r_final) <- "amazon_chm"
   if (!quiet) cli::cli_alert_success("Cite this dataset using {.url https://doi.org/10.48550/arXiv.2501.10600}")
