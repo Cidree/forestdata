@@ -120,8 +120,8 @@ fd_forest_eutrees4f <- function(species,
   # 1. Download file
   ## 1.1. Url and file destination
   download_url <- "https://springernature.figshare.com/ndownloader/files/36704304"
-  dir_unzip    <- stringr::str_glue("{tempdir()}/{basename(download_url)}")
-  dir_zip      <- stringr::str_glue("{dir_unzip}.zip")
+  dir_unzip    <- paste0(tempdir(), "/", basename(download_url))
+  dir_zip      <- paste0(dir_unzip, ".zip")
   ## 1.2. Download
   if (!file.exists(dir_unzip) & !quiet) cli::cli_progress_step("Downloading data...", "Downloaded", "Download failed")
   dwld <- fdi_download_unzip(download_url, dir_unzip, dir_zip)
@@ -225,7 +225,7 @@ fd_occ_euforest <- function(species = NULL, country = NULL, spatial = FALSE, qui
   # 1. Download file
   ## 1.1. Url and file destination
   if (!quiet) cli::cli_progress_step("Downloading data...", msg_done = "Downloaded", "Download failed")
-  download_url <- "https://figshare.com/ndownloader/files/6662535"
+  download_url <- "https://api.figshare.com/v2/file/download/6662535"
   destfile <- stringr::str_glue("{tempdir()}/EU-Forest-species.csv")
   ## 1.2. Download if it doesn't exist
   if (!file.exists(destfile)) download.file(download_url, destfile, mode = "wb")
