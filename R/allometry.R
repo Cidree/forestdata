@@ -54,8 +54,8 @@ fd_allometry_tallo <- function(country = NULL,
   if (!is.null(metadata_path)) {
 
     ## temporary file names
-    metadata_path   <- stringr::str_glue("{metadata_path}/tallo_metadata.csv")
-    references_path <- stringr::str_glue("{metadata_path}/tallo_references.csv")
+    metadata_path   <- paste0(metadata_path, "/tallo_metadata.csv")
+    references_path <- paste0(metadata_path, "/tallo_references.csv")
     ## remove files if they exist
     if (file.exists(metadata_path)) file.remove(metadata_path)
     if (file.exists(references_path)) file.remove(references_path)

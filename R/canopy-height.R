@@ -521,7 +521,7 @@ fd_canopy_height_amazon <- function(x     = NULL,
 #' deviation. If you want both layers, use "\code{all}"
 #' @param crop when \code{x} is specified, whether to crop the tile(s) to the object
 #' @param mask when \code{x} is specified, whether to mask the tile(s) to the object
-#' @param merge if \code{FALSE} (default), it will merge the tiles into one raster.
+#' @param merge if \code{TRUE}, it will merge the tiles into one raster.
 #' If \code{FALSE} a SpatRasterCollection will be returned.
 #' @param quiet if \code{TRUE}, suppress any message or progress bar
 #'

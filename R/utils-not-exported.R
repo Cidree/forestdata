@@ -175,7 +175,7 @@ fdi_download_7zip <- function(download_url, dir_unzip, dir_zip,
 #'
 #' @return A \code{SpatRaster}
 #' @keywords internal
-fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
+fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000, quiet = TRUE) {
 
   ## 1. File name
   if (is.null(start) & is.null(end)) {
@@ -196,7 +196,7 @@ fdi_download_raster <- function(url, start = NULL, end = NULL, timeout = 5000) {
         download.file(
           url      = url,
           destfile = url_path,
-          quiet    = TRUE,
+          quiet    = quiet,
           mode     = "wb"
         )
       }
@@ -585,7 +585,7 @@ crop_with_feedback <- function(r, xwgs84, quiet) {
   )
   ## do crop
   for (i in 1:length(r)) {
-    r[[i]] <- terra::crop(r[[i]], xwgs84)
+    r[[i]] <- terra::crop(r[[i]], sf::st_transform(xwgs84, terra::crs(r[[i]])))
     if (!quiet) cli::cli_progress_update(id = crop_pb)
   }
   ## close user feedback
@@ -612,7 +612,7 @@ mask_with_feedback <- function(r, xwgs84, quiet) {
   )
   ## do mask
   for (i in 1:length(r)) {
-    r[[i]] <- terra::mask(r[[i]], xwgs84)
+    r[[i]] <- terra::mask(r[[i]], sf::st_transform(xwgs84, terra::crs(r[[i]])))
     if (!quiet) cli::cli_progress_update(id = mask_pb)
   }
   ## close user feedback
