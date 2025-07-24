@@ -6,8 +6,7 @@
 
 #' Global Land Cover
 #'
-#' Download a \code{SpatRaster} from the Global Land Cover from the Copernicus Global
-#' Land Service.
+#' `r lifecycle::badge("deprecated")`
 #'
 #' @param x an \code{sf} or \code{SpatVector} object. It will retrieve the
 #'          necessary tiles to cover the area (if \code{lat} and \code{lon} are
@@ -64,24 +63,6 @@
 #'
 #' - \strong{"datadensityindicator"}: input data density
 #'
-#'
-#' @examples
-#' \donttest{
-#'  # Get tile for Galicia (Spain) and year 2019
-#'  galicia_forest_extent <- fd_landcover_copernicus(
-#'   lat  = 42.7,
-#'   lon  = -7.8,
-#'   year = 2019
-#'  )
-#'  # Get forest and discrete classification tiles for all years
-#'  galicia_forest_extent <- fd_landcover_copernicus(
-#'   lat  = 42.7,
-#'   lon  = -7.8,
-#'   year = "all",
-#'   layer = c("forest", "discrete")
-#'  )
-#'  }
-
 fd_landcover_copernicus <- function(x,
                                     lon   = NULL,
                                     lat   = NULL,
@@ -90,87 +71,92 @@ fd_landcover_copernicus <- function(x,
                                     crop  = FALSE, ...,
                                     quiet = FALSE) {
 
-  # 0. Handle errors
-  if (!year %in% 2015:2019 & year != "all") cli::cli_abort("Invalid year")
-  if (!is.null(lon) & !is.null(lat)) {
-    if (lon > 180 | lon < -180) cli::cli_abort("Invalid longitude coordinate value")
-    if (lat > 80 | lat < -60) cli::cli_abort("Invalid latitude coordinate value")
-  } else {
-    if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
-  }
-  sel_year <- year
-  if (!all(layer %in% unique(glc_tbl$layer_shrt))) cli::cli_abort("Invalid layer name(s)")
-
-  # 1. If user specify lat and lon
-  if (!is.null(lat) & !is.null(lon)) {
-    ## 1.1. Get tile coordinates
-    new_lat <- ceiling(lat / 20) * 20
-    new_lon <- floor(lon / 20) * 20
-    ## 1.2. Filter file
-    tile_tbl <- glc_tbl |>
-      dplyr::filter(lat == new_lat & lon == new_lon)
-  } else {
-    ## 1.3. Get tiles for x
-    ### 1.3.1. Transform to lat/lon and get bbox
-    xwgs84 <- sf::st_transform(x, crs = "epsg:4326")
-    xbbox  <- sf::st_bbox(xwgs84)
-    ### 1.3.2 Get tile coordinates
-    new_lon <- floor(xbbox[c(1,3)]/20) * 20
-    new_lat <- ceiling(xbbox[c(2,4)]/20) * 20
-    ### 1.3.3. Filter file
-    tile_tbl <- glc_tbl |>
-      dplyr::filter(lat %in% new_lat & lon %in% new_lon)
-  }
-
-  # 2. Rest of the filters
-  ## 2.1. Filter years
-  if (year != "all") tile_tbl <- dplyr::filter(tile_tbl, year %in% sel_year)
-  ## 2.2. Filter layer
-  tile_tbl <- dplyr::filter(tile_tbl, layer_shrt %in% tolower(layer))
-
-  # 3. Manage different tiles
-  ## 3.1. Get one element per year and layer
-  id_year <- unique(tile_tbl$year)
-  id_lyr  <- unique(tile_tbl$layer_shrt)
-  ids <- expand.grid(year = id_year, layer = id_lyr)
-  ids$layer_names <- paste0(ids$layer, "_", ids$year)
-  ## 3.2. Get the combined rasters per year
-  ## user feedback
-  if (!quiet) cli::cli_alert_info("{nrow(tile_tbl)} tile(s) were found. {nrow(tile_tbl) / length(id_year)} tile(s) per year.")
-  download_pb <- cli::cli_progress_bar(
-    "Dowloaded years",
-    total       = nrow(ids),
-    type        = "tasks",
-    format_done = "{.alert-success Download completed {.timestamp {cli::pb_elapsed}}}",
-    clear       = FALSE
+  lifecycle::deprecate_stop(
+    when = "0.4.0", what = "fd_landcover_copernicus()", with = NULL,
+    details = "Global Land Cover now requires authentication for accessing the data."
   )
-  ## get data
-  combined_sr <- list()
-  for (i in 1:nrow(ids)) {
-    combined_sr[[i]] <- get_combined_raster_2l(
-      year_i    = ids$year[i],
-      layer_i   = ids$layer[i],
-      url_table = tile_tbl
-    )
-    ## check for success
-    if (is.null(combined_sr[[i]])) {
-      cli::cli_process_failed()
-      return(cli::cli_alert_danger("`fd_landcover_copernicus()` failed to retrieve the data. Service might be currently unavailable"))
-    }
 
-    if (!quiet) cli::cli_progress_update(id = download_pb)
-  }
-  if (!quiet) cli::cli_process_done(id = download_pb)
-  ## 3.3. Convert to SpatRaster if it's a list
-  glad_sr <- terra::rast(combined_sr)
-  ## 3.4. Rename layers
-  names(glad_sr) <- ids$layer_names
+  # # 0. Handle errors
+  # if (!year %in% 2015:2019 & year != "all") cli::cli_abort("Invalid year")
+  # if (!is.null(lon) & !is.null(lat)) {
+  #   if (lon > 180 | lon < -180) cli::cli_abort("Invalid longitude coordinate value")
+  #   if (lat > 80 | lat < -60) cli::cli_abort("Invalid latitude coordinate value")
+  # } else {
+  #   if (inherits(x, "SpatVector")) x <- sf::st_as_sf(x)
+  # }
+  # sel_year <- year
+  # if (!all(layer %in% unique(glc_tbl$layer_shrt))) cli::cli_abort("Invalid layer name(s)")
 
-  # 4. Manage crop
-  if (crop) glad_sr <- terra::crop(glad_sr, xwgs84, ...)
+  # # 1. If user specify lat and lon
+  # if (!is.null(lat) & !is.null(lon)) {
+  #   ## 1.1. Get tile coordinates
+  #   new_lat <- ceiling(lat / 20) * 20
+  #   new_lon <- floor(lon / 20) * 20
+  #   ## 1.2. Filter file
+  #   tile_tbl <- glc_tbl |>
+  #     dplyr::filter(lat == new_lat & lon == new_lon)
+  # } else {
+  #   ## 1.3. Get tiles for x
+  #   ### 1.3.1. Transform to lat/lon and get bbox
+  #   xwgs84 <- sf::st_transform(x, crs = "epsg:4326")
+  #   xbbox  <- sf::st_bbox(xwgs84)
+  #   ### 1.3.2 Get tile coordinates
+  #   new_lon <- floor(xbbox[c(1,3)]/20) * 20
+  #   new_lat <- ceiling(xbbox[c(2,4)]/20) * 20
+  #   ### 1.3.3. Filter file
+  #   tile_tbl <- glc_tbl |>
+  #     dplyr::filter(lat %in% new_lat & lon %in% new_lon)
+  # }
 
-  # 5. Return
-  return(glad_sr)
+  # # 2. Rest of the filters
+  # ## 2.1. Filter years
+  # if (year != "all") tile_tbl <- dplyr::filter(tile_tbl, year %in% sel_year)
+  # ## 2.2. Filter layer
+  # tile_tbl <- dplyr::filter(tile_tbl, layer_shrt %in% tolower(layer))
+
+  # # 3. Manage different tiles
+  # ## 3.1. Get one element per year and layer
+  # id_year <- unique(tile_tbl$year)
+  # id_lyr  <- unique(tile_tbl$layer_shrt)
+  # ids <- expand.grid(year = id_year, layer = id_lyr)
+  # ids$layer_names <- paste0(ids$layer, "_", ids$year)
+  # ## 3.2. Get the combined rasters per year
+  # ## user feedback
+  # if (!quiet) cli::cli_alert_info("{nrow(tile_tbl)} tile(s) were found. {nrow(tile_tbl) / length(id_year)} tile(s) per year.")
+  # download_pb <- cli::cli_progress_bar(
+  #   "Dowloaded years",
+  #   total       = nrow(ids),
+  #   type        = "tasks",
+  #   format_done = "{.alert-success Download completed {.timestamp {cli::pb_elapsed}}}",
+  #   clear       = FALSE
+  # )
+  # ## get data
+  # combined_sr <- list()
+  # for (i in 1:nrow(ids)) {
+  #   combined_sr[[i]] <- get_combined_raster_2l(
+  #     year_i    = ids$year[i],
+  #     layer_i   = ids$layer[i],
+  #     url_table = tile_tbl
+  #   )
+  #   ## check for success
+  #   if (is.null(combined_sr[[i]])) {
+  #     cli::cli_process_failed()
+  #     return(cli::cli_alert_danger("`fd_landcover_copernicus()` failed to retrieve the data. Service might be currently unavailable"))
+  #   }
+
+  #   if (!quiet) cli::cli_progress_update(id = download_pb)
+  # }
+  # if (!quiet) cli::cli_process_done(id = download_pb)
+  # ## 3.3. Convert to SpatRaster if it's a list
+  # glad_sr <- terra::rast(combined_sr)
+  # ## 3.4. Rename layers
+  # names(glad_sr) <- ids$layer_names
+
+  # # 4. Manage crop
+  # if (crop) glad_sr <- terra::crop(glad_sr, xwgs84, ...)
+
+  # # 5. Return
+  # return(glad_sr)
 
 }
 
@@ -235,7 +221,7 @@ fd_landcover_esri <- function(utm_code,
   tif_path <- paste0(tempdir(), "/", basename(download_url))
   ## User feedback
   if (!quiet) cli::cli_alert_info("Downloading data...")
-  download_pb <- cli::cli_progress_bar(
+  if (!quiet) download_pb <- cli::cli_progress_bar(
     "Dowloaded tiles",
     total       = length(tif_path),
     type        = "tasks",
