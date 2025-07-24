@@ -1,4 +1,22 @@
 
+# Version 0.4.0
+
+## New features
+
+* `fd_landcover_esri()`: models from 2024 are now available
+
+* `fd_canopy_height(model = "amazon")`: new model from the Amazon Forest added with a spatial resolution of ~5 meters ([Publication](https://doi.org/10.48550/arXiv.2501.10600))
+
+* `fd_forest_eu_biomass()`: new function to access aboveground biomass, belowground biomass, and growing volumne stock raster data in Europe. Visit [Forest Carbon Monitoring](https://www.forestcarbonplatform.org/) for more information.
+
+## Deprecated
+
+* `fd_landcover_copernicus()`: Global Land Cover now requires authentication for accessing the data, and therefore, this function will be eliminated in the next version.
+
+## Enhancements
+
+* `fd_forest_chorological()`: now searches for the latest version of the data more efficiently using the API.
+
 # Version 0.3.1
 
 ## New features

@@ -5,7 +5,13 @@
 \title{Donwload a read a raster
 (Internal) Helper to download and read a raster from an URL}
 \usage{
-fdi_download_raster(url, start = NULL, end = NULL, timeout = 5000)
+fdi_download_raster(
+  url,
+  start = NULL,
+  end = NULL,
+  timeout = 5000,
+  quiet = TRUE
+)
 }
 \value{
 A \code{SpatRaster}

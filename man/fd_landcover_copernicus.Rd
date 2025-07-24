@@ -39,8 +39,7 @@ Land Cover. See details}
 \code{SpatRaster} object
 }
 \description{
-Download a \code{SpatRaster} from the Global Land Cover from the Copernicus Global
-Land Service.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
 }
 \details{
 There are 14 different layers that can be downloaded:
@@ -62,23 +61,6 @@ There are 14 different layers that can be downloaded:
 broad leaf; (5): mix of forest types
 \item \strong{"datadensityindicator"}: input data density
 }
-}
-\examples{
-\donttest{
- # Get tile for Galicia (Spain) and year 2019
- galicia_forest_extent <- fd_landcover_copernicus(
-  lat  = 42.7,
-  lon  = -7.8,
-  year = 2019
- )
- # Get forest and discrete classification tiles for all years
- galicia_forest_extent <- fd_landcover_copernicus(
-  lat  = 42.7,
-  lon  = -7.8,
-  year = "all",
-  layer = c("forest", "discrete")
- )
- }
 }
 \references{
 Buchhorn, M.; Smets, B.; Bertels, L.; De Roo, B.; Lesiv, M.;

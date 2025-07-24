@@ -36,7 +36,7 @@ deviation. If you want both layers, use "\code{all}"}
 
 \item{mask}{when \code{x} is specified, whether to mask the tile(s) to the object}
 
-\item{merge}{if \code{FALSE} (default), it will merge the tiles into one raster.
+\item{merge}{if \code{TRUE}, it will merge the tiles into one raster.
 If \code{FALSE} a SpatRasterCollection will be returned.}
 
 \item{quiet}{if \code{TRUE}, suppress any message or progress bar}
