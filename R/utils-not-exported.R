@@ -616,7 +616,7 @@ mask_with_feedback <- function(r, xwgs84, quiet) {
     if (!quiet) cli::cli_progress_update(id = mask_pb)
   }
   ## close user feedback
-  cli::cli_process_done(id = mask_pb)
+  if (!quiet) cli::cli_process_done(id = mask_pb)
   return(r)
 }
 
